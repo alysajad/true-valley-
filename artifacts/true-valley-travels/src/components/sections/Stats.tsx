@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useSeason } from "@/context/SeasonContext";
 
-function Counter({ to, suffix = "", prefix = "", decimal = false }: { to: number; suffix?: string; prefix?: string; decimal?: boolean }) {
+function Counter({ to, suffix = "", decimal = false }: { to: number; suffix?: string; decimal?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [value, setValue] = useState(0);
@@ -22,7 +23,7 @@ function Counter({ to, suffix = "", prefix = "", decimal = false }: { to: number
 
   return (
     <span ref={ref}>
-      {prefix}{decimal ? value.toFixed(1) : value.toLocaleString()}{suffix}
+      {decimal ? value.toFixed(1) : value.toLocaleString()}{suffix}
     </span>
   );
 }
@@ -34,27 +35,24 @@ const stats = [
   { label: "Average Rating", to: 4.9, suffix: " / 5", decimal: true, icon: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" },
 ];
 
-export default function Stats() {
-  return (
-    <section className="bg-primary py-16 md:py-20 relative overflow-hidden">
-      {/* Subtle bg pattern */}
-      <div className="absolute inset-0 opacity-5">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full border border-white"
-            style={{
-              width: `${120 + i * 80}px`,
-              height: `${120 + i * 80}px`,
-              left: `${i * 15}%`,
-              top: "50%",
-              transform: "translateY(-50%)",
-            }}
-          />
-        ))}
-      </div>
+const summerQuote = {
+  text: "The world is a book, and those who do not travel read only one page.",
+  author: "Saint Augustine",
+};
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+const winterQuote = {
+  text: "In every walk with nature, one receives far more than he seeks.",
+  author: "John Muir",
+};
+
+export default function Stats() {
+  const { isSummer } = useSeason();
+  const quote = isSummer ? summerQuote : winterQuote;
+
+  return (
+    <section className="bg-primary relative overflow-hidden">
+      {/* Stats row */}
+      <div className="container mx-auto px-4 md:px-6 relative z-10 pt-16 pb-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-white/15">
           {stats.map((stat, i) => (
             <motion.div
@@ -78,6 +76,51 @@ export default function Stats() {
               <p className="text-white/65 font-medium text-xs uppercase tracking-widest">{stat.label}</p>
             </motion.div>
           ))}
+        </div>
+      </div>
+
+      {/* Quote banner */}
+      <div className="border-t border-white/10 bg-white/5">
+        <div className="container mx-auto px-4 md:px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <motion.div
+            className="flex items-start gap-4 max-w-2xl"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.7 }}
+          >
+            <svg
+              className="text-secondary/60 shrink-0 mt-1"
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+              <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+            </svg>
+            <div>
+              <p className="text-white/90 text-lg md:text-xl font-serif italic leading-relaxed">
+                {quote.text}
+              </p>
+              <p className="text-secondary font-semibold text-sm mt-2 uppercase tracking-widest">
+                — {quote.author}
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.a
+            href="#packages"
+            className="shrink-0 bg-secondary text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-secondary/90 transition-colors whitespace-nowrap"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.7 }}
+            whileHover={{ scale: 1.04, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            View All Packages
+          </motion.a>
         </div>
       </div>
     </section>

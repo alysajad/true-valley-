@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>True Valley Travels — Kashmir, Rediscovered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0a0e0b;
+  --forest: #0d3b2a;
+  --emerald: #0f5e3e;
+  --jade: #1a7a54;
+  --gold: #c8962a;
+  --gold-light: #e8b84b;
+  --cream: #f5f0e8;
+  --mist: #e8ede9;
+  --text: #1a1f1b;
+  --text-muted: #5a6b60;
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ink);
+  color: var(--cream);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed; width: 12px; height: 12px;
+  background: var(--gold); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  mix-blend-mode: normal;
+}
+.cursor-ring {
+  position: fixed; width: 40px; height: 40px;
+  border: 1px solid rgba(200,150,42,0.5); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.12s ease-out, width 0.3s, height 0.3s;
+}
+body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 20px; height: 20px; background: var(--gold-light); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 1.5rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.5s ease;
+}
+nav.scrolled {
+  background: rgba(10,14,11,0.92);
+  backdrop-filter: blur(24px);
+  padding: 1rem 3rem;
+  border-bottom: 1px solid rgba(200,150,42,0.15);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 400; color: var(--cream);
+  text-decoration: none; letter-spacing: 0.02em;
+}
+.nav-logo span { color: var(--gold); font-style: italic; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(245,240,232,0.7); text-decoration: none;
+  transition: color 0.3s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+  background: var(--gold); transform: scaleX(0); transition: transform 0.3s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  padding: 0.6rem 1.5rem; border: 1px solid var(--gold);
+  color: var(--gold); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: transparent; cursor: none; transition: all 0.3s;
+  text-decoration: none;
+}
+.nav-cta:hover { background: var(--gold); color: var(--ink); }
+
+/* HERO */
+#hero {
+  position: relative; height: 100vh; display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(to bottom, rgba(10,14,11,0.3) 0%, rgba(10,14,11,0.1) 30%, rgba(10,14,11,0.7) 70%, rgba(10,14,11,0.98) 100%),
+    linear-gradient(135deg, #0d3b2a 0%, #0a1f16 30%, #071510 60%, #0a0e0b 100%);
+}
+.hero-mountain-back {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 70%;
+  background: linear-gradient(to top, transparent, rgba(13,59,42,0.4));
+  clip-path: polygon(0 100%, 0 60%, 8% 40%, 15% 55%, 22% 25%, 30% 50%, 38% 15%, 45% 45%, 52% 20%, 60% 55%, 68% 30%, 75% 50%, 82% 35%, 90% 55%, 100% 40%, 100% 100%);
+  opacity: 0.5;
+}
+.hero-mountain-mid {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
+  background: linear-gradient(to top, rgba(10,30,20,0.8), rgba(13,59,42,0.2));
+  clip-path: polygon(0 100%, 0 70%, 5% 55%, 12% 65%, 20% 40%, 28% 60%, 35% 30%, 43% 55%, 50% 35%, 58% 60%, 65% 40%, 72% 65%, 80% 45%, 88% 70%, 95% 50%, 100% 65%, 100% 100%);
+  opacity: 0.7;
+}
+.hero-mountain-front {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+  background: linear-gradient(to top, rgba(10,14,11,0.95), rgba(10,25,18,0.6));
+  clip-path: polygon(0 100%, 0 80%, 10% 65%, 20% 80%, 30% 60%, 40% 75%, 50% 50%, 60% 70%, 70% 55%, 80% 75%, 90% 65%, 100% 80%, 100% 100%);
+}
+/* Floating particles/snow */
+.particles { position: absolute; inset: 0; overflow: hidden; }
+.particle {
+  position: absolute; width: 2px; height: 2px; border-radius: 50%;
+  background: rgba(245,240,232,0.6);
+  animation: float linear infinite;
+}
+@keyframes float {
+  from { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.6; }
+  to { transform: translateY(-10vh) translateX(var(--dx, 30px)); opacity: 0; }
+}
+
+.hero-content {
+  position: relative; z-index: 10;
+  padding: 0 5rem 8rem;
+  max-width: 900px;
+}
+.hero-eyebrow {
+  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards;
+}
+.hero-eyebrow::before {
+  content: ''; width: 40px; height: 1px; background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 7vw, 7rem); font-weight: 300; line-height: 1.05;
+  letter-spacing: -0.02em; color: var(--cream);
+  opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+}
+.hero-title em { font-style: italic; color: var(--gold-light); }
+.hero-subtitle {
+  font-size: 1rem; color: rgba(245,240,232,0.6); margin-top: 1.5rem;
+  font-weight: 300; letter-spacing: 0.04em; line-height: 1.8;
+  max-width: 500px;
+  opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards;
+}
+.hero-actions {
+  display: flex; gap: 1rem; margin-top: 2.5rem;
+  opacity: 0; animation: fadeUp 0.8s ease 0.9s forwards;
+}
+.btn-primary {
+  padding: 1rem 2.5rem; background: var(--gold); color: var(--ink);
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  border: none; cursor: none; transition: all 0.3s; font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-ghost {
+  padding: 1rem 2.5rem; background: transparent;
+  border: 1px solid rgba(245,240,232,0.3); color: var(--cream);
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: none; transition: all 0.3s; font-family: 'DM Sans', sans-serif;
+}
+.btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+
+.hero-scroll {
+  position: absolute; bottom: 3rem; right: 5rem; z-index: 10;
+  writing-mode: vertical-lr; font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(245,240,232,0.4);
+  display: flex; align-items: center; gap: 0.8rem;
+  opacity: 0; animation: fadeUp 1s ease 1.2s forwards;
+}
+.hero-scroll::after {
+  content: ''; width: 1px; height: 60px;
+  background: linear-gradient(to bottom, rgba(200,150,42,0.8), transparent);
+  animation: scrollLine 2s ease infinite;
+}
+@keyframes scrollLine { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:0.3;transform:scaleY(0.5)} }
+
+/* STATS BAR */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(245,240,232,0.08);
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+}
+.stat-item {
+  padding: 2.5rem 2rem; text-align: center;
+  border-right: 1px solid rgba(245,240,232,0.08);
+  position: relative; overflow: hidden;
+}
+.stat-item:last-child { border-right: none; }
+.stat-item::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(15,94,62,0.1), transparent);
+  opacity: 0; transition: opacity 0.4s;
+}
+.stat-item:hover::before { opacity: 1; }
+.stat-num {
+  font-family: 'Playfair Display', serif; font-size: 3rem;
+  font-weight: 300; color: var(--gold); display: block; line-height: 1;
+}
+.stat-label { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(245,240,232,0.5); margin-top: 0.5rem; display: block; }
+
+/* SECTION COMMONS */
+section { position: relative; overflow: hidden; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-tag {
+  display: inline-block; font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid rgba(200,150,42,0.3);
+}
+.section-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 300; line-height: 1.15; color: var(--cream);
+}
+.section-title em { font-style: italic; color: var(--gold-light); }
+.section-sub {
+  font-size: 0.95rem; color: rgba(245,240,232,0.5); margin-top: 1rem;
+  max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.8;
+}
+
+/* PACKAGES SECTION */
+#packages { padding: 8rem 4rem; background: var(--ink); }
+.packages-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px; max-width: 1300px; margin: 0 auto;
+}
+.pkg-card {
+  position: relative; overflow: hidden;
+  background: rgba(13,20,16,0.8);
+  cursor: none; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+.pkg-card:hover { transform: translateY(-8px) perspective(1000px) rotateY(-2deg); z-index: 2; }
+.pkg-card-img {
+  height: 280px; overflow: hidden; position: relative;
+}
+.pkg-card-img-inner {
+  width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  background-size: cover; background-position: center;
+}
+.pkg-card:hover .pkg-card-img-inner { transform: scale(1.08); }
+/* Kashmir landscape gradients as placeholder images */
+.pkg-img-1 { background: linear-gradient(135deg, #0d3b2a 0%, #1a6b50 30%, #2d9970 50%, #0a2a1e 100%), url(''); background-blend-mode: multiply; }
+.pkg-img-2 { background: linear-gradient(135deg, #1a3a2a 0%, #0d5e3e 40%, #c8962a 60%, #0a1f14 100%), url(''); background-blend-mode: multiply; }
+.pkg-img-3 { background: linear-gradient(135deg, #07201a 0%, #0d4a35 50%, #1a7a60 70%, #050f0a 100%), url(''); background-blend-mode: multiply; }
+
+/* SVG mountain silhouettes inside cards */
+.card-svg { position: absolute; bottom: 0; left: 0; right: 0; }
+
+.pkg-badge {
+  position: absolute; top: 1.5rem; left: 1.5rem; z-index: 5;
+  padding: 0.3rem 0.9rem; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+  background: var(--gold); color: var(--ink); font-weight: 500;
+}
+.pkg-badge.popular { background: var(--gold-light); }
+.pkg-badge.premium { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+
+.pkg-body { padding: 2rem; }
+.pkg-duration {
+  font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.pkg-duration::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+.pkg-name {
+  font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 400;
+  color: var(--cream); line-height: 1.2; margin-bottom: 0.5rem;
+}
+.pkg-tagline { font-size: 0.82rem; color: rgba(245,240,232,0.45); font-style: italic; margin-bottom: 1.5rem; }
+.pkg-price {
+  font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 300;
+  color: var(--gold-light);
+}
+.pkg-price span { font-family: 'DM Sans'; font-size: 0.8rem; color: rgba(245,240,232,0.4); font-weight: 300; }
+.pkg-divider { width: 100%; height: 1px; background: rgba(245,240,232,0.08); margin: 1.5rem 0; }
+.pkg-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.pkg-features li {
+  font-size: 0.82rem; color: rgba(245,240,232,0.6);
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.pkg-features li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+.pkg-footer { padding: 0 2rem 2rem; }
+.pkg-cta {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border: 1px solid rgba(245,240,232,0.12);
+  background: transparent; color: var(--cream);
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: none; transition: all 0.3s; width: 100%;
+  font-family: 'DM Sans', sans-serif;
+}
+.pkg-cta:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+.pkg-cta-arrow { font-size: 1.2rem; transition: transform 0.3s; }
+.pkg-cta:hover .pkg-cta-arrow { transform: translateX(4px); }
+
+/* Featured card */
+.pkg-card.featured {
+  outline: 1px solid rgba(200,150,42,0.4);
+}
+.pkg-card.featured::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to bottom right, rgba(200,150,42,0.06), transparent);
+}
+
+/* DESTINATIONS SLIDER */
+#destinations {
+  padding: 8rem 0;
+  background: linear-gradient(to bottom, var(--ink), #060d09);
+}
+#destinations .section-header { padding: 0 4rem; }
+.dest-slider-wrap { position: relative; overflow: hidden; margin-top: 4rem; }
+.dest-slider {
+  display: flex; gap: 0;
+  transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.dest-slide {
+  min-width: 380px; height: 560px; position: relative; overflow: hidden;
+  cursor: none; flex-shrink: 0;
+  transition: min-width 0.6s cubic-bezier(0.77, 0, 0.175, 1), filter 0.5s;
+  filter: brightness(0.6);
+}
+.dest-slide.active {
+  min-width: 680px; filter: brightness(1);
+}
+.dest-slide-bg {
+  width: 100%; height: 100%; background-size: cover; background-position: center;
+  transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
+}
+.dest-slide:hover .dest-slide-bg { transform: scale(1.04); }
+
+/* Destination backgrounds using CSS gradients to mimic landscapes */
+.dest-srinagar { background: linear-gradient(160deg, #1a3a50 0%, #0d2a3e 20%, #0a4a30 50%, #2d6b50 70%, #0a1f18 100%); }
+.dest-gulmarg { background: linear-gradient(170deg, #b8d8f0 0%, #8ab8e0 20%, #3a7890 40%, #0d3a2a 60%, #2a5a40 80%, #0a1f12 100%); }
+.dest-pahalgam { background: linear-gradient(150deg, #2a5a20 0%, #3d8030 30%, #1a4520 50%, #0d3a18 70%, #c8962a 80%, #0a1f10 100%); }
+.dest-sonamarg { background: linear-gradient(160deg, #d0e8f8 0%, #a0c8e8 20%, #4a90b8 40%, #1a5878 60%, #0d3020 80%, #050f08 100%); }
+.dest-doodhpathri { background: linear-gradient(150deg, #e8f5d0 0%, #a0d050 20%, #3a7020 50%, #1a4010 70%, #0a2008 100%); }
+.dest-gurez { background: linear-gradient(165deg, #c0d8f0 0%, #7090b8 20%, #2a4868 40%, #0d2840 60%, #1a3828 70%, #050f08 100%); }
+.dest-yusmarg { background: linear-gradient(155deg, #b8e0c8 0%, #5aaa70 20%, #2a6840 50%, #0d3020 70%, #050d07 100%); }
+
+.dest-slide-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(5,12,8,0.98) 0%, rgba(5,12,8,0.4) 50%, transparent 100%);
+  transition: opacity 0.5s;
+}
+.dest-info {
+  position: absolute; bottom: 0; left: 0; right: 0; padding: 2.5rem;
+  transform: translateY(60px); transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+}
+.dest-slide.active .dest-info, .dest-slide:hover .dest-info { transform: translateY(0); }
+.dest-name {
+  font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 300;
+  color: var(--cream); line-height: 1.1;
+}
+.dest-country { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+.dest-desc {
+  font-size: 0.82rem; color: rgba(245,240,232,0.6); margin-top: 0.8rem;
+  line-height: 1.7; max-height: 0; overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.23,1,0.32,1);
+}
+.dest-slide.active .dest-desc { max-height: 120px; }
+.dest-meta {
+  display: flex; gap: 1.5rem; margin-top: 1rem;
+  font-size: 0.72rem; color: rgba(245,240,232,0.4); letter-spacing: 0.05em;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.4s ease 0.15s;
+}
+.dest-slide.active .dest-meta { opacity: 1; transform: translateY(0); }
+.dest-meta span { display: flex; align-items: center; gap: 0.4rem; }
+.dest-meta span::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+
+.dest-map-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.6rem 1.2rem; border: 1px solid rgba(200,150,42,0.4);
+  color: var(--gold); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  margin-top: 1rem; cursor: none; transition: all 0.3s;
+  background: transparent; font-family: 'DM Sans';
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.4s ease 0.2s;
+}
+.dest-slide.active .dest-map-btn { opacity: 1; transform: translateY(0); }
+.dest-map-btn:hover { background: rgba(200,150,42,0.15); }
+
+.dest-controls {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  margin-top: 3rem; padding: 0 4rem;
+}
+.dest-btn {
+  width: 52px; height: 52px;
+  border: 1px solid rgba(245,240,232,0.15); background: transparent;
+  color: var(--cream); font-size: 1.2rem; cursor: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s; font-family: 'DM Sans';
+}
+.dest-btn:hover { border-color: var(--gold); color: var(--gold); }
+.dest-dots { display: flex; gap: 0.5rem; align-items: center; }
+.dest-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: rgba(245,240,232,0.2);
+  cursor: none; transition: all 0.3s;
+}
+.dest-dot.active { width: 24px; border-radius: 3px; background: var(--gold); }
+
+/* DESTINATION DETAIL PANEL */
+.dest-detail-panel {
+  max-width: 1300px; margin: 3rem auto 0; padding: 0 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  transition: all 0.5s ease; min-height: 200px;
+}
+.dest-detail-left h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 300;
+  color: var(--cream); margin-bottom: 1rem;
+}
+.dest-detail-left p { font-size: 0.9rem; color: rgba(245,240,232,0.55); line-height: 1.9; }
+.dest-detail-right { display: flex; flex-direction: column; gap: 1rem; }
+.dest-detail-item {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1rem 1.2rem; border: 1px solid rgba(245,240,232,0.06);
+  transition: border-color 0.3s;
+}
+.dest-detail-item:hover { border-color: rgba(200,150,42,0.3); }
+.dest-detail-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+.dest-detail-val { font-size: 0.85rem; color: rgba(245,240,232,0.7); }
+
+/* MAP placeholder */
+.dest-map-embed {
+  width: 100%; height: 120px;
+  background: linear-gradient(135deg, #0d2a1e 0%, #1a4a32 50%, #0a1a12 100%);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(245,240,232,0.06); position: relative; overflow: hidden;
+  margin-top: 0.5rem;
+}
+.dest-map-embed::after {
+  content: 'View on Map →';
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); cursor: none;
+}
+
+/* ABOUT / TEAM */
+#about {
+  padding: 8rem 4rem;
+  background: linear-gradient(to bottom, #060d09, #0a0e0b);
+}
+.about-grid { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: center; }
+.about-left .section-tag { margin-bottom: 1rem; }
+.about-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300; line-height: 1.2; color: var(--cream); margin-bottom: 1.5rem;
+}
+.about-title em { font-style: italic; color: var(--gold-light); }
+.about-text { font-size: 0.9rem; color: rgba(245,240,232,0.55); line-height: 1.9; margin-bottom: 1.5rem; }
+.about-values { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 2rem; }
+.about-value {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: 0.82rem; color: rgba(245,240,232,0.6);
+}
+.about-value::before { content: '✦'; color: var(--gold); font-size: 0.6rem; flex-shrink: 0; }
+
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5px; }
+.team-card {
+  position: relative; overflow: hidden; background: rgba(13,20,16,0.6);
+  cursor: none; transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
+}
+.team-card:hover { transform: translateY(-4px); }
+.team-avatar {
+  height: 220px; position: relative; overflow: hidden;
+}
+.team-avatar-bg {
+  width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+}
+.team-card:hover .team-avatar-bg { transform: scale(1.05); }
+/* Avatar gradient placeholders */
+.avatar-1 { background: linear-gradient(135deg, #1a3a2a 0%, #0d5e3e 60%, #0a1f14 100%); }
+.avatar-2 { background: linear-gradient(135deg, #2a1a0d 0%, #5e3e0d 60%, #1f0a0a 100%); }
+.avatar-3 { background: linear-gradient(135deg, #0d2a3e 0%, #1a3e5e 60%, #0a0f1f 100%); }
+.avatar-4 { background: linear-gradient(135deg, #1a2a0d 0%, #3e5e0d 60%, #0f1f0a 100%); }
+.avatar-initials {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 300;
+  color: rgba(245,240,232,0.4);
+}
+.team-body { padding: 1.5rem; }
+.team-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; color: var(--cream); }
+.team-role { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-top: 0.3rem; }
+.team-exp { font-size: 0.78rem; color: rgba(245,240,232,0.4); margin-top: 0.5rem; }
+
+/* PACKAGES TIERS (extended) */
+#tiers {
+  padding: 8rem 4rem;
+  background: linear-gradient(to bottom, #0a0e0b, #060d09);
+}
+.tiers-header { max-width: 1300px; margin: 0 auto 4rem; }
+.season-tabs {
+  display: flex; gap: 0; border: 1px solid rgba(245,240,232,0.08);
+  max-width: 400px;
+}
+.season-tab {
+  flex: 1; padding: 0.7rem; text-align: center;
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(245,240,232,0.4); cursor: none; transition: all 0.3s;
+  background: transparent; border: none; font-family: 'DM Sans';
+}
+.season-tab.active { background: rgba(200,150,42,0.15); color: var(--gold); }
+.season-tab:hover:not(.active) { color: var(--cream); background: rgba(245,240,232,0.04); }
+
+/* TESTIMONIALS */
+#testimonials {
+  padding: 8rem 4rem;
+  background: var(--forest);
+  position: relative;
+}
+#testimonials::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(200,150,42,0.08), transparent 60%);
+}
+.testimonials-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+}
+.testi-card {
+  padding: 2.5rem; background: rgba(5,12,8,0.6);
+  position: relative; cursor: none;
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+}
+.testi-card:hover { background: rgba(5,12,8,0.8); transform: translateY(-4px); }
+.testi-quote { font-size: 3rem; color: var(--gold); opacity: 0.4; font-family: 'Playfair Display', serif; line-height: 1; margin-bottom: 1rem; }
+.testi-text {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic;
+  color: rgba(245,240,232,0.75); line-height: 1.8;
+}
+.testi-stars { display: flex; gap: 3px; margin: 1.5rem 0 1rem; }
+.testi-star { color: var(--gold); font-size: 0.7rem; }
+.testi-author { font-size: 0.78rem; color: rgba(245,240,232,0.5); font-weight: 500; }
+.testi-location { font-size: 0.68rem; color: rgba(200,150,42,0.6); letter-spacing: 0.1em; }
+
+/* BOOKING / CONTACT */
+#contact {
+  padding: 8rem 4rem;
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+#contact::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 50%, rgba(15,94,62,0.12), transparent 50%),
+    radial-gradient(circle at 70% 50%, rgba(200,150,42,0.06), transparent 50%);
+}
+.contact-wrap { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+.contact-info h2 {
+  font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 300;
+  color: var(--cream); line-height: 1.15; margin-bottom: 1.5rem;
+}
+.contact-info h2 em { font-style: italic; color: var(--gold-light); }
+.contact-info p { font-size: 0.88rem; color: rgba(245,240,232,0.5); line-height: 1.9; margin-bottom: 2.5rem; }
+.contact-detail {
+  display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 2.5rem;
+}
+.contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+.contact-icon { width: 40px; height: 40px; border: 1px solid rgba(200,150,42,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+.contact-item-text { display: flex; flex-direction: column; gap: 0.2rem; }
+.contact-item-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+.contact-item-val { font-size: 0.85rem; color: rgba(245,240,232,0.7); }
+.whatsapp-btn {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 1rem 2rem; background: #25D366;
+  color: white; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: none; transition: all 0.3s; width: fit-content;
+  font-family: 'DM Sans'; font-weight: 500; border: none;
+}
+.whatsapp-btn:hover { background: #20bd5c; transform: translateY(-2px); }
+
+.contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,240,232,0.4); }
+.form-input, .form-select, .form-textarea {
+  background: rgba(245,240,232,0.04);
+  border: 1px solid rgba(245,240,232,0.1);
+  color: var(--cream); font-family: 'DM Sans'; font-size: 0.88rem;
+  padding: 0.9rem 1.1rem; transition: border-color 0.3s, background 0.3s;
+  outline: none; appearance: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: rgba(200,150,42,0.5); background: rgba(200,150,42,0.04);
+}
+.form-select option { background: #0a0e0b; }
+.form-textarea { resize: none; height: 100px; }
+.form-submit {
+  padding: 1.1rem 2.5rem; background: var(--gold); color: var(--ink);
+  font-family: 'DM Sans'; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+  border: none; cursor: none; transition: all 0.3s; font-weight: 500;
+  align-self: flex-start;
+}
+.form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+/* FOOTER */
+footer {
+  background: #030806; padding: 5rem 4rem 3rem;
+  border-top: 1px solid rgba(245,240,232,0.06);
+}
+.footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+.footer-brand .nav-logo { display: inline-block; margin-bottom: 1rem; font-size: 1.2rem; }
+.footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.95rem; color: rgba(245,240,232,0.4); margin-bottom: 1.5rem; }
+.footer-desc { font-size: 0.8rem; color: rgba(245,240,232,0.3); line-height: 1.8; max-width: 280px; }
+.footer-col h4 { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.footer-links a { font-size: 0.82rem; color: rgba(245,240,232,0.4); text-decoration: none; transition: color 0.3s; }
+.footer-links a:hover { color: var(--cream); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 2rem; border-top: 1px solid rgba(245,240,232,0.06); }
+.footer-copy { font-size: 0.75rem; color: rgba(245,240,232,0.25); }
+.footer-social { display: flex; gap: 1rem; }
+.social-link {
+  width: 36px; height: 36px; border: 1px solid rgba(245,240,232,0.1);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(245,240,232,0.4); font-size: 0.75rem; text-decoration: none;
+  transition: all 0.3s; cursor: none;
+}
+.social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+/* SCROLL ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+
+/* MOBILE */
+@media (max-width: 1024px) {
+  .packages-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .dest-slide { min-width: 280px; }
+  .dest-slide.active { min-width: 480px; }
+}
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  nav.scrolled { padding: 0.8rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 1.5rem 6rem; }
+  .packages-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  #packages, #destinations, #about, #tiers, #testimonials, #contact { padding: 5rem 1.5rem; }
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .stat-item:nth-child(2) { border-right: none; }
+  footer { padding: 3rem 1.5rem 2rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .dest-detail-panel { grid-template-columns: 1fr; gap: 2rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .dest-slide { min-width: 260px; height: 420px; }
+  .dest-slide.active { min-width: 320px; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+
+/* Geometric pattern overlay for contact */
+.pattern-overlay {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
+  background-image: repeating-linear-gradient(0deg, rgba(200,150,42,0.5) 0, rgba(200,150,42,0.5) 1px, transparent 0, transparent 50%),
+    repeating-linear-gradient(90deg, rgba(200,150,42,0.5) 0, rgba(200,150,42,0.5) 1px, transparent 0, transparent 50%);
+  background-size: 40px 40px;
+}
+
+/* Shimmer effect for featured card */
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.pkg-card.featured::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(200,150,42,0.06) 50%, transparent 60%);
+  background-size: 200% 100%; animation: shimmer 4s ease infinite;
+}
+
+/* Hambuger menu mobile */
+.menu-toggle {
+  display: none; flex-direction: column; gap: 5px; cursor: none;
+  background: none; border: none; padding: 4px;
+}
+.menu-toggle span { width: 24px; height: 1px; background: var(--cream); transition: all 0.3s; }
+@media (max-width: 768px) { .menu-toggle { display: flex; } }
+
+/* Mobile menu */
+.mobile-menu {
+  position: fixed; inset: 0; background: rgba(5,10,7,0.98);
+  z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
+}
+.mobile-menu.open { transform: translateX(0); }
+.mobile-menu a { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 300; color: var(--cream); text-decoration: none; transition: color 0.3s; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">True <span>Valley</span> Travels</a>
+  <ul class="nav-links">
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#testimonials">Stories</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Plan Your Journey</a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#packages" class="mobile-link">Packages</a>
+  <a href="#destinations" class="mobile-link">Destinations</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#testimonials" class="mobile-link">Stories</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-mountain-back" id="mountain-back"></div>
+  <div class="hero-mountain-mid" id="mountain-mid"></div>
+  <div class="hero-mountain-front" id="mountain-front"></div>
+  
+  <div class="hero-content">
+    <div class="hero-eyebrow">Kashmir, Rediscovered</div>
+    <h1 class="hero-title">
+      Where Earth<br>Touches <em>Heaven</em>
+    </h1>
+    <p class="hero-subtitle">
+      Curated Kashmir journeys crafted by locals who know every valley, 
+      every mountain pass, every hidden meadow.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('packages').scrollIntoView({behavior:'smooth'})">
+        Explore Packages
+      </button>
+      <button class="btn-ghost" onclick="document.getElementById('destinations').scrollIntoView({behavior:'smooth'})">
+        Discover Destinations
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item reveal stagger-1">
+    <span class="stat-num" data-count="500">0</span>
+    <span class="stat-label">Happy Travelers</span>
+  </div>
+  <div class="stat-item reveal stagger-2">
+    <span class="stat-num" data-count="7">0</span>
+    <span class="stat-label">Kashmir Destinations</span>
+  </div>
+  <div class="stat-item reveal stagger-3">
+    <span class="stat-num" data-count="6">0</span>
+    <span class="stat-label">Years of Experience</span>
+  </div>
+  <div class="stat-item reveal stagger-4">
+    <span class="stat-num">4.8★</span>
+    <span class="stat-label">Guest Rating</span>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="section-header reveal">
+    <span class="section-tag">Kashmir Tour Packages</span>
+    <h2 class="section-title">Find Your <em>Perfect</em> Journey</h2>
+    <p class="section-sub">From budget explorers to luxury travelers — every package crafted with Kashmiri heart</p>
+  </div>
+
+  <div class="packages-grid" style="max-width:1300px;margin:0 auto;">
+    <!-- EXPLORER -->
+    <div class="pkg-card reveal stagger-1" data-tilt>
+      <div class="pkg-card-img">
+        <div class="pkg-card-img-inner pkg-img-1">
+          <svg class="card-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,120 L0,70 L40,45 L80,65 L120,30 L160,55 L200,20 L240,50 L280,35 L320,60 L360,40 L400,60 L400,120 Z" fill="rgba(5,15,10,0.7)"/>
+            <path d="M0,120 L0,85 L50,70 L100,80 L150,55 L200,70 L250,60 L300,75 L350,65 L400,78 L400,120 Z" fill="rgba(5,12,8,0.9)"/>
+          </svg>
+        </div>
+        <span class="pkg-badge">Best Value</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-duration">4 Nights / 5 Days</div>
+        <h3 class="pkg-name">Kashmir Explorer</h3>
+        <p class="pkg-tagline">The essential Kashmir experience</p>
+        <div class="pkg-price">₹12,999 <span>/ person</span></div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Srinagar & Dal Lake Shikara ride</li>
+          <li>Mughal Gardens (Shalimar & Nishat)</li>
+          <li>Shankaracharya Temple visit</li>
+          <li>3-star hotel accommodation</li>
+          <li>AC cab & breakfast + dinner</li>
+          <li>Professional local guide</li>
+        </ul>
+      </div>
+      <div class="pkg-footer">
+        <button class="pkg-cta">
+          Book Now <span class="pkg-cta-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- CLASSIC (Featured) -->
+    <div class="pkg-card featured reveal stagger-2" data-tilt>
+      <div class="pkg-card-img">
+        <div class="pkg-card-img-inner pkg-img-2">
+          <svg class="card-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,120 L0,60 L30,35 L65,55 L100,20 L140,45 L175,15 L210,40 L245,25 L280,50 L315,30 L355,55 L400,40 L400,120 Z" fill="rgba(8,18,12,0.7)"/>
+            <path d="M0,120 L0,80 L45,65 L90,78 L135,55 L180,70 L225,60 L270,75 L315,65 L360,80 L400,72 L400,120 Z" fill="rgba(5,12,8,0.9)"/>
+          </svg>
+        </div>
+        <span class="pkg-badge popular">Most Popular</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-duration">6 Nights / 7 Days</div>
+        <h3 class="pkg-name">Kashmir Classic</h3>
+        <p class="pkg-tagline">The complete valley experience</p>
+        <div class="pkg-price">₹24,999 <span>/ person</span></div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Srinagar (2N) + Gulmarg (1N) + Pahalgam (2N)</li>
+          <li>Sonamarg full-day excursion</li>
+          <li>Gulmarg Gondola ride included</li>
+          <li>Dal Lake houseboat experience</li>
+          <li>Betaab Valley & Aru Valley</li>
+          <li>4-star hotel + all meals</li>
+        </ul>
+      </div>
+      <div class="pkg-footer">
+        <button class="pkg-cta">
+          Book Now <span class="pkg-cta-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ROYALE -->
+    <div class="pkg-card reveal stagger-3" data-tilt>
+      <div class="pkg-card-img">
+        <div class="pkg-card-img-inner pkg-img-3">
+          <svg class="card-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,120 L0,55 L35,30 L70,50 L105,15 L145,40 L180,10 L215,35 L250,22 L285,45 L320,28 L358,48 L400,35 L400,120 Z" fill="rgba(8,22,15,0.7)"/>
+            <path d="M0,120 L0,80 L50,68 L100,80 L145,60 L190,73 L235,62 L280,76 L325,68 L370,80 L400,74 L400,120 Z" fill="rgba(5,12,8,0.9)"/>
+          </svg>
+        </div>
+        <span class="pkg-badge premium">Premium</span>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-duration">8 Nights / 9 Days</div>
+        <h3 class="pkg-name">Kashmir Royale</h3>
+        <p class="pkg-tagline">An uncompromised luxury odyssey</p>
+        <div class="pkg-price">₹49,999 <span>/ person</span></div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li>Srinagar + Gulmarg + Pahalgam + Sonamarg</li>
+          <li>Doodhpathri & Gurez Valley</li>
+          <li>5-star resorts & luxury houseboat</li>
+          <li>Private Gondola session</li>
+          <li>Snow sports & adventure activities</li>
+          <li>Helicopter option + curated Wazwan dinner</li>
+        </ul>
+      </div>
+      <div class="pkg-footer">
+        <button class="pkg-cta">
+          Book Now <span class="pkg-cta-arrow">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Season Tabs -->
+  <div style="max-width:1300px;margin:3rem auto 0;padding:0 0;">
+    <div class="season-tabs reveal" style="margin:0 auto;max-width:420px;">
+      <button class="season-tab active" onclick="switchSeason(this,'spring')">Spring</button>
+      <button class="season-tab" onclick="switchSeason(this,'summer')">Summer</button>
+      <button class="season-tab" onclick="switchSeason(this,'autumn')">Autumn</button>
+      <button class="season-tab" onclick="switchSeason(this,'winter')">Winter</button>
+    </div>
+    <p id="season-tip" style="text-align:center;margin-top:1.2rem;font-size:0.82rem;color:rgba(245,240,232,0.4);font-style:italic;">
+      Spring (Mar–May): Cherry blossoms carpet the valley — perfect for Kashmir Classic package
+    </p>
+  </div>
+</section>
+
+<!-- DESTINATIONS SLIDER -->
+<section id="destinations">
+  <div class="section-header reveal">
+    <span class="section-tag">Discover Kashmir</span>
+    <h2 class="section-title">The Places That Will <em>Stay</em> With You</h2>
+    <p class="section-sub">Seven extraordinary destinations, each with its own character and magic</p>
+  </div>
+
+  <div class="dest-slider-wrap">
+    <div class="dest-slider" id="destSlider">
+      <!-- Slides generated by JS -->
+    </div>
+  </div>
+
+  <div class="dest-controls">
+    <button class="dest-btn" id="destPrev">←</button>
+    <div class="dest-dots" id="destDots"></div>
+    <button class="dest-btn" id="destNext">→</button>
+  </div>
+
+  <div class="dest-detail-panel" id="destDetailPanel">
+    <div class="dest-detail-left reveal">
+      <h3 id="dest-detail-name">Srinagar</h3>
+      <p id="dest-detail-desc">The summer capital of Jammu & Kashmir, Srinagar is a city of lakes and gardens, ancient mosques and Mughal pavilions. The iconic Dal Lake with its houseboats and shikara rides has enchanted travellers for centuries.</p>
+    </div>
+    <div class="dest-detail-right reveal">
+      <div class="dest-detail-item">
+        <div>
+          <div class="dest-detail-label">Distance from Srinagar</div>
+          <div class="dest-detail-val" id="dest-distance">City Center</div>
+        </div>
+      </div>
+      <div class="dest-detail-item">
+        <div>
+          <div class="dest-detail-label">Nearby Places</div>
+          <div class="dest-detail-val" id="dest-nearby">Nishat Bagh, Shalimar Bagh, Shankaracharya Temple, Hazratbal Shrine</div>
+        </div>
+      </div>
+      <div class="dest-detail-item">
+        <div>
+          <div class="dest-detail-label">Best Season</div>
+          <div class="dest-detail-val" id="dest-season">Year-round · Spring for Tulips</div>
+        </div>
+      </div>
+      <div class="dest-map-embed" id="dest-map" onclick="openMap()"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT & TEAM -->
+<section id="about">
+  <div class="about-grid" style="max-width:1300px;margin:0 auto;">
+    <div class="about-left">
+      <span class="section-tag reveal">About True Valley Travels</span>
+      <h2 class="about-title reveal">Born from <em>Kashmir</em>,<br>Built for Travelers</h2>
+      <p class="about-text reveal">We are a team of Kashmiri travel enthusiasts who grew up between the pine forests of Pahalgam and the shikara lanes of Dal Lake. True Valley Travels was founded on a simple belief: the best guide to Kashmir is someone who calls it home.</p>
+      <p class="about-text reveal">Every itinerary we craft reflects our intimate knowledge of the valley — from the hidden meadow at Tarsar Lake to the best noon chai in Sonamarg. We don't just show you Kashmir; we share it with you.</p>
+      <div class="about-values reveal">
+        <div class="about-value">Local-first expertise — born and raised in Kashmir</div>
+        <div class="about-value">Sustainable tourism with respect for nature</div>
+        <div class="about-value">24/7 support from planning to safe return</div>
+        <div class="about-value">100% customizable itineraries, no cookie-cutter trips</div>
+      </div>
+    </div>
+    <div class="about-right reveal-right">
+      <div style="margin-bottom:2rem;">
+        <span class="section-tag">Our Team</span>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar"><div class="team-avatar-bg avatar-1"></div><div class="avatar-initials">AR</div></div>
+          <div class="team-body">
+            <div class="team-name">Aadil Rashid</div>
+            <div class="team-role">Founder & Lead Guide</div>
+            <div class="team-exp">12 years guiding in Kashmir</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar"><div class="team-avatar-bg avatar-2"></div><div class="avatar-initials">SM</div></div>
+          <div class="team-body">
+            <div class="team-name">Sana Mir</div>
+            <div class="team-role">Tour Coordinator</div>
+            <div class="team-exp">Specialist in luxury travel</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar"><div class="team-avatar-bg avatar-3"></div><div class="avatar-initials">FA</div></div>
+          <div class="team-body">
+            <div class="team-name">Firdous Ahmad</div>
+            <div class="team-role">Mountain & Trek Expert</div>
+            <div class="team-exp">Gurez & Lolab specialist</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar"><div class="team-avatar-bg avatar-4"></div><div class="avatar-initials">NB</div></div>
+          <div class="team-body">
+            <div class="team-name">Nida Bhat</div>
+            <div class="team-role">Guest Experience Lead</div>
+            <div class="team-exp">Hospitality & cultural tours</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header reveal">
+    <span class="section-tag">Traveler Stories</span>
+    <h2 class="section-title">Words from the <em>Valley</em></h2>
+  </div>
+  <div class="testimonials-grid" style="max-width:1200px;margin:0 auto;">
+    <div class="testi-card reveal stagger-1">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Aadil took us to a meadow above Pahalgam that wasn't in any guidebook. The silence, the snow-capped peaks, the wild flowers — I've never felt so small and so alive at the same time.</p>
+      <div class="testi-stars">
+        <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+      </div>
+      <div class="testi-author">Priya Sharma</div>
+      <div class="testi-location">Mumbai · Kashmir Classic Package</div>
+    </div>
+    <div class="testi-card reveal stagger-2">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">The houseboat on Dal Lake at sunset — that image will never leave me. True Valley didn't just plan a trip, they gave us memories we'll talk about for the rest of our lives.</p>
+      <div class="testi-stars">
+        <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+      </div>
+      <div class="testi-author">Rahul & Kavya Nair</div>
+      <div class="testi-location">Bangalore · Kashmir Royale Package</div>
+    </div>
+    <div class="testi-card reveal stagger-3">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">As a solo female traveler, safety was my priority. The True Valley team was attentive, professional, and incredibly warm. Gulmarg in the snow was nothing short of a dream.</p>
+      <div class="testi-stars">
+        <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+      </div>
+      <div class="testi-author">Meera Pillai</div>
+      <div class="testi-location">Delhi · Kashmir Explorer Package</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="pattern-overlay"></div>
+  <div class="contact-wrap">
+    <div class="contact-grid">
+      <div class="contact-info reveal-left">
+        <span class="section-tag" style="margin-bottom:1rem;display:block;">Get in Touch</span>
+        <h2>Plan Your <em>Dream</em><br>Kashmir Trip</h2>
+        <p>Tell us your dream and we'll craft an itinerary that brings it to life. No generic packages — every journey is designed around you.</p>
+        <div class="contact-detail">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Address</span>
+              <span class="contact-item-val">Gulmarg Road, Magam, Budgam<br>J&K – 193401, India</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Phone</span>
+              <span class="contact-item-val">+91 94690 XXXXX</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉</div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Email</span>
+              <span class="contact-item-val">hello@truevalleytravels.com</span>
+            </div>
+          </div>
+        </div>
+        <button class="whatsapp-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+
+      <div class="contact-form reveal-right">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input class="form-input" type="text" placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" type="tel" placeholder="+91 XXXXX XXXXX">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Package Type</label>
+            <select class="form-select">
+              <option value="">Select Package</option>
+              <option>Kashmir Explorer (4N/5D)</option>
+              <option>Kashmir Classic (6N/7D)</option>
+              <option>Kashmir Royale (8N/9D)</option>
+              <option>Custom Itinerary</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Travel Date</label>
+            <input class="form-input" type="date">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Travelers</label>
+          <input class="form-input" type="number" placeholder="e.g. 2 adults, 1 child" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Message</label>
+          <textarea class="form-textarea" placeholder="Tell us your dream trip..."></textarea>
+        </div>
+        <button class="form-submit">Send Inquiry →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">True <span>Valley</span> Travels</a>
+      <p class="footer-tagline">Kashmir, Rediscovered</p>
+      <p class="footer-desc">A team of Kashmiri locals who live and breathe these mountains — crafting journeys that go beyond the guidebook.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Packages</h4>
+      <ul class="footer-links">
+        <li><a href="#">Kashmir Explorer</a></li>
+        <li><a href="#">Kashmir Classic</a></li>
+        <li><a href="#">Kashmir Royale</a></li>
+        <li><a href="#">Custom Trips</a></li>
+        <li><a href="#">Honeymoon Packages</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <ul class="footer-links">
+        <li><a href="#">Srinagar</a></li>
+        <li><a href="#">Gulmarg</a></li>
+        <li><a href="#">Pahalgam</a></li>
+        <li><a href="#">Sonamarg</a></li>
+        <li><a href="#">Gurez Valley</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="#">Travel Blog</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 True Valley Travels — Magam, Budgam, J&K 193401. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#" class="social-link" aria-label="WhatsApp">W</a>
+      <a href="#" class="social-link" aria-label="Facebook">F</a>
+      <a href="#" class="social-link" aria-label="Instagram">In</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- CURSOR ---------- */
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  cursorRing.style.left=rx+'px'; cursorRing.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+/* ---------- PARTICLES ---------- */
+const pCont = document.getElementById('particles');
+for(let i=0;i<30;i++){
+  const p=document.createElement('div'); p.className='particle';
+  p.style.cssText=`left:${Math.random()*100}%;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;--dx:${(Math.random()-0.5)*100}px;opacity:${Math.random()*0.8}`;
+  pCont.appendChild(p);
+}
+
+/* ---------- NAV SCROLL ---------- */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>80);
+});
+
+/* ---------- PARALLAX HERO ---------- */
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY;
+  document.getElementById('mountain-back').style.transform=`translateY(${s*0.15}px)`;
+  document.getElementById('mountain-mid').style.transform=`translateY(${s*0.25}px)`;
+  document.getElementById('mountain-front').style.transform=`translateY(${s*0.4}px)`;
+});
+
+/* ---------- CARD 3D TILT ---------- */
+document.querySelectorAll('[data-tilt]').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5;
+    const y=(e.clientY-r.top)/r.height-0.5;
+    card.style.transform=`perspective(1000px) rotateY(${x*8}deg) rotateX(${-y*5}deg) translateY(-8px)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='perspective(1000px) rotateY(0) rotateX(0) translateY(0)';
+  });
+});
+
+/* ---------- SCROLL REVEAL ---------- */
+const revealObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>revealObserver.observe(el));
+
+/* ---------- COUNT UP ---------- */
+const countObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && e.target.dataset.count){
+      const target=+e.target.dataset.count;
+      let current=0;
+      const step=target/50;
+      const timer=setInterval(()=>{
+        current=Math.min(current+step,target);
+        e.target.textContent=Math.round(current)+(target===4.8?'':'+')||'';
+        if(current>=target)clearInterval(timer);
+      },30);
+      countObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('[data-count]').forEach(el=>countObserver.observe(el));
+
+/* ---------- DESTINATIONS DATA ---------- */
+const destinations=[
+  {
+    name:'Srinagar',cls:'dest-srinagar',country:'Kashmir, J&K',
+    short:'The "Venice of the East" — a city of dal lakes, houseboats, and Mughal gardens',
+    detail:'The summer capital of J&K, Srinagar enchants with its 25km² Dal Lake, floating markets, and centuries-old Mughal gardens. The Jhelum River weaves through the old city\'s carved wooden architecture.',
+    distance:'City Center',
+    nearby:'Nishat Bagh, Shalimar Bagh, Shankaracharya Temple, Hazratbal, Chashme Shahi',
+    season:'Year-round · Spring for Tulip Festival'
+  },
+  {
+    name:'Gulmarg',cls:'dest-gulmarg',country:'Kashmir, J&K',
+    short:'The "Meadow of Flowers" — Asia\'s highest gondola and Himalayan skiing paradise',
+    detail:'At 2,650m altitude, Gulmarg transforms from a wildflower meadow in summer to a pristine ski resort in winter. The Gondola ride to Apharwat Peak at 4,390m offers views that stop your breath.',
+    distance:'56 km from Srinagar (1.5 hrs)',
+    nearby:'Apharwat Peak, Alpather Lake, Drung Waterfall, Khilanmarg Meadow',
+    season:'Summer: Gondola · Winter: Skiing'
+  },
+  {
+    name:'Pahalgam',cls:'dest-pahalgam',country:'Kashmir, J&K',
+    short:'The "Valley of Shepherds" — pine forests, Lidder River, and cinematic mountain vistas',
+    detail:'Pahalgam is where pine forests meet alpine meadows and crystal rivers. Betaab Valley gained worldwide fame as a Bollywood filming location. The starting point for the Amarnath Yatra pilgrimage.',
+    distance:'96 km from Srinagar (2.5 hrs)',
+    nearby:'Betaab Valley, Aru Valley, Baisaran (Mini Switzerland), Lidder River',
+    season:'April–October · Amarnath Yatra in Summer'
+  },
+  {
+    name:'Sonamarg',cls:'dest-sonamarg',country:'Kashmir, J&K',
+    short:'The "Meadow of Gold" — glaciers, emerald rivers, and the gateway to Ladakh',
+    detail:'Sonamarg means "Golden Meadow" — and at dawn the landscape earns its name. The Thajiwas Glacier, accessible by pony ride, is one of Kashmir\'s most spectacular natural sights.',
+    distance:'87 km from Srinagar (2.5 hrs)',
+    nearby:'Thajiwas Glacier, Krishnasar Lake, Nichnai Pass, Baltal',
+    season:'May–October · Snow in winter'
+  },
+  {
+    name:'Doodhpathri',cls:'dest-doodhpathri',country:'Kashmir, J&K',
+    short:'The "Valley of Milk" — pristine meadows where streams run white over limestone',
+    detail:'One of Kashmir\'s best-kept secrets. Doodhpathri\'s streams appear milky white where they rush over limestone beds, and the rolling meadows are almost entirely free of tourist crowds.',
+    distance:'42 km from Srinagar (1.5 hrs)',
+    nearby:'Tosamaidan, Yusmarg, Khag, Charar-e-Sharif shrine',
+    season:'May–September · Best in July'
+  },
+  {
+    name:'Gurez Valley',cls:'dest-gurez',country:'Kashmir, J&K',
+    short:'Kashmir\'s last frontier — untouched Dard culture, Kishanganga River, and raw Himalayan wilderness',
+    detail:'Accessible via the Razdan Pass at 3,450m, Gurez Valley is a world apart. The Dard people\'s ancient culture, stone villages, and the turbulent Kishanganga River create an experience like no other.',
+    distance:'123 km from Srinagar (4 hrs)',
+    nearby:'Dawar Village, Habba Khatoon Peak, Tulail Valley, Razdan Pass',
+    season:'June–September only · Pass closed in winter'
+  },
+  {
+    name:'Yusmarg',cls:'dest-yusmarg',country:'Kashmir, J&K',
+    short:'The "Meadow of Jesus" — rolling grasslands, Doodh Ganga river, and crowd-free serenity',
+    detail:'Often overshadowed by Gulmarg, Yusmarg offers similar beauty without the crowds. The Doodh Ganga ("Milk Ganga") river, dense forests, and ponies grazing on slopes make it a pastoral paradise.',
+    distance:'47 km from Srinagar (1.5 hrs)',
+    nearby:'Doodh Ganga River, Sang-e-Safed, Charar-e-Sharif, Tosa Maidan',
+    season:'April–October · Rhododendrons in April'
+  }
+];
+
+/* ---------- BUILD SLIDER ---------- */
+const slider=document.getElementById('destSlider');
+const dots=document.getElementById('destDots');
+let activeSlide=0;
+
+destinations.forEach((d,i)=>{
+  // Slide
+  const slide=document.createElement('div');
+  slide.className='dest-slide'+(i===0?' active':'');
+  slide.dataset.idx=i;
+  slide.innerHTML=`
+    <div class="dest-slide-bg ${d.cls}"></div>
+    <div class="dest-slide-overlay"></div>
+    <div class="dest-info">
+      <div class="dest-country">${d.country}</div>
+      <div class="dest-name">${d.name}</div>
+      <div class="dest-desc">${d.short}</div>
+      <div class="dest-meta">
+        <span>${d.distance}</span>
+        <span>${d.season.split(' · ')[0]}</span>
+      </div>
+      <button class="dest-map-btn">Explore Details</button>
+    </div>`;
+  slide.addEventListener('click',()=>goToSlide(i));
+  slider.appendChild(slide);
+
+  // Dot
+  const dot=document.createElement('div');
+  dot.className='dest-dot'+(i===0?' active':'');
+  dot.addEventListener('click',()=>goToSlide(i));
+  dots.appendChild(dot);
+});
+
+function goToSlide(idx){
+  activeSlide=idx;
+  document.querySelectorAll('.dest-slide').forEach((s,i)=>s.classList.toggle('active',i===idx));
+  document.querySelectorAll('.dest-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  updateDetail(idx);
+}
+
+function updateDetail(idx){
+  const d=destinations[idx];
+  document.getElementById('dest-detail-name').textContent=d.name;
+  document.getElementById('dest-detail-desc').textContent=d.detail;
+  document.getElementById('dest-distance').textContent=d.distance;
+  document.getElementById('dest-nearby').textContent=d.nearby;
+  document.getElementById('dest-season').textContent=d.season;
+  document.getElementById('dest-map').onclick=()=>openMap(d.name);
+}
+
+document.getElementById('destPrev').addEventListener('click',()=>goToSlide((activeSlide-1+destinations.length)%destinations.length));
+document.getElementById('destNext').addEventListener('click',()=>goToSlide((activeSlide+1)%destinations.length));
+
+// Auto-advance
+let autoSlide=setInterval(()=>goToSlide((activeSlide+1)%destinations.length),4000);
+slider.addEventListener('mouseenter',()=>clearInterval(autoSlide));
+slider.addEventListener('mouseleave',()=>{autoSlide=setInterval(()=>goToSlide((activeSlide+1)%destinations.length),4000);});
+
+function openMap(name){
+  const q=(name||destinations[activeSlide].name)+', Kashmir, India';
+  window.open('https://www.google.com/maps/search/'+encodeURIComponent(q),'_blank');
+}
+
+/* ---------- SEASON TIPS ---------- */
+const seasonTips={
+  spring:'Spring (Mar–May): Cherry blossoms & tulips carpet the valley — perfect for Kashmir Classic package',
+  summer:'Summer (Jun–Aug): Lush meadows, snow activities at Gulmarg — ideal for Kashmir Royale',
+  autumn:'Autumn (Sep–Nov): Golden chinar trees & crisp air — our most popular season for Kashmir Classic',
+  winter:'Winter (Dec–Feb): Snow-draped Gulmarg skiing — special Kashmir Explorer winter edition'
+};
+function switchSeason(el,s){
+  document.querySelectorAll('.season-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const tip=document.getElementById('season-tip');
+  tip.style.opacity='0';
+  setTimeout(()=>{tip.textContent=seasonTips[s];tip.style.opacity='1';},300);
+}
+document.getElementById('season-tip').style.transition='opacity 0.3s';
+
+/* ---------- MOBILE MENU ---------- */
+const menuToggle=document.getElementById('menuToggle');
+const mobileMenu=document.getElementById('mobileMenu');
+const mobileClose=document.getElementById('mobileClose');
+menuToggle.addEventListener('click',()=>mobileMenu.classList.add('open'));
+mobileClose.addEventListener('click',()=>mobileMenu.classList.remove('open'));
+document.querySelectorAll('.mobile-link').forEach(l=>l.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+/* ---------- TEAM CARD TILT ---------- */
+document.querySelectorAll('.team-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5;
+    const y=(e.clientY-r.top)/r.height-0.5;
+    card.style.transform=`perspective(800px) rotateY(${x*6}deg) rotateX(${-y*4}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+});
+</script>
+</body>
+</html>
