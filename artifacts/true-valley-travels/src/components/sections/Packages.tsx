@@ -6,23 +6,31 @@ import { useSeason } from "@/context/SeasonContext";
 const summerPackages = [
   {
     id: "s1", title: "Valley Essential", tier: "Budget", price: "15,000", duration: "4D / 3N",
-    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80&auto=format&fit=crop",
+    // Dal Lake shikara ride + Mughal Garden terraces, Srinagar
+    image: "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80",
     features: ["Mughal Gardens & Nishat Bagh", "Standard Hotel Stay", "Shikara Ride on Dal Lake", "Breakfast Included"],
   },
   {
     id: "s2", title: "Kashmir Classic", tier: "Premium", price: "35,000", duration: "6D / 5N",
-    image: "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=800&q=80&auto=format&fit=crop",
+    // Heritage houseboat on Dal Lake — the iconic Kashmir image
+    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=800&q=80",
     features: ["Heritage Houseboat Stay", "Pahalgam River Walk", "Gondola Ride Gulmarg", "Half-Board Meals"],
     popular: true,
   },
   {
     id: "s3", title: "Garden & Peaks", tier: "Luxury", price: "75,000", duration: "7D / 6N",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop",
+    // Sonamarg — alpine glacier meadow with Sindh River, golden hour
+    image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80",
     features: ["5-Star Resort Stays", "Exclusive Shikara Sunrise", "Sonamarg Day Trek", "Full-Board Fine Dining"],
   },
   {
     id: "s4", title: "Emperor's Retreat", tier: "Ultra-Luxury", price: "1,50,000", duration: "10D / 9N",
-    image: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80&auto=format&fit=crop",
+    // Pahalgam — Betaab Valley with the Lidder River winding through pine & mountain
+    image: "https://images.unsplash.com/photo-1566559532215-a03e06e3dd5d?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80",
     features: ["Private Mountain Villa", "Helicopter Valley Tour", "Personal Butler & Guide", "Bespoke Cultural Evenings"],
   },
 ];
@@ -30,23 +38,31 @@ const summerPackages = [
 const winterPackages = [
   {
     id: "w1", title: "Snow Escapade", tier: "Budget", price: "18,000", duration: "4D / 3N",
-    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80&auto=format&fit=crop",
+    // Gulmarg snow fields — wide open snowscape with Himalayan peaks behind
+    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80",
     features: ["Gulmarg Snow Walk", "Sledding & Ice Activities", "Standard Lodge Stay", "Hot Meals Included"],
   },
   {
     id: "w2", title: "Ski & Stay", tier: "Premium", price: "45,000", duration: "6D / 5N",
-    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80&auto=format&fit=crop",
+    // Gulmarg Gondola cable car over snow — Asia's highest gondola
+    image: "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80",
     features: ["Beginner Ski Lessons", "Gulmarg Gondola Ride", "Luxury Lodge Stay", "Half-Board Meals"],
     popular: true,
   },
   {
     id: "w3", title: "White Kashmir", tier: "Luxury", price: "90,000", duration: "7D / 6N",
-    image: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80&auto=format&fit=crop",
+    // Skiing down Gulmarg slopes — powder snow on Himalayan gradient
+    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80",
     features: ["5-Star Mountain Lodge", "Advanced Ski Coaching", "Frozen Lake Photography", "Full-Board Fine Dining"],
   },
   {
     id: "w4", title: "Maharaja Snow Retreat", tier: "Ultra-Luxury", price: "2,00,000", duration: "10D / 9N",
-    image: "https://images.unsplash.com/photo-1418985991508-e47386d96a71?w=800&q=80&auto=format&fit=crop",
+    // Apharwat Peak above Gulmarg — dramatic high-altitude Himalayan snow panorama
+    image: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=85&auto=format&fit=crop",
+    fallback: "https://images.unsplash.com/photo-1418985991508-e47386d96a71?w=800&q=80",
     features: ["Exclusive Private Chalet", "Helicopter to Apharwat", "Personal Butler & Ski Coach", "Bespoke Winter Experiences"],
   },
 ];
@@ -95,7 +111,7 @@ function TiltCard({ pkg, i }: { pkg: typeof summerPackages[0] & { popular?: bool
             className="w-full h-full object-cover"
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.55 }}
-            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80"; }}
+            onError={(e) => { e.currentTarget.src = pkg.fallback || "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80"; }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 

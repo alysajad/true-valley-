@@ -2,10 +2,10 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useSeason } from "@/context/SeasonContext";
 
-// Better summer: vibrant Kashmir valley / shikara
-const SUMMER_BG = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90&auto=format&fit=crop";
-// Winter: dramatic ski-slope Gulmarg wide panorama
-const WINTER_BG = "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90&auto=format&fit=crop";
+// Summer: Kashmir valley in full bloom — bright green meadows, Pir Panjal peaks
+const SUMMER_BG = "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=90&auto=format&fit=crop";
+// Winter: Gulmarg Gondola station with snow-blanketed Himalayan slopes
+const WINTER_BG = "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=1920&q=90&auto=format&fit=crop";
 
 /* ── Animated SVG atmosphere overlay ──────────────────────
    Clouds, birds (summer) / snow-sweep (winter) on top of the photo
@@ -327,7 +327,10 @@ export default function Hero() {
               className="absolute inset-0 w-full h-full object-cover object-center"
               style={{ transform: "scale(1.08)" }}
               onError={(e) => {
-                e.currentTarget.style.display = "none";
+                // Fallback to confirmed working Kashmir images
+                e.currentTarget.src = isSummer
+                  ? "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=1920&q=90"
+                  : "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90";
               }}
             />
           </motion.div>
@@ -338,8 +341,8 @@ export default function Hero() {
           className="absolute inset-0"
           animate={{
             background: isSummer
-              ? "linear-gradient(to bottom, rgba(15,30,60,0.48) 0%, rgba(10,20,45,0.28) 55%, rgba(5,10,25,0.10) 100%)"
-              : "linear-gradient(to bottom, rgba(5,10,30,0.62) 0%, rgba(5,15,40,0.38) 55%, rgba(5,15,35,0.15) 100%)",
+              ? "linear-gradient(to bottom, rgba(10,20,45,0.30) 0%, rgba(8,16,38,0.18) 50%, rgba(5,10,25,0.08) 100%)"
+              : "linear-gradient(to bottom, rgba(5,10,30,0.60) 0%, rgba(5,15,40,0.38) 55%, rgba(5,15,35,0.15) 100%)",
           }}
           transition={{ duration: 1.2 }}
         />

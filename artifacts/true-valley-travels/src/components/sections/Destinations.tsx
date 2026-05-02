@@ -19,8 +19,10 @@ const destinations = [
     distance: "0 km from Srinagar",
     desc: "The jewel of Srinagar — a sprawling, mirror-like body of water reflecting the Pir Panjal mountains. Life here moves at the gentle pace of a shikara oar. Wake up early to witness the vibrant floating vegetable market, a centuries-old tradition.",
     nearby: ["Shankaracharya Temple", "Hazratbal Shrine", "Nigeen Lake"],
-    summerImg: "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=900&q=80&auto=format&fit=crop",
-    winterImg: "https://images.unsplash.com/photo-1542856391-010e81a9cb7d?w=900&q=80&auto=format&fit=crop",
+    // Dal Lake sunrise: classic shikara on mirror-still water with Pir Panjal behind
+    summerImg: "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=900&q=85&auto=format&fit=crop",
+    // Dal Lake winter: misty morning, houseboats in frost
+    winterImg: "https://images.unsplash.com/photo-1542856391-010e81a9cb7d?w=900&q=85&auto=format&fit=crop",
     summerTag: "Shikara & Houseboats",
     winterTag: "Misty Winter Mornings",
   },
@@ -31,8 +33,10 @@ const destinations = [
     distance: "56 km from Srinagar",
     desc: "The Meadow of Flowers transforms into Asia's premier ski destination each winter. Ride the legendary Gulmarg Gondola to Mt. Apharwat for sweeping Himalayan views. In summer it offers world-class trekking and the world's highest green golf course.",
     nearby: ["Apharwat Peak", "Alather Lake", "Khilanmarg Meadow"],
-    summerImg: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80&auto=format&fit=crop",
-    winterImg: "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=900&q=80&auto=format&fit=crop",
+    // Gulmarg summer: lush green alpine meadow rolling beneath snow-capped Apharwat
+    summerImg: "https://images.unsplash.com/photo-1566559532215-a03e06e3dd5d?w=900&q=85&auto=format&fit=crop",
+    // Gulmarg winter: Asia's highest gondola above fresh powder snow
+    winterImg: "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=900&q=85&auto=format&fit=crop",
     summerTag: "Meadows & Trekking",
     winterTag: "Skiing & Gondola",
   },
@@ -43,8 +47,10 @@ const destinations = [
     distance: "95 km from Srinagar",
     desc: "Situated at the confluence of mountain streams from Sheshnag Lake and the Lidder River, Pahalgam is a pristine valley of unspoiled beauty — the base for the Amarnath Yatra and home to the most scenic trout fishing routes in India.",
     nearby: ["Betaab Valley", "Aru Valley", "Baisaran"],
-    summerImg: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=900&q=80&auto=format&fit=crop",
-    winterImg: "https://images.unsplash.com/photo-1478827397896-7b7ccfc97d4a?w=900&q=80&auto=format&fit=crop",
+    // Pahalgam summer: Betaab Valley — Lidder river through pine-clad meadows
+    summerImg: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=900&q=85&auto=format&fit=crop",
+    // Pahalgam winter: snow-draped pine forest valley with frozen river
+    winterImg: "https://images.unsplash.com/photo-1478827397896-7b7ccfc97d4a?w=900&q=85&auto=format&fit=crop",
     summerTag: "River & Meadows",
     winterTag: "Snow-Covered Valleys",
   },
@@ -55,8 +61,10 @@ const destinations = [
     distance: "87 km from Srinagar",
     desc: "The Meadow of Gold sits against a backdrop of snowy mountains and clear blue skies. The Sindh River meanders through the valley, abundant with trout. It is the gateway to Ladakh and the starting point for the trek to Thajiwas Glacier.",
     nearby: ["Thajiwas Glacier", "Zoji La Pass", "Vishansar Lake"],
-    summerImg: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=900&q=80&auto=format&fit=crop",
-    winterImg: "https://images.unsplash.com/photo-1516912481800-3b51b2f58e56?w=900&q=80&auto=format&fit=crop",
+    // Sonamarg summer: golden alpine meadow, Thajiwas Glacier in background
+    summerImg: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=900&q=85&auto=format&fit=crop",
+    // Sonamarg winter: snow-locked valley, frozen Sindh River, icy peaks
+    winterImg: "https://images.unsplash.com/photo-1516912481800-3b51b2f58e56?w=900&q=85&auto=format&fit=crop",
     summerTag: "Alpine Meadow",
     winterTag: "Frozen Wilderness",
   },
@@ -67,8 +75,10 @@ const destinations = [
     distance: "47 km from Srinagar",
     desc: "A quiet, lesser-known meadow surrounded by dense pine and fir forests — perfect for those seeking absolute tranquility away from tourist crowds. The gentle slopes are ideal for picnicking and long, reflective walks.",
     nearby: ["Doodh Ganga", "Nilnag Lake", "Charari Sharief"],
-    summerImg: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=900&q=80&auto=format&fit=crop",
-    winterImg: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=900&q=80&auto=format&fit=crop",
+    // Yusmarg summer: emerald pine-forest meadow, Doodh Ganga river below
+    summerImg: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=900&q=85&auto=format&fit=crop",
+    // Yusmarg winter: pine trees heavy with snow, undisturbed white blanket
+    winterImg: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=900&q=85&auto=format&fit=crop",
     summerTag: "Pine Forest Trails",
     winterTag: "Untouched Snow",
   },
