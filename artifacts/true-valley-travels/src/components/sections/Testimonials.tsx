@@ -1,117 +1,115 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const reviews = [
-  {
-    text: "True Valley gave us an experience we will cherish forever. From the luxurious houseboat on Dal Lake at sunrise to our private guide in Pahalgam — every single detail was considered and flawless.",
-    name: "Sarah & James Jenkins",
-    location: "London, UK",
-    package: "Kashmir Classic",
-    avatar: "SJ",
-  },
-  {
-    text: "We wanted authenticity without sacrificing comfort. Tariq and his team delivered beyond all expectations. The floating vegetable market at dawn, the wazwan dinner with a local family — incredible.",
-    name: "Amit Sharma",
-    location: "Mumbai, India",
-    package: "Valley Essential",
-    avatar: "AS",
-  },
-  {
-    text: "The Emperor's Retreat package was worth every rupee. Helicopter transfers through the valley, a private butler, and views of the Himalayas from our villa that I'll never forget.",
-    name: "Elena Rodriguez",
-    location: "Dubai, UAE",
-    package: "Emperor's Retreat",
-    avatar: "ER",
-  },
+  { text: "True Valley gave us an experience we'll cherish forever. From the luxurious houseboat on Dal Lake at sunrise to our private guide in Pahalgam — every single detail was considered and flawless.", name: "Sarah & James Jenkins", location: "London, UK", package: "Kashmir Classic", initials: "SJ" },
+  { text: "We wanted authenticity without sacrificing comfort. Tariq and his team delivered beyond all expectations. The floating vegetable market at dawn, the wazwan dinner with a local family — truly incredible.", name: "Amit Sharma", location: "Mumbai, India", package: "Valley Essential", initials: "AS" },
+  { text: "The Emperor's Retreat package was worth every rupee. Helicopter transfers through the valley, a private butler, and Himalayan views from our villa that I'll never forget. World-class service.", name: "Elena Rodriguez", location: "Dubai, UAE", package: "Emperor's Retreat", initials: "ER" },
+  { text: "Gulmarg in winter is unlike anything I've ever seen. The ski instruction was top-notch, the gondola ride breathtaking. True Valley made it seamless and memorable from start to finish.", name: "Mikael Lindstrom", location: "Stockholm, Sweden", package: "Ski & Stay", initials: "ML" },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.14 } },
-};
-
 export default function Testimonials() {
+  const [active, setActive] = useState(0);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
-      {/* Subtle bg decoration */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-secondary/5 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full translate-x-1/3 translate-y-1/3 pointer-events-none" />
+    <section ref={ref} className="relative overflow-hidden py-28">
+      {/* Parallax background */}
+      <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
+        <img
+          src="https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=1600&q=80&auto=format&fit=crop"
+          alt=""
+          className="w-full h-[120%] object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-primary/82" />
+      </motion.div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6 }}
-            className="text-secondary font-semibold tracking-widest uppercase text-sm block mb-4"
+        <div className="text-center mb-14">
+          <motion.p
+            className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
           >
-            Guest Stories
-          </motion.span>
+            Client Testimonials
+          </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.65, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-serif font-bold text-foreground"
+            className="font-serif text-4xl md:text-5xl font-bold text-white uppercase tracking-wide"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}
           >
-            Echoes from the Valley
+            Kashmir Talks
           </motion.h2>
+          <motion.div className="w-12 h-0.5 bg-secondary mx-auto mt-5" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }} />
         </div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          {reviews.map((review, i) => (
+        <div className="max-w-3xl mx-auto">
+          {/* Main quote */}
+          <AnimatePresence mode="wait">
             <motion.div
-              key={i}
-              className="bg-background border border-border rounded-2xl p-8 relative group"
-              variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.65 } } }}
-              whileHover={{ y: -6, boxShadow: "0 20px 50px rgba(0,0,0,0.10)" }}
-              transition={{ duration: 0.3 }}
+              key={active}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -24 }}
+              transition={{ duration: 0.45 }}
+              className="text-center"
             >
-              {/* Quote mark */}
-              <motion.div
-                className="absolute top-6 right-8 text-secondary/15 font-serif text-8xl leading-none select-none"
-                whileHover={{ scale: 1.1 }}
-              >
-                "
-              </motion.div>
+              <svg className="text-secondary/40 mx-auto mb-6" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+              </svg>
 
-              <div className="flex gap-0.5 text-secondary mb-5">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <svg key={s} width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                ))}
-              </div>
-
-              <p className="text-muted-foreground text-base mb-7 leading-relaxed relative z-10 italic">
-                "{review.text}"
+              <p className="text-white/90 text-lg md:text-xl font-light italic leading-relaxed mb-10">
+                "{reviews[active].text}"
               </p>
 
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-serif font-bold text-sm shrink-0">
-                  {review.avatar}
+              <div className="flex items-center justify-center gap-4">
+                <div className="w-14 h-14 bg-secondary flex items-center justify-center font-serif font-bold text-white text-lg">
+                  {reviews[active].initials}
                 </div>
-                <div>
-                  <div className="font-serif font-bold text-foreground">{review.name}</div>
-                  <div className="text-sm text-muted-foreground">{review.location}</div>
+                <div className="text-left">
+                  <div className="font-serif font-bold text-white uppercase tracking-wide">{reviews[active].name}</div>
+                  <div className="text-secondary text-xs font-semibold uppercase tracking-widest">{reviews[active].location}</div>
+                  <div className="text-white/50 text-xs mt-0.5">{reviews[active].package}</div>
                 </div>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-border">
-                <span className="text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-3 py-1 rounded-full">
-                  {review.package}
-                </span>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
+          </AnimatePresence>
+
+          {/* Navigation dots */}
+          <div className="flex justify-center gap-3 mt-12">
+            {reviews.map((_, i) => (
+              <motion.button
+                key={i}
+                onClick={() => setActive(i)}
+                className="h-2 rounded-full transition-all duration-300"
+                animate={{ width: active === i ? 32 : 8, backgroundColor: active === i ? "#ffa11a" : "rgba(255,255,255,0.3)" }}
+              />
+            ))}
+          </div>
+
+          {/* Prev / Next */}
+          <div className="flex justify-center gap-4 mt-8">
+            {[
+              { label: "prev", d: "M15 18l-6-6 6-6", onClick: () => setActive((active - 1 + reviews.length) % reviews.length) },
+              { label: "next", d: "M9 18l6-6-6-6", onClick: () => setActive((active + 1) % reviews.length) },
+            ].map((btn) => (
+              <motion.button
+                key={btn.label}
+                onClick={btn.onClick}
+                className="w-10 h-10 border border-white/30 flex items-center justify-center text-white/70 hover:border-secondary hover:text-secondary transition-colors"
+                whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points={btn.d.replace("M15 18l-6-6 6-6", "15,18 9,12 15,6").replace("M9 18l6-6-6-6", "9,18 15,12 9,6")} />
+                  <path d={btn.d} />
+                </svg>
+              </motion.button>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
