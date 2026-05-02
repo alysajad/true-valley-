@@ -79,36 +79,39 @@ export default function Destinations() {
   const selectedDest = destinations[selectedIndex];
 
   return (
-    <section id="destinations" className="py-24 bg-primary text-primary-foreground overflow-hidden">
+    <section id="destinations" className="py-24 bg-muted/30 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
-            <span className="text-secondary font-medium tracking-widest uppercase text-sm">
+            <span className="text-secondary font-medium tracking-widest uppercase text-sm block mb-4">
               Explore the Valley
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mt-4 text-white">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground">
               Iconic Destinations
             </h2>
+            <p className="text-muted-foreground mt-6 text-lg">
+              Discover the most breathtaking locations in Kashmir, each with its own unique charm and story.
+            </p>
           </div>
           
           <div className="flex gap-4">
             <button 
               onClick={() => emblaApi?.scrollPrev()}
-              className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors"
+              className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-secondary hover:text-white hover:border-secondary transition-colors"
             >
               ←
             </button>
             <button 
               onClick={() => emblaApi?.scrollNext()}
-              className="w-12 h-12 rounded-full bg-secondary text-primary-foreground flex items-center justify-center hover:bg-secondary/90 transition-colors"
+              className="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center hover:bg-secondary/90 transition-colors"
             >
               →
             </button>
           </div>
         </div>
 
-        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
+        <div className="overflow-hidden cursor-grab active:cursor-grabbing pb-8" ref={emblaRef}>
           <div className="flex -ml-4">
             {destinations.map((dest, index) => (
               <div 
@@ -116,16 +119,18 @@ export default function Destinations() {
                 className="flex-[0_0_85%] md:flex-[0_0_60%] lg:flex-[0_0_40%] pl-4"
                 onClick={() => emblaApi?.scrollTo(index)}
               >
-                <div className={`relative h-[60vh] rounded-2xl overflow-hidden transition-all duration-500 ${selectedIndex === index ? 'opacity-100 scale-100' : 'opacity-50 scale-95'}`}>
-                  <img 
-                    src={dest.image} 
-                    alt={dest.name} 
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent" />
-                  <div className="absolute bottom-8 left-8 right-8">
-                    <h3 className="text-3xl font-serif font-bold text-white mb-2">{dest.name}</h3>
-                    <p className="text-white/80 line-clamp-2 text-sm">{dest.desc}</p>
+                <div className={`relative h-[60vh] rounded-xl overflow-hidden bg-white shadow-md transition-all duration-500 border-b-4 ${selectedIndex === index ? 'opacity-100 scale-100 border-secondary' : 'opacity-70 scale-95 border-transparent'}`}>
+                  <div className="h-[55%] relative">
+                    <img 
+                      src={dest.image} 
+                      alt={dest.name} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-6 h-[45%] flex flex-col">
+                    <h3 className="text-2xl font-serif font-bold text-foreground mb-2">{dest.name}</h3>
+                    <p className="text-secondary font-medium mb-4 text-sm uppercase tracking-wide">{dest.distance}</p>
+                    <p className="text-muted-foreground line-clamp-3 text-sm">{dest.desc}</p>
                   </div>
                 </div>
               </div>
@@ -141,23 +146,23 @@ export default function Destinations() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
-            className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-12 bg-white/5 rounded-3xl p-8 md:p-12 border border-white/10 backdrop-blur-sm"
+            className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-12 bg-white rounded-xl shadow-lg p-8 md:p-12 border border-border"
           >
             <div className="lg:col-span-2 space-y-6">
               <div className="flex items-center gap-3 text-secondary">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 <span className="font-medium tracking-wide">{selectedDest.distance}</span>
               </div>
-              <h4 className="text-3xl font-serif font-bold text-white">{selectedDest.name} Overview</h4>
-              <p className="text-white/70 leading-relaxed text-lg">
+              <h4 className="text-3xl font-serif font-bold text-foreground">{selectedDest.name} Overview</h4>
+              <p className="text-muted-foreground leading-relaxed text-lg">
                 {selectedDest.desc}
               </p>
               
               <div className="pt-6">
-                <h5 className="font-bold text-white uppercase tracking-widest text-sm mb-4">Nearby Attractions</h5>
+                <h5 className="font-bold text-foreground uppercase tracking-widest text-sm mb-4">Nearby Attractions</h5>
                 <div className="flex flex-wrap gap-3">
                   {selectedDest.nearby.map(place => (
-                    <span key={place} className="px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm">
+                    <span key={place} className="px-4 py-2 rounded-full border border-primary text-primary font-medium text-sm hover:bg-primary hover:text-white transition-colors cursor-pointer">
                       {place}
                     </span>
                   ))}
@@ -165,7 +170,7 @@ export default function Destinations() {
               </div>
             </div>
 
-            <div className="h-64 lg:h-full rounded-2xl overflow-hidden bg-white/10 relative z-0">
+            <div className="h-64 lg:h-full rounded-xl overflow-hidden bg-muted relative z-0">
               <MapContainer 
                 center={selectedDest.coords as [number, number]} 
                 zoom={10} 
