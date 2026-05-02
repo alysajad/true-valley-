@@ -17,7 +17,7 @@ export default function Testimonials() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden py-28">
+    <section ref={ref} className="relative overflow-hidden py-16 md:py-28">
       {/* Parallax background */}
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
         <img
@@ -37,7 +37,7 @@ export default function Testimonials() {
             Client Testimonials
           </motion.p>
           <motion.h2
-            className="font-serif text-4xl md:text-5xl font-bold text-white uppercase tracking-wide"
+            className="font-serif text-3xl md:text-5xl font-bold text-white uppercase tracking-wide"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}
           >
             Kashmir Talks
@@ -61,7 +61,7 @@ export default function Testimonials() {
                 <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
               </svg>
 
-              <p className="text-white/90 text-lg md:text-xl font-light italic leading-relaxed mb-10">
+              <p className="text-white/90 text-base md:text-xl font-light italic leading-relaxed mb-8 md:mb-10 px-2">
                 "{reviews[active].text}"
               </p>
 

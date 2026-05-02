@@ -12,7 +12,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section id="our-story" className="py-24 bg-white overflow-hidden">
+    <section id="our-story" className="py-14 md:py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
 
         <div className="text-center mb-16">
@@ -20,7 +20,7 @@ export default function WhyChooseUs() {
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
             Value Before Business
           </motion.p>
-          <motion.h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
+          <motion.h2 className="font-serif text-3xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}>
             We Offer The Best
           </motion.h2>
@@ -50,13 +50,13 @@ export default function WhyChooseUs() {
           </div>
 
           {/* Right column: logo card only */}
-          <motion.div className="relative"
+          <motion.div className="relative pb-10 pr-2 sm:pb-12 lg:pb-8 lg:pr-6"
             initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.8 }}>
 
             {/* Logo card — white background, single image */}
             <motion.div
-              className="bg-white border border-border/60 shadow-md p-12 flex flex-col items-center text-center"
+              className="bg-white border border-border/60 shadow-md p-8 sm:p-12 flex flex-col items-center text-center"
               whileHover={{ scale: 1.01 }}
             >
               <img
@@ -73,7 +73,7 @@ export default function WhyChooseUs() {
 
             {/* Stat card overlay */}
             <motion.div
-              className="absolute -bottom-6 -left-6 bg-secondary text-white p-7 max-w-[210px]"
+              className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-secondary text-white p-5 sm:p-7 max-w-[190px] sm:max-w-[210px]"
               initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }} transition={{ delay: 0.45, duration: 0.6, type: "spring" }}
               whileHover={{ scale: 1.04, rotate: -1 }}>
@@ -83,7 +83,7 @@ export default function WhyChooseUs() {
 
             {/* Rating badge */}
             <motion.div
-              className="absolute top-4 -right-4 bg-white p-4 shadow-xl border border-border"
+              className="absolute top-4 right-0 sm:-right-4 bg-white p-3 sm:p-4 shadow-xl border border-border"
               initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: 0.6, type: "spring" }}
               whileHover={{ scale: 1.06, rotate: 3 }}>

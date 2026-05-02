@@ -42,7 +42,7 @@ export default function Stats() {
   const quote = QUOTES[isSummer ? "summer" : "winter"];
 
   return (
-    <section ref={ref} className="relative overflow-hidden py-24">
+    <section ref={ref} className="relative overflow-hidden py-14 md:py-24">
       {/* Parallax dark mountain background */}
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
         <img
@@ -55,11 +55,11 @@ export default function Stats() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Stats grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10 mb-14 pb-14 border-b border-white/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 mb-10 md:mb-14 pb-10 md:pb-14 border-b border-white/10">
           {stats.map((s, i) => (
             <motion.div
               key={i}
-              className="text-center px-6 py-4"
+              className={`text-center px-3 md:px-6 py-4 ${i % 2 !== 0 || i > 0 ? "border-l border-white/10" : ""} ${i >= 2 ? "border-t border-white/10 md:border-t-0" : ""}`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
@@ -70,7 +70,7 @@ export default function Stats() {
                   <path d={s.icon} />
                 </svg>
               </div>
-              <div className="text-4xl md:text-5xl font-serif font-bold text-secondary mb-1">
+              <div className="text-3xl md:text-5xl font-serif font-bold text-secondary mb-1">
                 <Counter to={s.to} suffix={s.suffix} decimal={s.decimal} />
               </div>
               <p className="text-white/55 text-[10px] font-semibold uppercase tracking-widest">{s.label}</p>

@@ -6,7 +6,7 @@ export default function Newsletter() {
   const { isSummer } = useSeason();
   return (
     /* Navy background — flows naturally from Testimonials (also navy) into Contact (light) */
-    <section className="py-20 bg-primary relative overflow-hidden">
+    <section className="py-14 md:py-20 bg-primary relative overflow-hidden">
       {/* Subtle decorative pattern */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <svg width="100%" height="100%" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
@@ -38,7 +38,7 @@ export default function Newsletter() {
               <div className="w-8 h-0.5 bg-secondary" />
               <p className="text-secondary text-xs font-bold uppercase tracking-[0.35em]">Stay Connected</p>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-white uppercase tracking-wide leading-tight">
+            <h2 className="font-serif text-2xl md:text-4xl font-bold text-white uppercase tracking-wide leading-tight">
               {isSummer ? "Discover Kashmir\nThis Summer" : "Experience Kashmir\nin Snow"}
             </h2>
             <p className="text-white/60 mt-4 text-sm leading-relaxed">
@@ -57,7 +57,7 @@ export default function Newsletter() {
           </motion.div>
 
           <motion.form
-            className="flex flex-col sm:flex-row gap-0 w-full max-w-md"
+            className="flex flex-col sm:flex-row gap-0 w-full max-w-md shrink-0"
             onSubmit={(e) => e.preventDefault()}
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}

@@ -97,10 +97,10 @@ export default function Destinations() {
   const selectedDest = destinations[selectedIndex];
 
   return (
-    <section id="destinations" className="py-24 bg-muted/30 overflow-hidden">
+    <section id="destinations" className="py-14 md:py-24 bg-muted/30 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">
           <div className="max-w-2xl">
             <motion.span
               initial={{ opacity: 0, x: -20 }}
@@ -116,7 +116,7 @@ export default function Destinations() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.65, delay: 0.1 }}
-              className="text-4xl md:text-5xl font-serif font-bold text-foreground"
+              className="text-3xl md:text-5xl font-serif font-bold text-foreground"
             >
               Iconic Destinations
             </motion.h2>
@@ -239,7 +239,7 @@ export default function Destinations() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.45 }}
-            className="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-border"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 bg-white rounded-2xl shadow-xl p-5 sm:p-8 md:p-10 border border-border"
           >
             <div className="lg:col-span-2 space-y-5">
               <div className="flex items-center gap-2 text-secondary">

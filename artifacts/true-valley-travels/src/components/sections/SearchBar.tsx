@@ -66,10 +66,10 @@ export default function SearchBar() {
             Book Your Tour
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
             {/* Package selector */}
-            <div className="space-y-1.5 md:col-span-1">
+            <div className="space-y-1.5 sm:col-span-2 lg:col-span-1">
               <label className={labelClass}>Select Package</label>
               <select
                 value={pkg}
@@ -134,7 +134,7 @@ export default function SearchBar() {
             </div>
 
             {/* Search button */}
-            <div className="flex items-end">
+            <div className="flex items-end sm:col-span-2 lg:col-span-1">
               <motion.a
                 href="#contact"
                 className="w-full bg-secondary hover:bg-primary text-white py-3 text-sm font-bold uppercase tracking-widest transition-colors rounded-sm text-center block"

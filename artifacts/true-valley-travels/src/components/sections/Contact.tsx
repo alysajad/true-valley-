@@ -9,7 +9,7 @@ const info = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 bg-muted/20">
+    <section id="contact" className="py-14 md:py-24 bg-muted/20">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           <motion.p
@@ -19,7 +19,7 @@ export default function Contact() {
             Begin Your Journey
           </motion.p>
           <motion.h2
-            className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
+            className="font-serif text-3xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}
           >
             Plan Your Kashmir Escape
@@ -68,7 +68,7 @@ export default function Contact() {
 
           {/* Form */}
           <motion.div
-            className="lg:col-span-2 bg-white border border-border p-8"
+            className="lg:col-span-2 bg-white border border-border p-5 sm:p-8"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.1 }}

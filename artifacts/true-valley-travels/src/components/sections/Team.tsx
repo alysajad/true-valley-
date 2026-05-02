@@ -34,7 +34,7 @@ const team = [
 
 export default function Team() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-14 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           <motion.p
@@ -44,7 +44,7 @@ export default function Team() {
             Meet Your Hosts
           </motion.p>
           <motion.h2
-            className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
+            className="font-serif text-3xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}
           >
             The Faces of True Valley
