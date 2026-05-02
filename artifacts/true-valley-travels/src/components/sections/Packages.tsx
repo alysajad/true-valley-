@@ -5,57 +5,65 @@ import { useSeason } from "@/context/SeasonContext";
 
 const summerPackages = [
   {
-    id: "s1", title: "Valley Essential", tier: "Budget", price: "15,000", duration: "4D / 3N",
+    id: "s1", title: "Budget Explorer", tier: "Budget", price: "6,999", duration: "5D / 4N",
+    minPax: "Min. 2 Pax",
     image: "/packages/s1_shikara.jpg",
     fallback: "/destinations/dal_summer.jpg",
-    features: ["Mughal Gardens & Nishat Bagh", "Standard Hotel Stay", "Shikara Ride on Dal Lake", "Breakfast Included"],
+    features: ["Private Transfers Included", "Premium Hotel Stay", "Daily Breakfast Included", "Guided Sightseeing Tours"],
   },
   {
-    id: "s2", title: "Kashmir Classic", tier: "Premium", price: "35,000", duration: "6D / 5N",
+    id: "s2", title: "Classic Delight", tier: "Premium", price: "11,999", duration: "10D / 9N",
+    minPax: "Min. 2 Pax",
     image: "/packages/s2_houseboat.jpg",
     fallback: "/destinations/dal_summer.jpg",
-    features: ["Heritage Houseboat Stay", "Pahalgam River Walk", "Gondola Ride Gulmarg", "Half-Board Meals"],
+    features: ["4 Destinations + Doodhpathri", "Comfortable Hotels | Kid-Friendly", "Private Transfers Included", "Breakfast & Sightseeing"],
     popular: true,
   },
   {
-    id: "s3", title: "Garden & Peaks", tier: "Luxury", price: "75,000", duration: "7D / 6N",
+    id: "s3", title: "Royal Summer Paradise", tier: "Luxury", price: "19,999", duration: "12D / 11N",
+    minPax: "Min. 2 Pax",
     image: "/packages/s3_sonamarg.jpg",
     fallback: "/destinations/sonamarg_summer.jpg",
-    features: ["5-Star Resort Stays", "Exclusive Shikara Sunrise", "Sonamarg Day Trek", "Full-Board Fine Dining"],
+    features: ["Family | Honeymoon | Leisure", "Premium Stay Throughout", "Private Transfers Included", "Breakfast & Sightseeing"],
   },
   {
-    id: "s4", title: "Emperor's Retreat", tier: "Ultra-Luxury", price: "1,50,000", duration: "10D / 9N",
+    id: "s4", title: "Adventure Seekers", tier: "Ultra-Luxury", price: "24,999", duration: "8D / 7N",
+    minPax: "Min. 2 Pax",
     image: "/packages/s4_pahalgam.jpg",
     fallback: "/destinations/pahalgam_summer.jpg",
-    features: ["Private Mountain Villa", "Helicopter Valley Tour", "Personal Butler & Guide", "Bespoke Cultural Evenings"],
+    features: ["Adventure Kashmir Thrill", "Premium Adventure Stay", "Private Transfers Included", "Breakfast & Sightseeing"],
   },
 ];
 
 const winterPackages = [
   {
-    id: "w1", title: "Snow Escapade", tier: "Budget", price: "18,000", duration: "4D / 3N",
+    id: "w1", title: "Budget Explorer", tier: "Budget", price: "6,999", duration: "5D / 4N",
+    minPax: "Min. 2 Pax",
     image: "/packages/w1_snow_walk.jpg",
     fallback: "/destinations/gulmarg_winter.jpg",
-    features: ["Gulmarg Snow Walk", "Sledding & Ice Activities", "Standard Lodge Stay", "Hot Meals Included"],
+    features: ["Private Transfers Included", "Premium Hotel Stay", "Daily Breakfast Included", "Guided Sightseeing Tours"],
   },
   {
-    id: "w2", title: "Ski & Stay", tier: "Premium", price: "45,000", duration: "6D / 5N",
+    id: "w2", title: "Winter Special", tier: "Premium", price: "17,999", duration: "6D / 5N",
+    minPax: "Min. 2 Pax",
     image: "/packages/w2_gondola.jpg",
     fallback: "/destinations/gulmarg_winter.jpg",
-    features: ["Beginner Ski Lessons", "Gulmarg Gondola Ride", "Luxury Lodge Stay", "Half-Board Meals"],
+    features: ["Guaranteed Snow Experience", "Gulmarg Skiing Included", "Sonamarg & Pahalgam Visit", "Private Transfers + Breakfast"],
     popular: true,
   },
   {
-    id: "w3", title: "White Kashmir", tier: "Luxury", price: "90,000", duration: "7D / 6N",
+    id: "w3", title: "Classic Delight", tier: "Luxury", price: "11,999", duration: "10D / 9N",
+    minPax: "Min. 2 Pax",
     image: "/packages/w3_skiing.jpg",
     fallback: "/destinations/gulmarg_winter.jpg",
-    features: ["5-Star Mountain Lodge", "Advanced Ski Coaching", "Frozen Lake Photography", "Full-Board Fine Dining"],
+    features: ["4 Destinations + Doodhpathri", "Comfortable Hotels | Kid-Friendly", "Private Transfers Included", "Breakfast & Sightseeing"],
   },
   {
-    id: "w4", title: "Maharaja Snow Retreat", tier: "Ultra-Luxury", price: "2,00,000", duration: "10D / 9N",
+    id: "w4", title: "Adventure Seekers", tier: "Ultra-Luxury", price: "24,999", duration: "8D / 7N",
+    minPax: "Min. 2 Pax",
     image: "/packages/w4_apharwat.jpg",
     fallback: "/destinations/gulmarg_winter.jpg",
-    features: ["Exclusive Private Chalet", "Helicopter to Apharwat", "Personal Butler & Ski Coach", "Bespoke Winter Experiences"],
+    features: ["Snow Adventure Kashmir Thrill", "Premium Mountain Lodge", "Private Transfers Included", "Breakfast & Sightseeing"],
   },
 ];
 
@@ -139,10 +147,15 @@ function TiltCard({ pkg, i }: { pkg: typeof summerPackages[0] & { popular?: bool
           </h3>
 
           {/* Price block */}
-          <div className="flex items-baseline gap-1.5 mb-4 pb-4 border-b border-border">
-            <span className="text-[11px] text-muted-foreground font-medium">from</span>
-            <span className="text-2xl font-serif font-bold text-secondary">₹{pkg.price}</span>
-            <span className="text-xs text-muted-foreground">/ person</span>
+          <div className="flex items-end justify-between mb-4 pb-4 border-b border-border">
+            <div className="flex items-baseline gap-1">
+              <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Starting</span>
+              <span className="text-2xl font-serif font-bold text-secondary">₹{pkg.price}</span>
+            </div>
+            <div className="text-right">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">Per Pax</p>
+              {pkg.minPax && <p className="text-[9px] text-muted-foreground/70">{pkg.minPax}</p>}
+            </div>
           </div>
 
           {/* Features */}
