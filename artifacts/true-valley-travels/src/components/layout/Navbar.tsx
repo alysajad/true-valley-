@@ -49,6 +49,7 @@ export default function Navbar() {
                 src="/logo.jpeg"
                 alt="True Valley Travels"
                 className="h-[60px] w-auto object-contain"
+                style={{ mixBlendMode: "multiply" }}
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   const fallback = e.currentTarget.nextElementSibling as HTMLElement;

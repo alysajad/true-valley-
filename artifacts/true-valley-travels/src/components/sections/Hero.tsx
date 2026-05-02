@@ -374,7 +374,8 @@ export default function Hero() {
         >
           <motion.p
             variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
-            className="text-white/70 text-xs font-medium tracking-[0.45em] uppercase mb-6"
+            className="font-serif text-white text-sm font-semibold tracking-[0.3em] uppercase mb-6"
+            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7)" }}
           >
             <AnimatePresence mode="wait">
               <motion.span key={season} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>

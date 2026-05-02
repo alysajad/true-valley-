@@ -63,6 +63,7 @@ export default function WhyChooseUs() {
                 src="/logo.jpeg"
                 alt="True Valley Travels"
                 className="w-48 h-48 object-contain mb-6"
+                style={{ mixBlendMode: "multiply" }}
               />
               <div className="w-10 h-0.5 bg-secondary mb-4" />
               <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
