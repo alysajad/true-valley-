@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -80,9 +80,12 @@ const containerVariants = {
 };
 
 export default function Destinations() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const { isSummer, season } = useSeason();
+  const dirRef = useRef<number>(1);
+  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -91,10 +94,33 @@ export default function Destinations() {
     return () => { emblaApi.off("select", onSelect); };
   }, [emblaApi]);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  /* Auto-scroll ping-pong every 2.5 s */
+  useEffect(() => {
+    if (!emblaApi) return;
+    autoRef.current = setInterval(() => {
+      setSelectedIndex(prev => {
+        const next = prev + dirRef.current;
+        const clamped = Math.max(0, Math.min(next, destinations.length - 1));
+        if (next >= destinations.length - 1) dirRef.current = -1;
+        if (next <= 0) dirRef.current = 1;
+        emblaApi.scrollTo(clamped);
+        return clamped;
+      });
+    }, 2500);
+    return () => { if (autoRef.current) clearInterval(autoRef.current); };
+  }, [emblaApi]);
 
-  const selectedDest = destinations[selectedIndex];
+  /* Pause auto-scroll while a card is clicked / user is interacting */
+  const handleCardClick = (index: number) => {
+    setClickedIndex(prev => (prev === index ? null : index));
+    emblaApi?.scrollTo(index);
+    setSelectedIndex(index);
+  };
+
+  const scrollPrev = useCallback(() => { emblaApi?.scrollPrev(); }, [emblaApi]);
+  const scrollNext = useCallback(() => { emblaApi?.scrollNext(); }, [emblaApi]);
+
+  const clickedDest = clickedIndex !== null ? destinations[clickedIndex] : null;
 
   return (
     <section id="destinations" className="py-14 md:py-24 bg-muted/30 overflow-hidden">
@@ -177,11 +203,11 @@ export default function Destinations() {
                   key={dest.id}
                   className="flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33%] pl-4"
                   variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
-                  onClick={() => emblaApi?.scrollTo(index)}
+                  onClick={() => handleCardClick(index)}
                 >
                   <motion.div
                     className="relative rounded-xl overflow-hidden bg-white shadow-md border-b-4 transition-all duration-500 cursor-pointer"
-                    style={{ borderColor: isActive ? "hsl(var(--secondary))" : "transparent" }}
+                    style={{ borderColor: clickedIndex === index ? "hsl(var(--secondary))" : isActive ? "hsl(var(--secondary)/0.4)" : "transparent" }}
                     animate={{ opacity: isActive ? 1 : 0.62, scale: isActive ? 1 : 0.96 }}
                     transition={{ duration: 0.4 }}
                     whileHover={{ scale: isActive ? 1.01 : 0.98, opacity: 0.85 }}
@@ -231,10 +257,26 @@ export default function Destinations() {
           ))}
         </div>
 
-        {/* Detail panel */}
+        {/* Prompt when nothing is clicked yet */}
+        <AnimatePresence>
+          {clickedIndex === null && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center py-6 text-muted-foreground text-sm flex items-center justify-center gap-2"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-secondary"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Click any destination card above to explore details &amp; map
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Detail panel — only shown when a card is clicked */}
         <AnimatePresence mode="wait">
+          {clickedDest && (
           <motion.div
-            key={`${selectedDest.id}-${season}`}
+            key={`${clickedDest.id}-${season}`}
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
@@ -242,16 +284,22 @@ export default function Destinations() {
             className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 bg-white rounded-2xl shadow-xl p-5 sm:p-8 md:p-10 border border-border"
           >
             <div className="lg:col-span-2 space-y-5">
-              <div className="flex items-center gap-2 text-secondary">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span className="font-semibold text-sm">{selectedDest.distance}</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-secondary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span className="font-semibold text-sm">{clickedDest.distance}</span>
+                </div>
+                <button onClick={() => setClickedIndex(null)} className="text-muted-foreground hover:text-foreground text-xs flex items-center gap-1 transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  Close
+                </button>
               </div>
-              <h4 className="text-3xl font-serif font-bold text-foreground">{selectedDest.name}</h4>
-              <p className="text-muted-foreground leading-relaxed">{selectedDest.desc}</p>
+              <h4 className="text-3xl font-serif font-bold text-foreground">{clickedDest.name}</h4>
+              <p className="text-muted-foreground leading-relaxed">{clickedDest.desc}</p>
               <div className="pt-2">
                 <h5 className="font-bold text-foreground text-xs uppercase tracking-widest mb-3">Nearby Attractions</h5>
                 <div className="flex flex-wrap gap-2">
-                  {selectedDest.nearby.map((place) => (
+                  {clickedDest.nearby.map((place) => (
                     <motion.span
                       key={place}
                       className="px-4 py-1.5 rounded-full border border-primary text-primary font-medium text-sm hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
@@ -275,18 +323,19 @@ export default function Destinations() {
 
             <div className="h-64 lg:h-auto rounded-xl overflow-hidden border border-border relative z-0 min-h-[220px]">
               <MapContainer
-                center={selectedDest.coords}
+                center={clickedDest.coords}
                 zoom={10}
                 style={{ height: "100%", width: "100%" }}
                 zoomControl={false}
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker position={selectedDest.coords}>
-                  <Popup>{selectedDest.name}</Popup>
+                <Marker position={clickedDest.coords}>
+                  <Popup>{clickedDest.name}</Popup>
                 </Marker>
               </MapContainer>
             </div>
           </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </section>

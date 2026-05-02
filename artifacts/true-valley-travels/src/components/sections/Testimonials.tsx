@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 
 const reviews = [
   { text: "True Valley gave us an experience we'll cherish forever. From the luxurious houseboat on Dal Lake at sunrise to our private guide in Pahalgam — every single detail was considered and flawless.", name: "Sarah & James Jenkins", location: "London, UK", package: "Kashmir Classic", initials: "SJ" },
@@ -12,7 +11,17 @@ const reviews = [
 
 export default function Testimonials() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const ref = useRef<HTMLElement>(null);
+
+  /* Auto-rotate every 4 s — pauses on hover */
+  useEffect(() => {
+    if (paused) return;
+    const timer = setInterval(() => {
+      setActive(prev => (prev + 1) % reviews.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [paused]);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
@@ -28,7 +37,11 @@ export default function Testimonials() {
         <div className="absolute inset-0 bg-primary/82" />
       </motion.div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div
+        className="container mx-auto px-4 md:px-6 relative z-10"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
         <div className="text-center mb-14">
           <motion.p
             className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
