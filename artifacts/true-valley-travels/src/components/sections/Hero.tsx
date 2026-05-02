@@ -372,17 +372,35 @@ export default function Hero() {
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}
           className="select-none"
         >
-          <motion.p
+          <motion.div
             variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
-            className="font-serif text-white text-sm font-semibold tracking-[0.3em] uppercase mb-6"
-            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7)" }}
+            className="mb-7 flex flex-col items-center gap-2"
           >
+            {/* Brand badge */}
+            <div className="flex items-center gap-3 bg-black/35 backdrop-blur-sm border border-white/20 rounded-full px-5 py-2 shadow-lg">
+              <img
+                src="/logo.jpeg"
+                alt="True Valley Travels"
+                className="h-8 w-8 object-contain rounded-full"
+                style={{ mixBlendMode: "screen" }}
+              />
+              <span className="font-serif text-white font-bold tracking-[0.18em] uppercase text-sm"
+                style={{ textShadow: "0 1px 8px rgba(0,0,0,0.8)" }}>
+                True Valley Travels
+              </span>
+            </div>
+            {/* Season eyebrow */}
             <AnimatePresence mode="wait">
-              <motion.span key={season} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
-                {isSummer ? "True Valley Travels — Kashmir in Summer" : "True Valley Travels — Kashmir in Winter"}
+              <motion.span
+                key={season}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
+                className="text-secondary text-[11px] font-bold tracking-[0.35em] uppercase"
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.8)" }}
+              >
+                {isSummer ? "Kashmir in Summer" : "Kashmir in Winter"}
               </motion.span>
             </AnimatePresence>
-          </motion.p>
+          </motion.div>
 
           <motion.div variants={{ hidden: { opacity: 0, y: 60, skewY: 3 }, visible: { opacity: 1, y: 0, skewY: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } } }}>
             <AnimatePresence mode="wait">

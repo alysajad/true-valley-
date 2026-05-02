@@ -23,14 +23,27 @@ export default function Footer() {
           {/* Brand with real logo */}
           <div className="lg:col-span-1">
             <div className="mb-5">
-              {/* Logo on white badge — shows full color on dark footer */}
-              <div className="inline-block bg-white rounded-lg p-2 shadow-md mb-1">
-                <img
-                  src="/logo.jpeg"
-                  alt="True Valley Travels"
-                  className="h-16 w-auto object-contain"
-                  style={{ mixBlendMode: "multiply" }}
-                />
+              {/* Logo + name on footer */}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="bg-white rounded-lg p-1.5 shadow-md shrink-0">
+                  <img
+                    src="/logo.jpeg"
+                    alt="True Valley Travels"
+                    className="h-12 w-auto object-contain"
+                    style={{ mixBlendMode: "multiply" }}
+                  />
+                </div>
+                <div className="flex flex-col leading-none">
+                  <span className="font-serif text-white font-bold text-lg uppercase tracking-wide leading-tight">
+                    True Valley
+                  </span>
+                  <span className="font-serif text-white font-bold text-lg uppercase tracking-wide leading-tight">
+                    Travels
+                  </span>
+                  <span className="text-secondary text-[9px] font-bold uppercase tracking-[0.3em] mt-1">
+                    Kashmir
+                  </span>
+                </div>
               </div>
             </div>
             <p className="text-white/65 text-sm leading-relaxed mb-7">

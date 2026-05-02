@@ -62,9 +62,18 @@ export default function WhyChooseUs() {
               <img
                 src="/logo.jpeg"
                 alt="True Valley Travels"
-                className="w-48 h-48 object-contain mb-6"
+                className="w-40 h-40 object-contain mb-5"
                 style={{ mixBlendMode: "multiply" }}
               />
+              <h3 className="font-serif text-2xl font-bold text-primary uppercase tracking-wide leading-tight mb-1">
+                True Valley
+              </h3>
+              <h3 className="font-serif text-2xl font-bold text-primary uppercase tracking-wide leading-tight mb-1">
+                Travels
+              </h3>
+              <p className="text-secondary text-[10px] font-bold uppercase tracking-[0.35em] mb-4">
+                Kashmir · Est. 2009
+              </p>
               <div className="w-10 h-0.5 bg-secondary mb-4" />
               <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
                 Kashmir's most trusted travel partner — crafting unforgettable Himalayan escapes since 2009.

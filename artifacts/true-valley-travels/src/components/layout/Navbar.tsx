@@ -39,30 +39,27 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Centered logo — real image */}
+          {/* Centered logo + brand name */}
           <Link href="/">
             <motion.div
-              className="flex flex-col items-center cursor-pointer select-none mx-6"
-              whileHover={{ scale: 1.03 }}
+              className="flex items-center gap-3 cursor-pointer select-none mx-6"
+              whileHover={{ scale: 1.02 }}
             >
               <img
                 src="/logo.jpeg"
                 alt="True Valley Travels"
-                className="h-[60px] w-auto object-contain"
+                className="h-[52px] w-auto object-contain shrink-0"
                 style={{ mixBlendMode: "multiply" }}
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                  if (fallback) fallback.style.display = "flex";
-                }}
               />
-              {/* Text fallback (hidden by default) */}
-              <div className="hidden flex-col items-center">
-                <span className="font-serif text-xl font-bold text-primary tracking-widest uppercase leading-none">
+              <div className="flex flex-col leading-none">
+                <span className="font-serif text-lg font-bold text-primary tracking-wide uppercase leading-none">
                   True Valley
                 </span>
-                <span className="text-[10px] tracking-[0.35em] text-secondary font-semibold uppercase mt-0.5">
-                  Travels — Kashmir
+                <span className="font-serif text-lg font-bold text-primary tracking-wide uppercase leading-none">
+                  Travels
+                </span>
+                <span className="text-[9px] tracking-[0.3em] text-secondary font-bold uppercase mt-1">
+                  Kashmir
                 </span>
               </div>
             </motion.div>
