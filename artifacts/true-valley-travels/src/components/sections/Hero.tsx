@@ -388,7 +388,7 @@ export default function Hero() {
               <motion.h1
                 key={`${season}-l1`}
                 className="font-serif font-bold leading-none text-secondary"
-                style={{ fontSize: "clamp(4.5rem, 18vw, 15rem)", lineHeight: 0.92, letterSpacing: "-0.01em" }}
+                style={{ fontSize: "clamp(3rem, 11vw, 9rem)", lineHeight: 0.92, letterSpacing: "-0.01em" }}
                 initial={{ opacity: 0, x: -50, skewX: -4 }}
                 animate={{ opacity: 1, x: 0, skewX: 0 }}
                 exit={{ opacity: 0, x: 50 }}
@@ -404,7 +404,7 @@ export default function Hero() {
               <motion.h2
                 key={`${season}-l2`}
                 className="font-serif font-bold leading-none text-white"
-                style={{ fontSize: "clamp(4rem, 16vw, 13rem)", lineHeight: 0.9, letterSpacing: "0.06em" }}
+                style={{ fontSize: "clamp(2.5rem, 10vw, 8rem)", lineHeight: 0.9, letterSpacing: "0.06em" }}
                 initial={{ opacity: 0, x: 50, skewX: 4 }}
                 animate={{ opacity: 1, x: 0, skewX: 0 }}
                 exit={{ opacity: 0, x: -50 }}
@@ -425,14 +425,14 @@ export default function Hero() {
                 {content.sub}
               </motion.p>
             </AnimatePresence>
-            <div className="flex gap-4 flex-wrap justify-center">
+            <div className="flex gap-6 flex-wrap justify-center">
               <motion.a href="#packages"
-                className="bg-secondary hover:bg-secondary/90 text-white px-8 py-3.5 text-sm font-semibold uppercase tracking-wider transition-colors"
+                className="bg-secondary hover:bg-secondary/90 text-white px-8 py-3.5 text-sm font-semibold uppercase tracking-wider border border-black/50 transition-colors"
                 whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
                 {isSummer ? "View Summer Tours" : "View Winter Tours"}
               </motion.a>
               <motion.a href="#destinations"
-                className="border-2 border-white/60 text-white px-8 py-3.5 text-sm font-semibold uppercase tracking-wider hover:bg-white/15 transition-colors"
+                className="border-2 border-black/60 text-white px-8 py-3.5 text-sm font-semibold uppercase tracking-wider hover:bg-white/15 transition-colors"
                 whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
                 Destinations
               </motion.a>

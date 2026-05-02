@@ -48,7 +48,7 @@ export default function Navbar() {
               <img
                 src="/logo.jpeg"
                 alt="True Valley Travels"
-                className="h-12 w-auto object-contain"
+                className="h-[60px] w-auto object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   const fallback = e.currentTarget.nextElementSibling as HTMLElement;
