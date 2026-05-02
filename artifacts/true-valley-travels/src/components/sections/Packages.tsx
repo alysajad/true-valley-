@@ -28,8 +28,8 @@ const summerPackages = [
   },
   {
     id: "s4", title: "Emperor's Retreat", tier: "Ultra-Luxury", price: "1,50,000", duration: "10D / 9N",
-    // Pahalgam — Betaab Valley with the Lidder River winding through pine & mountain
-    image: "https://images.unsplash.com/photo-1566559532215-a03e06e3dd5d?w=800&q=85&auto=format&fit=crop",
+    // Pahalgam — Betaab Valley aerial, lush pine valley with snow peaks behind
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=85&auto=format&fit=crop",
     fallback: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80",
     features: ["Private Mountain Villa", "Helicopter Valley Tour", "Personal Butler & Guide", "Bespoke Cultural Evenings"],
   },
