@@ -1,73 +1,88 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-// Fix Leaflet icons
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import { useSeason } from "@/context/SeasonContext";
 
-let DefaultIcon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+let DefaultIcon = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconSize: [25, 41], iconAnchor: [12, 41] });
 L.Marker.mergeOptions({ icon: DefaultIcon });
 
 const destinations = [
   {
     id: "dal-lake",
     name: "Dal Lake",
-    image: "/images/dest-dal-lake.png",
-    coords: [34.1100, 74.8722],
+    coords: [34.1100, 74.8722] as [number, number],
     distance: "0 km from Srinagar",
-    desc: "The jewel of Srinagar, Dal Lake is a sprawling, mirror-like body of water reflecting the Pir Panjal mountains. Life here moves at the gentle pace of a shikara oar. Wake up early to witness the vibrant floating vegetable market, a tradition that has continued for centuries.",
+    desc: "The jewel of Srinagar — a sprawling, mirror-like body of water reflecting the Pir Panjal mountains. Life here moves at the gentle pace of a shikara oar. Wake up early to witness the vibrant floating vegetable market, a centuries-old tradition.",
     nearby: ["Shankaracharya Temple", "Hazratbal Shrine", "Nigeen Lake"],
+    summerImg: "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=900&q=80&auto=format&fit=crop",
+    winterImg: "https://images.unsplash.com/photo-1542856391-010e81a9cb7d?w=900&q=80&auto=format&fit=crop",
+    summerTag: "Shikara & Houseboats",
+    winterTag: "Misty Winter Mornings",
   },
   {
     id: "gulmarg",
     name: "Gulmarg",
-    image: "/images/dest-gulmarg.png",
-    coords: [34.0484, 74.3805],
+    coords: [34.0484, 74.3805] as [number, number],
     distance: "56 km from Srinagar",
-    desc: "The 'Meadow of Flowers' transforms into Asia's premier ski destination in winter. Take the legendary Gulmarg Gondola to Mt. Apharwat for sweeping views of the Himalayas. In summer, it offers world-class trekking and the highest green golf course globally.",
-    nearby: ["Apharwat Peak", "Alather Lake", "Khilanmarg"],
+    desc: "The Meadow of Flowers transforms into Asia's premier ski destination each winter. Ride the legendary Gulmarg Gondola to Mt. Apharwat for sweeping Himalayan views. In summer it offers world-class trekking and the world's highest green golf course.",
+    nearby: ["Apharwat Peak", "Alather Lake", "Khilanmarg Meadow"],
+    summerImg: "/images/dest-gulmarg.png",
+    winterImg: "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=900&q=80&auto=format&fit=crop",
+    summerTag: "Meadows & Trekking",
+    winterTag: "Skiing & Gondola",
   },
   {
     id: "pahalgam",
     name: "Pahalgam",
-    image: "/images/dest-pahalgam.png",
-    coords: [34.0150, 75.3150],
+    coords: [34.0150, 75.3150] as [number, number],
     distance: "95 km from Srinagar",
-    desc: "Situated at the confluence of the streams flowing from Sheshnag Lake and the Lidder River. Pahalgam is a pristine valley of unspoiled beauty. It serves as the base camp for the Amarnath Yatra and offers some of the most scenic trout fishing and trekking routes.",
+    desc: "Situated at the confluence of mountain streams from Sheshnag Lake and the Lidder River, Pahalgam is a pristine valley of unspoiled beauty — the base for the Amarnath Yatra and home to the most scenic trout fishing routes in India.",
     nearby: ["Betaab Valley", "Aru Valley", "Baisaran"],
+    summerImg: "/images/dest-pahalgam.png",
+    winterImg: "https://images.unsplash.com/photo-1478827397896-7b7ccfc97d4a?w=900&q=80&auto=format&fit=crop",
+    summerTag: "River & Meadows",
+    winterTag: "Snow-Covered Valleys",
   },
   {
     id: "sonamarg",
     name: "Sonamarg",
-    image: "/images/dest-sonamarg.png",
-    coords: [34.3015, 75.2973],
+    coords: [34.3015, 75.2973] as [number, number],
     distance: "87 km from Srinagar",
-    desc: "The 'Meadow of Gold' sits against a backdrop of snowy mountains and clear blue skies. The Sindh River meanders through the valley, abundant with trout. It's the gateway to Ladakh and the starting point for trekking to the Thajiwas Glacier.",
+    desc: "The Meadow of Gold sits against a backdrop of snowy mountains and clear blue skies. The Sindh River meanders through the valley, abundant with trout. It is the gateway to Ladakh and the starting point for the trek to Thajiwas Glacier.",
     nearby: ["Thajiwas Glacier", "Zoji La Pass", "Vishansar Lake"],
+    summerImg: "/images/dest-sonamarg.png",
+    winterImg: "https://images.unsplash.com/photo-1516912481800-3b51b2f58e56?w=900&q=80&auto=format&fit=crop",
+    summerTag: "Alpine Meadow",
+    winterTag: "Frozen Wilderness",
   },
   {
     id: "yusmarg",
     name: "Yusmarg",
-    image: "/images/dest-yusmarg.png",
-    coords: [33.8322, 74.6644],
+    coords: [33.8322, 74.6644] as [number, number],
     distance: "47 km from Srinagar",
-    desc: "A quiet, lesser-known meadow surrounded by dense pine and fir forests. Yusmarg is perfect for those seeking absolute tranquility away from tourist crowds. The gentle slopes are ideal for picnicking and long, reflective walks.",
+    desc: "A quiet, lesser-known meadow surrounded by dense pine and fir forests — perfect for those seeking absolute tranquility away from tourist crowds. The gentle slopes are ideal for picnicking and long, reflective walks.",
     nearby: ["Doodh Ganga", "Nilnag Lake", "Charari Sharief"],
-  }
+    summerImg: "/images/dest-yusmarg.png",
+    winterImg: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=900&q=80&auto=format&fit=crop",
+    summerTag: "Pine Forest Trails",
+    winterTag: "Untouched Snow",
+  },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
 export default function Destinations() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { isSummer, season } = useSeason();
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -76,116 +91,203 @@ export default function Destinations() {
     return () => { emblaApi.off("select", onSelect); };
   }, [emblaApi]);
 
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
   const selectedDest = destinations[selectedIndex];
 
   return (
     <section id="destinations" className="py-24 bg-muted/30 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
-        
+
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
-            <span className="text-secondary font-medium tracking-widest uppercase text-sm block mb-4">
-              Explore the Valley
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground">
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6 }}
+              className="text-secondary font-semibold tracking-widest uppercase text-sm block mb-4"
+            >
+              {isSummer ? "Explore in Summer" : "Explore in Winter"}
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.65, delay: 0.1 }}
+              className="text-4xl md:text-5xl font-serif font-bold text-foreground"
+            >
               Iconic Destinations
-            </h2>
-            <p className="text-muted-foreground mt-6 text-lg">
-              Discover the most breathtaking locations in Kashmir, each with its own unique charm and story.
-            </p>
-          </div>
-          
-          <div className="flex gap-4">
-            <button 
-              onClick={() => emblaApi?.scrollPrev()}
-              className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-secondary hover:text-white hover:border-secondary transition-colors"
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-muted-foreground mt-4 text-base"
             >
-              ←
-            </button>
-            <button 
-              onClick={() => emblaApi?.scrollNext()}
-              className="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center hover:bg-secondary/90 transition-colors"
-            >
-              →
-            </button>
+              {isSummer
+                ? "Discover Kashmir in bloom — lush meadows, garden terraces, and shimmering lakes."
+                : "Kashmir under snow is a different world — silent forests, frozen falls, slopes of pure white."}
+            </motion.p>
           </div>
-        </div>
 
-        <div className="overflow-hidden cursor-grab active:cursor-grabbing pb-8" ref={emblaRef}>
-          <div className="flex -ml-4">
-            {destinations.map((dest, index) => (
-              <div 
-                key={dest.id} 
-                className="flex-[0_0_85%] md:flex-[0_0_60%] lg:flex-[0_0_40%] pl-4"
-                onClick={() => emblaApi?.scrollTo(index)}
-              >
-                <div className={`relative h-[60vh] rounded-xl overflow-hidden bg-white shadow-md transition-all duration-500 border-b-4 ${selectedIndex === index ? 'opacity-100 scale-100 border-secondary' : 'opacity-70 scale-95 border-transparent'}`}>
-                  <div className="h-[55%] relative">
-                    <img 
-                      src={dest.image} 
-                      alt={dest.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 h-[45%] flex flex-col">
-                    <h3 className="text-2xl font-serif font-bold text-foreground mb-2">{dest.name}</h3>
-                    <p className="text-secondary font-medium mb-4 text-sm uppercase tracking-wide">{dest.distance}</p>
-                    <p className="text-muted-foreground line-clamp-3 text-sm">{dest.desc}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Details Panel */}
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={selectedDest.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-            className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-12 bg-white rounded-xl shadow-lg p-8 md:p-12 border border-border"
+          <motion.div
+            className="flex gap-3"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6 }}
           >
-            <div className="lg:col-span-2 space-y-6">
-              <div className="flex items-center gap-3 text-secondary">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span className="font-medium tracking-wide">{selectedDest.distance}</span>
+            <motion.button
+              onClick={scrollPrev}
+              className="w-12 h-12 rounded-full border-2 border-border flex items-center justify-center text-foreground hover:border-secondary hover:text-secondary transition-colors"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </motion.button>
+            <motion.button
+              onClick={scrollNext}
+              className="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center hover:bg-secondary/90 transition-colors"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </motion.button>
+          </motion.div>
+        </div>
+
+        {/* Carousel */}
+        <div className="overflow-hidden cursor-grab active:cursor-grabbing pb-6" ref={emblaRef}>
+          <motion.div
+            className="flex -ml-4"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            {destinations.map((dest, index) => {
+              const isActive = selectedIndex === index;
+              const img = isSummer ? dest.summerImg : dest.winterImg;
+              const tag = isSummer ? dest.summerTag : dest.winterTag;
+              return (
+                <motion.div
+                  key={dest.id}
+                  className="flex-[0_0_85%] md:flex-[0_0_50%] lg:flex-[0_0_33%] pl-4"
+                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+                  onClick={() => emblaApi?.scrollTo(index)}
+                >
+                  <motion.div
+                    className="relative rounded-xl overflow-hidden bg-white shadow-md border-b-4 transition-all duration-500 cursor-pointer"
+                    style={{ borderColor: isActive ? "hsl(var(--secondary))" : "transparent" }}
+                    animate={{ opacity: isActive ? 1 : 0.62, scale: isActive ? 1 : 0.96 }}
+                    transition={{ duration: 0.4 }}
+                    whileHover={{ scale: isActive ? 1.01 : 0.98, opacity: 0.85 }}
+                  >
+                    <div className="h-56 relative overflow-hidden">
+                      <motion.img
+                        src={img}
+                        alt={dest.name}
+                        className="w-full h-full object-cover"
+                        whileHover={{ scale: 1.07 }}
+                        transition={{ duration: 0.5 }}
+                        onError={(e) => { e.currentTarget.src = isSummer ? dest.summerImg : dest.winterImg; }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                      <span className="absolute top-4 left-4 bg-secondary/90 text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
+                        {tag}
+                      </span>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-xl font-serif font-bold text-foreground mb-1">{dest.name}</h3>
+                      <p className="text-secondary font-semibold text-xs uppercase tracking-wide mb-3 flex items-center gap-1.5">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {dest.distance}
+                      </p>
+                      <p className="text-muted-foreground text-sm line-clamp-2">{dest.desc}</p>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+
+        {/* Dot indicators */}
+        <div className="flex justify-center gap-2 mb-12">
+          {destinations.map((_, i) => (
+            <motion.button
+              key={i}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className="rounded-full transition-all duration-300"
+              animate={{
+                width: selectedIndex === i ? 28 : 8,
+                backgroundColor: selectedIndex === i ? "hsl(var(--secondary))" : "hsl(var(--border))",
+                height: 8,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Detail panel */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${selectedDest.id}-${season}`}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.45 }}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-border"
+          >
+            <div className="lg:col-span-2 space-y-5">
+              <div className="flex items-center gap-2 text-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span className="font-semibold text-sm">{selectedDest.distance}</span>
               </div>
-              <h4 className="text-3xl font-serif font-bold text-foreground">{selectedDest.name} Overview</h4>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {selectedDest.desc}
-              </p>
-              
-              <div className="pt-6">
-                <h5 className="font-bold text-foreground uppercase tracking-widest text-sm mb-4">Nearby Attractions</h5>
-                <div className="flex flex-wrap gap-3">
-                  {selectedDest.nearby.map(place => (
-                    <span key={place} className="px-4 py-2 rounded-full border border-primary text-primary font-medium text-sm hover:bg-primary hover:text-white transition-colors cursor-pointer">
+              <h4 className="text-3xl font-serif font-bold text-foreground">{selectedDest.name}</h4>
+              <p className="text-muted-foreground leading-relaxed">{selectedDest.desc}</p>
+              <div className="pt-2">
+                <h5 className="font-bold text-foreground text-xs uppercase tracking-widest mb-3">Nearby Attractions</h5>
+                <div className="flex flex-wrap gap-2">
+                  {selectedDest.nearby.map((place) => (
+                    <motion.span
+                      key={place}
+                      className="px-4 py-1.5 rounded-full border border-primary text-primary font-medium text-sm hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+                      whileHover={{ scale: 1.04 }}
+                    >
                       {place}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
+              <motion.a
+                href="#contact"
+                className="inline-flex items-center gap-2 bg-secondary text-white px-6 py-3 rounded-md text-sm font-semibold mt-2"
+                whileHover={{ scale: 1.03, x: 2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Plan a Trip Here
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </motion.a>
             </div>
 
-            <div className="h-64 lg:h-full rounded-xl overflow-hidden bg-muted relative z-0">
-              <MapContainer 
-                center={selectedDest.coords as [number, number]} 
-                zoom={10} 
-                style={{ height: '100%', width: '100%' }}
+            <div className="h-64 lg:h-auto rounded-xl overflow-hidden border border-border relative z-0 min-h-[220px]">
+              <MapContainer
+                center={selectedDest.coords}
+                zoom={10}
+                style={{ height: "100%", width: "100%" }}
                 zoomControl={false}
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker position={selectedDest.coords as [number, number]}>
+                <Marker position={selectedDest.coords}>
                   <Popup>{selectedDest.name}</Popup>
                 </Marker>
               </MapContainer>
             </div>
           </motion.div>
         </AnimatePresence>
-
       </div>
     </section>
   );
