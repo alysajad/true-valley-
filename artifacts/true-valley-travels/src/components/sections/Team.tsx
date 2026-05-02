@@ -2,10 +2,34 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const team = [
-  { name: "Tariq Ahmad", role: "Founder & Head Guide", bio: "Born in Srinagar, Tariq's deep local roots make every journey authentic. 20+ years exploring Kashmir's every corner.", initials: "TA", img: "/images/team-1.png" },
-  { name: "Zoya Khan", role: "Guest Experience Director", bio: "Her hospitality background ensures every stay, meal, and transfer is executed with flawless attention to detail.", initials: "ZK", img: "/images/team-2.png" },
-  { name: "Irfan Mir", role: "Alpine & Ski Specialist", bio: "Certified mountain guide and ski instructor who has summited Apharwat over 200 times.", initials: "IM", img: "/images/team-3.png" },
-  { name: "Farooq Dar", role: "Cultural Liaison", bio: "Connects guests with artisans, musicians, and family kitchens — the authentic heart of Kashmiri culture.", initials: "FD", img: "/images/team-4.png" },
+  {
+    name: "Tariq Ahmad",
+    role: "Founder & Head Guide",
+    bio: "Born in Srinagar, Tariq's deep local roots make every journey authentic. 20+ years exploring Kashmir's every corner.",
+    initials: "TA",
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&auto=format&fit=crop&face",
+  },
+  {
+    name: "Zoya Khan",
+    role: "Guest Experience Director",
+    bio: "Her hospitality background ensures every stay, meal, and transfer is executed with flawless attention to detail.",
+    initials: "ZK",
+    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Irfan Mir",
+    role: "Alpine & Ski Specialist",
+    bio: "Certified mountain guide and ski instructor who has summited Apharwat over 200 times in all seasons.",
+    initials: "IM",
+    img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Farooq Dar",
+    role: "Cultural Liaison",
+    bio: "Connects guests with artisans, musicians, and family kitchens — the authentic heart of Kashmiri culture.",
+    initials: "FD",
+    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80&auto=format&fit=crop",
+  },
 ];
 
 export default function Team() {
@@ -25,7 +49,10 @@ export default function Team() {
           >
             The Faces of True Valley
           </motion.h2>
-          <motion.div className="w-12 h-0.5 bg-secondary mx-auto mt-5" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }} />
+          <motion.div
+            className="w-12 h-0.5 bg-secondary mx-auto mt-5"
+            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}
+          />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -39,14 +66,16 @@ export default function Team() {
               transition={{ duration: 0.6, delay: i * 0.1 }}
               whileHover={{ y: -6, boxShadow: "0 20px 50px rgba(0,0,0,0.12)" }}
             >
-              {/* Image area */}
+              {/* Photo */}
               <div className="h-64 relative overflow-hidden bg-primary/10">
-                <img
+                <motion.img
                   src={member.img}
                   alt={member.name}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover object-top"
+                  whileHover={{ scale: 1.06 }}
+                  transition={{ duration: 0.5 }}
                   onError={(e) => {
-                    const el = e.currentTarget;
+                    const el = e.currentTarget as HTMLImageElement;
                     el.style.display = "none";
                     const p = el.parentElement!;
                     const d = document.createElement("div");
@@ -55,10 +84,12 @@ export default function Team() {
                     p.appendChild(d);
                   }}
                 />
-                {/* Hover overlay with social icons */}
+                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-primary/80 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {["M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z",
-                    "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"].map((d, si) => (
+                  {[
+                    "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z",
+                    "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
+                  ].map((d, si) => (
                     <motion.a
                       key={si}
                       href="#"

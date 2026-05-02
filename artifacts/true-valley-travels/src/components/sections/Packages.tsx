@@ -18,13 +18,13 @@ const summerPackages = [
   },
   {
     id: "s3", title: "Garden & Peaks", tier: "Luxury", price: "75,000", duration: "7D / 6N",
-    image: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop",
     features: ["5-Star Resort Stays", "Exclusive Shikara Sunrise", "Sonamarg Day Trek", "Full-Board Fine Dining"],
     color: "#ffa11a",
   },
   {
     id: "s4", title: "Emperor's Retreat", tier: "Ultra-Luxury", price: "1,50,000", duration: "10D / 9N",
-    image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80&auto=format&fit=crop",
     features: ["Private Mountain Villa", "Helicopter Valley Tour", "Personal Butler & Guide", "Bespoke Cultural Evenings"],
     color: "#ffa11a",
   },
@@ -33,25 +33,29 @@ const summerPackages = [
 const winterPackages = [
   {
     id: "w1", title: "Snow Escapade", tier: "Budget", price: "18,000", duration: "4D / 3N",
-    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80&auto=format&fit=crop",
+    // Gulmarg snow-covered meadow / beginners sledding
+    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80&auto=format&fit=crop",
     features: ["Gulmarg Snow Walk", "Sledding & Ice Activities", "Standard Lodge Stay", "Hot Meals Included"],
     color: "#ffa11a",
   },
   {
     id: "w2", title: "Ski & Stay", tier: "Premium", price: "45,000", duration: "6D / 5N",
-    image: "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=800&q=80&auto=format&fit=crop",
+    // Ski slopes with skier in action
+    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80&auto=format&fit=crop",
     features: ["Beginner Ski Lessons", "Gulmarg Gondola Ride", "Luxury Lodge Stay", "Half-Board Meals"],
     popular: true, color: "#ffa11a",
   },
   {
     id: "w3", title: "White Kashmir", tier: "Luxury", price: "90,000", duration: "7D / 6N",
-    image: "https://images.unsplash.com/photo-1478827397896-7b7ccfc97d4a?w=800&q=80&auto=format&fit=crop",
+    // Snowy mountain landscape / frozen lake
+    image: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80&auto=format&fit=crop",
     features: ["5-Star Mountain Lodge", "Advanced Ski Coaching", "Frozen Lake Photography", "Full-Board Fine Dining"],
     color: "#ffa11a",
   },
   {
     id: "w4", title: "Maharaja Snow Retreat", tier: "Ultra-Luxury", price: "2,00,000", duration: "10D / 9N",
-    image: "https://images.unsplash.com/photo-1516912481800-3b51b2f58e56?w=800&q=80&auto=format&fit=crop",
+    // Alpine winter helicopter / snow-capped peaks aerial
+    image: "https://images.unsplash.com/photo-1418985991508-e47386d96a71?w=800&q=80&auto=format&fit=crop",
     features: ["Exclusive Private Chalet", "Helicopter to Apharwat", "Personal Butler & Ski Coach", "Bespoke Winter Experiences"],
     color: "#ffa11a",
   },
@@ -92,6 +96,7 @@ function TiltCard({ pkg, i }: { pkg: typeof summerPackages[0] & { popular?: bool
             className="w-full h-full object-cover"
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.55 }}
+            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80"; }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           {pkg.popular && (
@@ -118,7 +123,9 @@ function TiltCard({ pkg, i }: { pkg: typeof summerPackages[0] & { popular?: bool
           </div>
           <div className="border-t border-border pt-3 mb-4">
             <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Starting from</span>
-            <div className="text-2xl font-serif font-bold text-primary mt-0.5">₹{pkg.price}<span className="text-sm font-normal text-muted-foreground ml-1">/ person</span></div>
+            <div className="text-2xl font-serif font-bold text-primary mt-0.5">
+              ₹{pkg.price}<span className="text-sm font-normal text-muted-foreground ml-1">/ person</span>
+            </div>
           </div>
           <ul className="space-y-2 flex-1 mb-5">
             {pkg.features.map((f, fi) => (
@@ -153,7 +160,7 @@ export default function Packages() {
             className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
           >
-            Select Your Activity
+            {isSummer ? "Summer Packages" : "Winter Packages"}
           </motion.p>
           <motion.h2
             className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
