@@ -420,7 +420,9 @@ export default function Hero() {
             className="mt-8 flex flex-col items-center gap-5"
           >
             <AnimatePresence mode="wait">
-              <motion.p key={`${season}-sub`} className="text-white/75 text-base font-light max-w-xl leading-relaxed"
+              <motion.p key={`${season}-sub`}
+                className="text-white text-base font-medium max-w-xl leading-relaxed px-4 py-2 rounded"
+                style={{ textShadow: "0 1px 12px rgba(0,0,0,0.85), 0 2px 4px rgba(0,0,0,0.6)" }}
                 initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
                 {content.sub}
               </motion.p>
