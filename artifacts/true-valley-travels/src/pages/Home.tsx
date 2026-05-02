@@ -1,5 +1,4 @@
 import React from "react";
-import TopBar from "@/components/layout/TopBar";
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/sections/Hero";
 import SearchBar from "@/components/sections/SearchBar";
@@ -20,7 +19,6 @@ export default function Home() {
     <>
       <PageLoader />
       <div className="flex flex-col min-h-screen">
-        <TopBar />
         <Navbar />
         <main className="flex-1">
           <Hero />
