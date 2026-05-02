@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useSeason } from "@/context/SeasonContext";
+import React from "react";
+import { motion } from "framer-motion";
 
 const features = [
   { title: "Local Expertise", desc: "Born and raised in Kashmir — we know every hidden trail, shikara owner, and family-run wazwan kitchen in the valley.", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
@@ -12,15 +11,6 @@ const features = [
 ];
 
 export default function WhyChooseUs() {
-  const imgRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: imgRef, offset: ["start end", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const { isSummer } = useSeason();
-
-  const scenicImg = isSummer
-    ? "https://images.unsplash.com/photo-1597062232218-c875f79e9028?w=900&q=80&auto=format&fit=crop"
-    : "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?w=900&q=80&auto=format&fit=crop";
-
   return (
     <section id="our-story" className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
@@ -59,59 +49,26 @@ export default function WhyChooseUs() {
             ))}
           </div>
 
-          {/* Right column: logo showcase + scenic image */}
-          <motion.div ref={imgRef} className="relative"
+          {/* Right column: logo card only */}
+          <motion.div className="relative"
             initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.8 }}>
 
-            {/* Logo display card — prominent above image */}
+            {/* Logo card — white background, single image */}
             <motion.div
-              className="bg-primary p-8 mb-4 flex flex-col items-center text-center relative overflow-hidden"
+              className="bg-white border border-border/60 shadow-md p-12 flex flex-col items-center text-center"
               whileHover={{ scale: 1.01 }}
             >
-              {/* Subtle pattern overlay */}
-              <div className="absolute inset-0 opacity-5">
-                <svg width="100%" height="100%" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid slice">
-                  <defs>
-                    <pattern id="aboutPat" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                      <circle cx="10" cy="10" r="0.8" fill="white"/>
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#aboutPat)"/>
-                </svg>
-              </div>
-              <div className="relative z-10 flex flex-col items-center">
-                <img
-                  src="/logo.jpeg"
-                  alt="True Valley Travels"
-                  className="h-32 w-auto object-contain mb-4"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                    const fb = e.currentTarget.nextElementSibling as HTMLElement;
-                    if (fb) fb.style.display = "flex";
-                  }}
-                />
-                {/* Text fallback */}
-                <div className="hidden items-center justify-center mb-4">
-                  <span className="font-serif font-bold text-3xl text-white uppercase tracking-widest">True Valley</span>
-                </div>
-                <div className="w-8 h-0.5 bg-secondary mb-3" />
-                <p className="text-white/65 text-sm leading-relaxed max-w-xs">
-                  Kashmir's most trusted travel partner — crafting unforgettable Himalayan escapes since 2009.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Scenic photo below logo */}
-            <div className="aspect-[16/9] overflow-hidden">
-              <motion.img
-                src={scenicImg}
-                alt="Kashmir experience"
-                className="w-full h-[115%] object-cover object-center"
-                style={{ y: imgY }}
-                onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=900&q=80"; }}
+              <img
+                src="/logo.jpeg"
+                alt="True Valley Travels"
+                className="w-48 h-48 object-contain mb-6"
               />
-            </div>
+              <div className="w-10 h-0.5 bg-secondary mb-4" />
+              <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
+                Kashmir's most trusted travel partner — crafting unforgettable Himalayan escapes since 2009.
+              </p>
+            </motion.div>
 
             {/* Stat card overlay */}
             <motion.div
