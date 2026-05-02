@@ -17,32 +17,25 @@ export default function WhyChooseUs() {
   const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
   const { isSummer } = useSeason();
 
-  const img = isSummer
+  const scenicImg = isSummer
     ? "https://images.unsplash.com/photo-1597062232218-c875f79e9028?w=900&q=80&auto=format&fit=crop"
     : "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?w=900&q=80&auto=format&fit=crop";
 
   return (
-    <section id="our-story" className="py-24 bg-muted/25 overflow-hidden">
+    <section id="our-story" className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
 
-        {/* Section label */}
         <div className="text-center mb-16">
-          <motion.p
-            className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
-            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-          >
+          <motion.p className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
             Value Before Business
           </motion.p>
-          <motion.h2
-            className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}
-          >
+          <motion.h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}>
             We Offer The Best
           </motion.h2>
-          <motion.div
-            className="w-12 h-0.5 bg-secondary mx-auto mt-5"
-            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}
-          />
+          <motion.div className="w-12 h-0.5 bg-secondary mx-auto mt-5"
+            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -50,18 +43,12 @@ export default function WhyChooseUs() {
           {/* Features grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             {features.map((f, i) => (
-              <motion.div
-                key={i}
-                className="group space-y-3"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.55, delay: i * 0.08 }}
-              >
+              <motion.div key={i} className="group space-y-3"
+                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.55, delay: i * 0.08 }}>
                 <motion.div
                   className="w-14 h-14 border-2 border-secondary/30 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:border-secondary group-hover:text-white transition-all duration-300"
-                  whileHover={{ scale: 1.06, rotate: 5 }}
-                >
+                  whileHover={{ scale: 1.06, rotate: 5 }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d={f.icon} />
                   </svg>
@@ -72,46 +59,76 @@ export default function WhyChooseUs() {
             ))}
           </div>
 
-          {/* Parallax image */}
-          <motion.div
-            ref={imgRef}
-            className="relative"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="aspect-[4/5] overflow-hidden">
+          {/* Right column: logo showcase + scenic image */}
+          <motion.div ref={imgRef} className="relative"
+            initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.8 }}>
+
+            {/* Logo display card — prominent above image */}
+            <motion.div
+              className="bg-primary p-8 mb-4 flex flex-col items-center text-center relative overflow-hidden"
+              whileHover={{ scale: 1.01 }}
+            >
+              {/* Subtle pattern overlay */}
+              <div className="absolute inset-0 opacity-5">
+                <svg width="100%" height="100%" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid slice">
+                  <defs>
+                    <pattern id="aboutPat" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <circle cx="10" cy="10" r="0.8" fill="white"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#aboutPat)"/>
+                </svg>
+              </div>
+              <div className="relative z-10 flex flex-col items-center">
+                <img
+                  src="/logo.jpeg"
+                  alt="True Valley Travels"
+                  className="h-32 w-auto object-contain mb-4"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    const fb = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (fb) fb.style.display = "flex";
+                  }}
+                />
+                {/* Text fallback */}
+                <div className="hidden items-center justify-center mb-4">
+                  <span className="font-serif font-bold text-3xl text-white uppercase tracking-widest">True Valley</span>
+                </div>
+                <div className="w-8 h-0.5 bg-secondary mb-3" />
+                <p className="text-white/65 text-sm leading-relaxed max-w-xs">
+                  Kashmir's most trusted travel partner — crafting unforgettable Himalayan escapes since 2009.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Scenic photo below logo */}
+            <div className="aspect-[16/9] overflow-hidden">
               <motion.img
-                src={img}
+                src={scenicImg}
                 alt="Kashmir experience"
                 className="w-full h-[115%] object-cover object-center"
                 style={{ y: imgY }}
+                onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=900&q=80"; }}
               />
             </div>
 
-            {/* Overlay stat card */}
+            {/* Stat card overlay */}
             <motion.div
               className="absolute -bottom-6 -left-6 bg-secondary text-white p-7 max-w-[210px]"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.45, duration: 0.6, type: "spring" }}
-              whileHover={{ scale: 1.04, rotate: -1 }}
-            >
+              initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }} transition={{ delay: 0.45, duration: 0.6, type: "spring" }}
+              whileHover={{ scale: 1.04, rotate: -1 }}>
               <div className="text-4xl font-serif font-bold mb-1">15+</div>
               <div className="text-xs font-semibold uppercase tracking-wider text-white/85">Years crafting perfect Himalayan escapes</div>
             </motion.div>
 
             {/* Rating badge */}
             <motion.div
-              className="absolute -top-4 -right-4 bg-white p-4 shadow-xl border border-border"
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6, type: "spring" }}
-              whileHover={{ scale: 1.06, rotate: 3 }}
-            >
+              className="absolute top-4 -right-4 bg-white p-4 shadow-xl border border-border"
+              initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: 0.6, type: "spring" }}
+              whileHover={{ scale: 1.06, rotate: 3 }}>
               <div className="text-2xl font-serif font-bold text-primary">4.9</div>
               <div className="flex gap-0.5 my-1">
                 {[...Array(5)].map((_, i) => (

@@ -39,18 +39,31 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Centered logo */}
+          {/* Centered logo — real image */}
           <Link href="/">
             <motion.div
               className="flex flex-col items-center cursor-pointer select-none mx-6"
               whileHover={{ scale: 1.03 }}
             >
-              <span className="font-serif text-xl font-bold text-primary tracking-widest uppercase leading-none">
-                True Valley
-              </span>
-              <span className="text-[10px] tracking-[0.35em] text-secondary font-semibold uppercase mt-0.5">
-                Travels — Kashmir
-              </span>
+              <img
+                src="/logo.jpeg"
+                alt="True Valley Travels"
+                className="h-12 w-auto object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = "flex";
+                }}
+              />
+              {/* Text fallback (hidden by default) */}
+              <div className="hidden flex-col items-center">
+                <span className="font-serif text-xl font-bold text-primary tracking-widest uppercase leading-none">
+                  True Valley
+                </span>
+                <span className="text-[10px] tracking-[0.35em] text-secondary font-semibold uppercase mt-0.5">
+                  Travels — Kashmir
+                </span>
+              </div>
             </motion.div>
           </Link>
 
@@ -70,10 +83,7 @@ export default function Navbar() {
           </nav>
 
           {/* Mobile toggle */}
-          <button
-            className="lg:hidden p-2 text-primary"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+          <button className="lg:hidden p-2 text-primary" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -91,20 +101,13 @@ export default function Navbar() {
           >
             <div className="container px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="py-2.5 px-3 text-sm font-semibold uppercase tracking-wider text-foreground hover:text-secondary border-b border-border/50 transition-colors"
-                >
+                <a key={link.label} href={link.href} onClick={() => setIsOpen(false)}
+                  className="py-2.5 px-3 text-sm font-semibold uppercase tracking-wider text-foreground hover:text-secondary border-b border-border/50 transition-colors">
                   {link.label}
                 </a>
               ))}
-              <a
-                href="#contact"
-                className="mt-3 bg-secondary text-white text-center py-3 font-semibold uppercase tracking-wider text-sm"
-                onClick={() => setIsOpen(false)}
-              >
+              <a href="#contact" className="mt-3 bg-secondary text-white text-center py-3 font-semibold uppercase tracking-wider text-sm"
+                onClick={() => setIsOpen(false)}>
                 Book Now
               </a>
             </div>

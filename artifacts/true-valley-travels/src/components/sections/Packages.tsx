@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Check, Star } from "lucide-react";
+import { Check, Clock, Star } from "lucide-react";
 import { useSeason } from "@/context/SeasonContext";
 
 const summerPackages = [
@@ -8,88 +8,87 @@ const summerPackages = [
     id: "s1", title: "Valley Essential", tier: "Budget", price: "15,000", duration: "4D / 3N",
     image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80&auto=format&fit=crop",
     features: ["Mughal Gardens & Nishat Bagh", "Standard Hotel Stay", "Shikara Ride on Dal Lake", "Breakfast Included"],
-    color: "#ffa11a",
   },
   {
     id: "s2", title: "Kashmir Classic", tier: "Premium", price: "35,000", duration: "6D / 5N",
     image: "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=800&q=80&auto=format&fit=crop",
     features: ["Heritage Houseboat Stay", "Pahalgam River Walk", "Gondola Ride Gulmarg", "Half-Board Meals"],
-    popular: true, color: "#ffa11a",
+    popular: true,
   },
   {
     id: "s3", title: "Garden & Peaks", tier: "Luxury", price: "75,000", duration: "7D / 6N",
     image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop",
     features: ["5-Star Resort Stays", "Exclusive Shikara Sunrise", "Sonamarg Day Trek", "Full-Board Fine Dining"],
-    color: "#ffa11a",
   },
   {
     id: "s4", title: "Emperor's Retreat", tier: "Ultra-Luxury", price: "1,50,000", duration: "10D / 9N",
     image: "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80&auto=format&fit=crop",
     features: ["Private Mountain Villa", "Helicopter Valley Tour", "Personal Butler & Guide", "Bespoke Cultural Evenings"],
-    color: "#ffa11a",
   },
 ];
 
 const winterPackages = [
   {
     id: "w1", title: "Snow Escapade", tier: "Budget", price: "18,000", duration: "4D / 3N",
-    // Gulmarg snow-covered meadow / beginners sledding
     image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80&auto=format&fit=crop",
     features: ["Gulmarg Snow Walk", "Sledding & Ice Activities", "Standard Lodge Stay", "Hot Meals Included"],
-    color: "#ffa11a",
   },
   {
     id: "w2", title: "Ski & Stay", tier: "Premium", price: "45,000", duration: "6D / 5N",
-    // Ski slopes with skier in action
     image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80&auto=format&fit=crop",
     features: ["Beginner Ski Lessons", "Gulmarg Gondola Ride", "Luxury Lodge Stay", "Half-Board Meals"],
-    popular: true, color: "#ffa11a",
+    popular: true,
   },
   {
     id: "w3", title: "White Kashmir", tier: "Luxury", price: "90,000", duration: "7D / 6N",
-    // Snowy mountain landscape / frozen lake
     image: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80&auto=format&fit=crop",
     features: ["5-Star Mountain Lodge", "Advanced Ski Coaching", "Frozen Lake Photography", "Full-Board Fine Dining"],
-    color: "#ffa11a",
   },
   {
     id: "w4", title: "Maharaja Snow Retreat", tier: "Ultra-Luxury", price: "2,00,000", duration: "10D / 9N",
-    // Alpine winter helicopter / snow-capped peaks aerial
     image: "https://images.unsplash.com/photo-1418985991508-e47386d96a71?w=800&q=80&auto=format&fit=crop",
     features: ["Exclusive Private Chalet", "Helicopter to Apharwat", "Personal Butler & Ski Coach", "Bespoke Winter Experiences"],
-    color: "#ffa11a",
   },
 ];
 
+/* Tier → accent color map: Budget=green-teal, Premium=primary (navy), Luxury=purple, Ultra-Luxury=secondary (orange) */
+const TIER_STYLE: Record<string, { badge: string; accent: string }> = {
+  "Budget":       { badge: "bg-emerald-600 text-white",   accent: "border-emerald-500" },
+  "Premium":      { badge: "bg-primary text-white",       accent: "border-primary" },
+  "Luxury":       { badge: "bg-violet-700 text-white",    accent: "border-violet-600" },
+  "Ultra-Luxury": { badge: "bg-secondary text-white",     accent: "border-secondary" },
+};
+
 function TiltCard({ pkg, i }: { pkg: typeof summerPackages[0] & { popular?: boolean }; i: number }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rx = useTransform(useSpring(y, { stiffness: 180, damping: 22 }), [-0.5, 0.5], ["7deg", "-7deg"]);
-  const ry = useTransform(useSpring(x, { stiffness: 180, damping: 22 }), [-0.5, 0.5], ["-7deg", "7deg"]);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rx = useTransform(useSpring(my, { stiffness: 180, damping: 22 }), [-0.5, 0.5], ["6deg", "-6deg"]);
+  const ry = useTransform(useSpring(mx, { stiffness: 180, damping: 22 }), [-0.5, 0.5], ["-6deg", "6deg"]);
+  const tier = TIER_STYLE[pkg.tier] ?? TIER_STYLE["Budget"];
 
   return (
     <motion.div
       className="h-full"
-      style={{ perspective: 1000 }}
+      style={{ perspective: 1100 }}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.12 }}
       transition={{ duration: 0.65, delay: i * 0.1 }}
     >
       <motion.div
-        className="h-full bg-white group cursor-pointer border border-border overflow-hidden flex flex-col"
+        className={`h-full bg-white group cursor-pointer flex flex-col border-t-4 ${tier.accent} shadow-sm`}
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
         onMouseMove={(e) => {
           const r = e.currentTarget.getBoundingClientRect();
-          x.set((e.clientX - r.left) / r.width - 0.5);
-          y.set((e.clientY - r.top) / r.height - 0.5);
+          mx.set((e.clientX - r.left) / r.width - 0.5);
+          my.set((e.clientY - r.top) / r.height - 0.5);
         }}
-        onMouseLeave={() => { x.set(0); y.set(0); }}
-        whileHover={{ boxShadow: "0 24px 60px rgba(0,0,0,0.18)", y: -8 }}
+        onMouseLeave={() => { mx.set(0); my.set(0); }}
+        whileHover={{ boxShadow: "0 28px 64px rgba(25,53,85,0.16)", y: -8 }}
         transition={{ duration: 0.3 }}
       >
         {/* Image */}
-        <div className="relative h-52 overflow-hidden" style={{ transform: "translateZ(20px)" }}>
+        <div className="relative h-48 overflow-hidden" style={{ transform: "translateZ(18px)" }}>
           <motion.img
             src={pkg.image}
             alt={pkg.title}
@@ -98,46 +97,61 @@ function TiltCard({ pkg, i }: { pkg: typeof summerPackages[0] & { popular?: bool
             transition={{ duration: 0.55 }}
             onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=800&q=80"; }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-          {pkg.popular && (
-            <span className="absolute top-3 right-3 bg-primary text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1">
-              Most Popular
-            </span>
-          )}
-          <span className="absolute top-3 left-3 bg-secondary text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+          {/* Tier badge — top left */}
+          <span className={`absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 ${tier.badge}`}>
             {pkg.tier}
           </span>
-          <div className="absolute bottom-3 left-4 text-white">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, s) => <Star key={s} size={12} fill="currentColor" className="text-secondary" />)}
-            </div>
+
+          {/* Popular badge — top right */}
+          {pkg.popular && (
+            <span className="absolute top-3 right-3 bg-secondary text-white text-[9px] font-bold uppercase tracking-wider px-2.5 py-1">
+              ★ Most Popular
+            </span>
+          )}
+
+          {/* Duration on image */}
+          <div className="absolute bottom-3 left-3 flex items-center gap-1.5 text-white">
+            <Clock size={11} className="opacity-80"/>
+            <span className="text-[11px] font-semibold">{pkg.duration}</span>
+          </div>
+
+          {/* Stars — bottom right */}
+          <div className="absolute bottom-3 right-3 flex gap-0.5">
+            {[...Array(5)].map((_, s) => <Star key={s} size={10} fill="#ffa11a" className="text-secondary" />)}
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-5 flex flex-col flex-1" style={{ transform: "translateZ(30px)" }}>
-          <h3 className="text-lg font-serif font-bold text-foreground uppercase tracking-wide mb-1">{pkg.title}</h3>
-          <div className="flex items-center gap-1.5 text-muted-foreground text-xs mb-3">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {pkg.duration}
+        <div className="p-5 flex flex-col flex-1" style={{ transform: "translateZ(28px)" }}>
+          {/* Title */}
+          <h3 className="text-base font-serif font-bold text-primary uppercase tracking-wide mb-3 leading-tight">
+            {pkg.title}
+          </h3>
+
+          {/* Price block */}
+          <div className="flex items-baseline gap-1.5 mb-4 pb-4 border-b border-border">
+            <span className="text-[11px] text-muted-foreground font-medium">from</span>
+            <span className="text-2xl font-serif font-bold text-secondary">₹{pkg.price}</span>
+            <span className="text-xs text-muted-foreground">/ person</span>
           </div>
-          <div className="border-t border-border pt-3 mb-4">
-            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Starting from</span>
-            <div className="text-2xl font-serif font-bold text-primary mt-0.5">
-              ₹{pkg.price}<span className="text-sm font-normal text-muted-foreground ml-1">/ person</span>
-            </div>
-          </div>
+
+          {/* Features */}
           <ul className="space-y-2 flex-1 mb-5">
             {pkg.features.map((f, fi) => (
-              <li key={fi} className="flex items-start gap-2 text-muted-foreground text-xs">
-                <Check size={13} className="text-secondary shrink-0 mt-0.5" />{f}
+              <li key={fi} className="flex items-start gap-2 text-muted-foreground text-[12px]">
+                <Check size={13} className="text-secondary shrink-0 mt-0.5" />
+                {f}
               </li>
             ))}
           </ul>
+
+          {/* CTA */}
           <motion.a
             href="#contact"
-            className="block w-full text-center bg-primary text-white py-3 text-xs font-bold uppercase tracking-widest hover:bg-secondary transition-colors"
-            whileHover={{ letterSpacing: "0.25em" }}
+            className="block w-full text-center bg-primary text-white py-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-secondary transition-colors duration-300"
+            whileHover={{ letterSpacing: "0.26em" }}
             transition={{ duration: 0.2 }}
           >
             Enquire Now
@@ -153,25 +167,23 @@ export default function Packages() {
   const pkgs = isSummer ? summerPackages : winterPackages;
 
   return (
-    <section id="packages" className="py-24 bg-background">
+    <section id="packages" className="py-24 bg-muted/20">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
-          <motion.p
-            className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
-            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-          >
+          <motion.p className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
             {isSummer ? "Summer Packages" : "Winter Packages"}
           </motion.p>
-          <motion.h2
-            className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}
-          >
+          <motion.h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}>
             {isSummer ? "Explore Kashmir Packages" : "Winter Tour Packages"}
           </motion.h2>
-          <motion.div
-            className="w-12 h-0.5 bg-secondary mx-auto mt-5"
-            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}
-          />
+          <motion.div className="w-12 h-0.5 bg-secondary mx-auto mt-5"
+            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }} />
+          <motion.p className="text-muted-foreground text-sm mt-4 max-w-xl mx-auto"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
+            Every itinerary is crafted around your pace — from budget explorers to ultra-luxury seekers.
+          </motion.p>
         </div>
 
         <motion.div

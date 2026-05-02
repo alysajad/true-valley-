@@ -17,14 +17,28 @@ const cols = {
 export default function Footer() {
   return (
     <footer className="bg-primary text-white/70">
-      {/* Main footer */}
       <div className="container mx-auto px-4 md:px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12 pb-12 border-b border-white/10">
 
-          {/* Brand */}
+          {/* Brand with real logo */}
           <div className="lg:col-span-1">
-            <h3 className="font-serif font-bold text-2xl text-white uppercase tracking-widest mb-2">True Valley</h3>
-            <p className="text-secondary font-semibold text-[10px] uppercase tracking-[0.35em] mb-5">Travels — Kashmir</p>
+            <div className="mb-5">
+              <img
+                src="/logo.jpeg"
+                alt="True Valley Travels"
+                className="h-20 w-auto object-contain brightness-0 invert opacity-90"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = "block";
+                }}
+              />
+              {/* Text fallback */}
+              <div style={{ display: "none" }}>
+                <h3 className="font-serif font-bold text-2xl text-white uppercase tracking-widest mb-1">True Valley</h3>
+                <p className="text-secondary font-semibold text-[10px] uppercase tracking-[0.35em]">Travels — Kashmir</p>
+              </div>
+            </div>
             <p className="text-sm leading-relaxed mb-7">
               Curated immersive journeys through the world's most breathtaking valley. Experience Kashmir not as a tourist, but as a cherished guest.
             </p>
@@ -44,7 +58,7 @@ export default function Footer() {
           {/* Link columns */}
           {Object.entries(cols).map(([heading, links]) => (
             <div key={heading}>
-              <h4 className="font-serif font-bold text-white uppercase tracking-widest text-xs mb-6">{heading}</h4>
+              <h4 className="font-serif font-bold text-white uppercase tracking-widest text-xs mb-6 pb-3 border-b border-white/10">{heading}</h4>
               <ul className="space-y-3">
                 {links.map((l) => (
                   <li key={l.label}>
@@ -60,7 +74,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-serif font-bold text-white uppercase tracking-widest text-xs mb-6">Contact</h4>
+            <h4 className="font-serif font-bold text-white uppercase tracking-widest text-xs mb-6 pb-3 border-b border-white/10">Contact</h4>
             <ul className="space-y-4 text-sm">
               {[
                 { icon: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0-6 0", text: "Srinagar, J&K, India" },
@@ -73,6 +87,15 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+            {/* Small trust badge */}
+            <div className="mt-6 pt-5 border-t border-white/10">
+              <div className="text-[10px] uppercase tracking-widest text-white/35 mb-2">Certified & Trusted</div>
+              <div className="flex gap-2 flex-wrap">
+                {["Govt. of J&K", "IATO Member", "SSL Secure"].map((badge) => (
+                  <span key={badge} className="text-[9px] border border-white/15 text-white/45 px-2 py-0.5 uppercase tracking-wide">{badge}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
