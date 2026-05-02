@@ -6,12 +6,23 @@ export default function PageLoader() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const MIN_MS = 2200; // guarantee at least 2.2 s of loader
+    const start = Date.now();
     let cur = 0;
+
     const iv = setInterval(() => {
-      cur = Math.min(cur + Math.random() * 28 + 15, 100);
+      // small, variable increments so the bar feels organic and takes ~1.8-2 s
+      cur = Math.min(cur + Math.random() * 5 + 2.5, 100);
       setProgress(cur);
-      if (cur >= 100) { clearInterval(iv); setTimeout(() => setLoading(false), 200); }
-    }, 40);
+
+      if (cur >= 100) {
+        clearInterval(iv);
+        const elapsed = Date.now() - start;
+        const remaining = Math.max(0, MIN_MS - elapsed);
+        setTimeout(() => setLoading(false), remaining + 350); // +350 for exit fade
+      }
+    }, 60);
+
     return () => clearInterval(iv);
   }, []);
 
