@@ -316,7 +316,7 @@ export default function Hero() {
         className="absolute inset-0 z-0 overflow-hidden will-change-transform"
         style={{ y: bgY }}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.div
             key={season}
             className="absolute inset-0"
@@ -419,7 +419,7 @@ export default function Hero() {
                 style={{ fontSize: "clamp(2.4rem, 13vw, 9rem)", lineHeight: 0.92, letterSpacing: "-0.01em" }}
                 initial={{ opacity: 0, x: -50, skewX: -4 }}
                 animate={{ opacity: 1, x: 0, skewX: 0 }}
-                exit={{ opacity: 0, x: 50 }}
+                exit={{ opacity: 0, x: 50, transition: { duration: 0.15 } }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
                 {content.line1}
@@ -435,7 +435,7 @@ export default function Hero() {
                 style={{ fontSize: "clamp(2rem, 11.5vw, 8rem)", lineHeight: 0.9, letterSpacing: "0.06em" }}
                 initial={{ opacity: 0, x: 50, skewX: 4 }}
                 animate={{ opacity: 1, x: 0, skewX: 0 }}
-                exit={{ opacity: 0, x: -50 }}
+                exit={{ opacity: 0, x: -50, transition: { duration: 0.15 } }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
                 {content.line2}

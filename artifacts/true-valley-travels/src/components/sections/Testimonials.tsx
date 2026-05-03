@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useScroll, useTransform } from "framer-motion";
 
 const reviews = [
-  { text: "True Valley gave us an experience we'll cherish forever. From the luxurious houseboat on Dal Lake at sunrise to our private guide in Pahalgam — every single detail was considered and flawless.", name: "Sarah & James Jenkins", location: "London, UK", package: "Kashmir Classic", initials: "SJ" },
-  { text: "We wanted authenticity without sacrificing comfort. Tariq and his team delivered beyond all expectations. The floating vegetable market at dawn, the wazwan dinner with a local family — truly incredible.", name: "Amit Sharma", location: "Mumbai, India", package: "Valley Essential", initials: "AS" },
-  { text: "The Emperor's Retreat package was worth every rupee. Helicopter transfers through the valley, a private butler, and Himalayan views from our villa that I'll never forget. World-class service.", name: "Elena Rodriguez", location: "Dubai, UAE", package: "Emperor's Retreat", initials: "ER" },
-  { text: "Gulmarg in winter is unlike anything I've ever seen. The ski instruction was top-notch, the gondola ride breathtaking. True Valley made it seamless and memorable from start to finish.", name: "Mikael Lindstrom", location: "Stockholm, Sweden", package: "Ski & Stay", initials: "ML" },
+  { text: "True Valley gave us an experience we'll cherish forever. Abuzar personally ensured our houseboat on Dal Lake was perfect. Every single detail was considered and flawless.", name: "Sarah & James Jenkins", location: "London, UK", package: "Kashmir Classic", initials: "SJ" },
+  { text: "We wanted authenticity without sacrificing comfort. Iqra Bashir designed an itinerary that delivered beyond all expectations. The floating vegetable market at dawn was incredible.", name: "Amit Sharma", location: "Mumbai, India", package: "Valley Essential", initials: "AS" },
+  { text: "The Emperor's Retreat package was worth every rupee. Abuzar and his team provided world-class service. Helicopter transfers through the valley, a private butler, and Himalayan views I'll never forget.", name: "Elena Rodriguez", location: "Dubai, UAE", package: "Emperor's Retreat", initials: "ER" },
+  { text: "Gulmarg in winter is unlike anything I've ever seen. Iqra made sure our ski instruction and gondola rides were booked perfectly. True Valley made it seamless from start to finish.", name: "Mikael Lindstrom", location: "Stockholm, Sweden", package: "Ski & Stay", initials: "ML" },
 ];
 
 export default function Testimonials() {

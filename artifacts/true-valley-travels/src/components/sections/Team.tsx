@@ -3,33 +3,19 @@ import { motion } from "framer-motion";
 
 const team = [
   {
-    name: "Tariq Ahmad",
-    role: "Founder & Head Guide",
-    bio: "Born in Srinagar, Tariq's deep local roots make every journey authentic. 20+ years exploring Kashmir's every corner.",
-    initials: "TA",
-    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&auto=format&fit=crop&face",
+    name: "Abuzar",
+    role: "Founder",
+    bio: "Passionate about crafting unforgettable Kashmir experiences and bringing True Valley Travels to life.",
+    initials: "AB",
+    img: "/abuzar.jpg.jpeg",
   },
   {
-    name: "Zoya Khan",
-    role: "Guest Experience Director",
-    bio: "Her hospitality background ensures every stay, meal, and transfer is executed with flawless attention to detail.",
-    initials: "ZK",
-    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80&auto=format&fit=crop",
-  },
-  {
-    name: "Irfan Mir",
-    role: "Alpine & Ski Specialist",
-    bio: "Certified mountain guide and ski instructor who has summited Apharwat over 200 times in all seasons.",
-    initials: "IM",
-    img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80&auto=format&fit=crop",
-  },
-  {
-    name: "Farooq Dar",
-    role: "Cultural Liaison",
-    bio: "Connects guests with artisans, musicians, and family kitchens — the authentic heart of Kashmiri culture.",
-    initials: "FD",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80&auto=format&fit=crop",
-  },
+    name: "Iqra Bashir",
+    role: "Sales Lead",
+    bio: "Dedicated to ensuring every guest has a seamless, personalized itinerary matched perfectly to their dreams.",
+    initials: "IB",
+    img: "/iqra.jpg",
+  }
 ];
 
 export default function Team() {
@@ -55,7 +41,7 @@ export default function Team() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {team.map((member, i) => (
             <motion.div
               key={i}
