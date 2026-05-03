@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useSeason } from "@/context/SeasonContext";
 
-// Summer: Kashmir valley in full bloom — bright green meadows, Pir Panjal peaks
-const SUMMER_BG = "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=90&auto=format&fit=crop";
+// Summer: Dal Lake with shikara boat — user-supplied hero image
+const SUMMER_BG = "/hero_summer_dal.jpg";
 // Winter: Gulmarg Gondola station with snow-blanketed Himalayan slopes
 const WINTER_BG = "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=1920&q=90&auto=format&fit=crop";
 
@@ -73,12 +73,12 @@ function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
               />
             ))}
 
-            {/* Horizon haze glow — warm orange */}
+            {/* Horizon haze glow — cool teal to match Dal Lake water */}
             <defs>
               <linearGradient id="hazeSum" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="transparent" />
-                <stop offset="70%" stopColor="transparent" />
-                <stop offset="100%" stopColor="rgba(255,140,20,0.12)" />
+                <stop offset="60%" stopColor="transparent" />
+                <stop offset="100%" stopColor="rgba(20,90,80,0.18)" />
               </linearGradient>
             </defs>
             <rect x="0" y="0" width="1440" height="800" fill="url(#hazeSum)" />
@@ -286,8 +286,12 @@ export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const { isSummer, season } = useSeason();
   const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 700], [0, 180]);
-  const textY = useTransform(scrollY, [0, 500], [0, -80]);
+
+  // Disable parallax on mobile — it causes the image to shift out of its
+  // container and look distorted / overly enlarged on small screens.
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const bgY    = useTransform(scrollY, [0, 700], isMobile ? [0, 0] : [0, 180]);
+  const textY  = useTransform(scrollY, [0, 500], isMobile ? [0, 0] : [0, -80]);
   const opacity = useTransform(scrollY, [0, 450], [1, 0]);
 
   const content = isSummer
@@ -301,9 +305,9 @@ export default function Hero() {
       style={{
         height: "100dvh",
         minHeight: 600,
-        // Fallback gradient if image slow
+        // Fallback gradient if image slow — teal-green for summer (Dal Lake palette)
         background: isSummer
-          ? "linear-gradient(160deg, #0f2540 0%, #193555 40%, #2a5080 100%)"
+          ? "linear-gradient(160deg, #0a2828 0%, #0d3b35 40%, #1a5a50 100%)"
           : "linear-gradient(160deg, #070f20 0%, #0d1f3c 40%, #162b50 100%)"
       }}
     >
@@ -324,24 +328,29 @@ export default function Hero() {
             <img
               src={isSummer ? SUMMER_BG : WINTER_BG}
               alt="Kashmir"
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              style={{ transform: "scale(1.08)" }}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                // Only scale up on desktop where parallax makes sense;
+                // on mobile keep scale:1 so the image fills without distortion.
+                transform: isMobile ? "none" : "scale(1.08)",
+                objectPosition: "center 40%",
+              }}
               onError={(e) => {
-                // Fallback to confirmed working Kashmir images
+                // Fallback to confirmed working Dal Lake Kashmir images
                 e.currentTarget.src = isSummer
-                  ? "https://images.unsplash.com/photo-1597735881925-45af51cedb7a?w=1920&q=90"
+                  ? "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1920&q=90"
                   : "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90";
               }}
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Overlay — season-tinted */}
+        {/* Overlay — season-tinted; teal scrim for Dal Lake summer, cool navy for winter */}
         <motion.div
           className="absolute inset-0"
           animate={{
             background: isSummer
-              ? "linear-gradient(to bottom, rgba(10,20,45,0.30) 0%, rgba(8,16,38,0.18) 50%, rgba(5,10,25,0.08) 100%)"
+              ? "linear-gradient(to bottom, rgba(5,30,28,0.42) 0%, rgba(8,40,36,0.22) 45%, rgba(10,50,44,0.10) 100%)"
               : "linear-gradient(to bottom, rgba(5,10,30,0.60) 0%, rgba(5,15,40,0.38) 55%, rgba(5,15,35,0.15) 100%)",
           }}
           transition={{ duration: 1.2 }}
@@ -407,7 +416,7 @@ export default function Hero() {
               <motion.h1
                 key={`${season}-l1`}
                 className="font-serif font-bold leading-none text-secondary"
-                style={{ fontSize: "clamp(3rem, 11vw, 9rem)", lineHeight: 0.92, letterSpacing: "-0.01em" }}
+                style={{ fontSize: "clamp(2.4rem, 13vw, 9rem)", lineHeight: 0.92, letterSpacing: "-0.01em" }}
                 initial={{ opacity: 0, x: -50, skewX: -4 }}
                 animate={{ opacity: 1, x: 0, skewX: 0 }}
                 exit={{ opacity: 0, x: 50 }}
@@ -423,7 +432,7 @@ export default function Hero() {
               <motion.h2
                 key={`${season}-l2`}
                 className="font-serif font-bold leading-none text-white"
-                style={{ fontSize: "clamp(2.5rem, 10vw, 8rem)", lineHeight: 0.9, letterSpacing: "0.06em" }}
+                style={{ fontSize: "clamp(2rem, 11.5vw, 8rem)", lineHeight: 0.9, letterSpacing: "0.06em" }}
                 initial={{ opacity: 0, x: 50, skewX: 4 }}
                 animate={{ opacity: 1, x: 0, skewX: 0 }}
                 exit={{ opacity: 0, x: -50 }}
