@@ -4,8 +4,8 @@ import { useSeason } from "@/context/SeasonContext";
 
 // Summer: Dal Lake with shikara boat — user-supplied hero image
 const SUMMER_BG = "/hero_summer_dal.jpg";
-// Winter: Gulmarg Gondola station with snow-blanketed Himalayan slopes
-const WINTER_BG = "https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=1920&q=90&auto=format&fit=crop";
+// Winter: Local winter hero image supplied by the user
+const WINTER_BG = "/imad-clicks-pIZZtKU_aVU-unsplash.jpg";
 
 /* ── Animated SVG atmosphere overlay ──────────────────────
    Clouds, birds (summer) / snow-sweep (winter) on top of the photo

@@ -47,15 +47,15 @@ function buildWhatsAppURL(fields: {
 // ── Info sidebar data ────────────────────────────────────────
 const info = [
   {
-    label: "Call Us",
+    label: "Call / WhatsApp",
     value: "+91 88991 77826",
     href: "tel:+918899177826",
     icon: "M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.69 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 6.18 2 2 0 0 1 4.11 4h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 11.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z",
   },
   {
     label: "Email Us",
-    value: "info@truevalleytravels.in",
-    href: "mailto:info@truevalleytravels.in",
+    value: "truevalleytours@gmail.com",
+    href: "mailto:truevalleytours@gmail.com",
     icon: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6",
   },
   {
@@ -152,16 +152,46 @@ export default function Contact() {
                 ))}
               </div>
 
-              {/* WhatsApp quick contact */}
-              <a
-                href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to enquire about a Kashmir tour.")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white py-3 px-5 font-bold text-sm uppercase tracking-wider transition-colors"
-              >
-                <WhatsAppIcon size={18} />
-                Chat on WhatsApp
-              </a>
+              {/* Social links row */}
+              <div className="mt-7 pt-6 border-t border-white/15">
+                <div className="text-[10px] text-white/40 uppercase tracking-widest mb-3">Follow &amp; Connect</div>
+                <div className="flex items-center gap-3">
+                  {/* Instagram */}
+                  <a
+                    href="https://www.instagram.com/true_valley1?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Instagram — @true_valley1"
+                    className="w-9 h-9 bg-white/10 hover:bg-secondary border border-white/15 hover:border-secondary flex items-center justify-center transition-all duration-200"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                      <circle cx="12" cy="12" r="4" />
+                      <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none" />
+                    </svg>
+                  </a>
+                  {/* WhatsApp */}
+                  <a
+                    href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to enquire about a Kashmir tour.")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="WhatsApp — +91 88991 77826"
+                    className="w-9 h-9 bg-white/10 hover:bg-[#25D366] border border-white/15 hover:border-[#25D366] flex items-center justify-center transition-all duration-200"
+                  >
+                    <WhatsAppIcon size={16} />
+                  </a>
+                  {/* Email */}
+                  <a
+                    href="mailto:truevalleytours@gmail.com"
+                    title="Email — truevalleytours@gmail.com"
+                    className="w-9 h-9 bg-white/10 hover:bg-secondary border border-white/15 hover:border-secondary flex items-center justify-center transition-all duration-200"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
 
             <div className="relative h-36 overflow-hidden">
