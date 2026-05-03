@@ -316,34 +316,43 @@ export default function Hero() {
         className="absolute inset-0 z-0 overflow-hidden will-change-transform"
         style={{ y: bgY }}
       >
-        <AnimatePresence>
-          <motion.div
-            key={season}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.4 }}
-          >
-            <img
-              src={isSummer ? SUMMER_BG : WINTER_BG}
-              alt="Kashmir"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{
-                // Only scale up on desktop where parallax makes sense;
-                // on mobile keep scale:1 so the image fills without distortion.
-                transform: isMobile ? "none" : "scale(1.08)",
-                objectPosition: "center 40%",
-              }}
-              onError={(e) => {
-                // Fallback to confirmed working Dal Lake Kashmir images
-                e.currentTarget.src = isSummer
-                  ? "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1920&q=90"
-                  : "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90";
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
+        {/* Winter Image */}
+        <motion.div
+          className="absolute inset-0"
+          initial={false}
+          animate={{ opacity: isSummer ? 0 : 1 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        >
+          <img
+            src={WINTER_BG}
+            alt="Kashmir Winter"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              transform: isMobile ? "none" : "scale(1.08)",
+              objectPosition: "center 40%",
+            }}
+            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90"; }}
+          />
+        </motion.div>
+
+        {/* Summer Image */}
+        <motion.div
+          className="absolute inset-0"
+          initial={false}
+          animate={{ opacity: isSummer ? 1 : 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        >
+          <img
+            src={SUMMER_BG}
+            alt="Kashmir Summer"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              transform: isMobile ? "none" : "scale(1.08)",
+              objectPosition: "center 40%",
+            }}
+            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1920&q=90"; }}
+          />
+        </motion.div>
 
         {/* Overlay — season-tinted; teal scrim for Dal Lake summer, cool navy for winter */}
         <motion.div
