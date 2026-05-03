@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm --filter @workspace/true-valley-travels run build",
-  "outputDirectory": "artifacts/true-valley-travels/dist/public",
+  "outputDirectory": "artifacts/true-valley-travels/dist",
   "framework": "vite",
   "installCommand": "pnpm install --frozen-lockfile"
 }
