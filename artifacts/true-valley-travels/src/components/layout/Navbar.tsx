@@ -11,7 +11,7 @@ const navLinks = [
   { label: "Tour Search", href: "#packages" },
   { label: "Destinations", href: "#destinations" },
   { label: "About", href: "#our-story" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "#enquiry-form" },
 ];
 
 /** Shared smooth-scroll handler used by both mobile and desktop links */
@@ -104,8 +104,8 @@ export default function Navbar() {
               <NavLink key={link.label} link={link} />
             ))}
             <motion.a
-              href="#contact"
-              onClick={(e) => { e.preventDefault(); scrollToHash("#contact"); }}
+              href="#enquiry-form"
+              onClick={(e) => { e.preventDefault(); scrollToHash("#enquiry-form"); }}
               className="ml-4 bg-secondary text-white text-xs font-semibold uppercase tracking-wider px-5 py-3 hover:bg-primary transition-colors cursor-pointer"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
@@ -148,8 +148,8 @@ export default function Navbar() {
                   </a>
                 ))}
                 <a
-                  href="#contact"
-                  onClick={(e) => handleMobileNavClick(e, "#contact")}
+                  href="#enquiry-form"
+                  onClick={(e) => handleMobileNavClick(e, "#enquiry-form")}
                   className="mt-3 mb-1 bg-secondary text-white text-center py-3.5 rounded font-semibold uppercase tracking-wider text-sm active:scale-95 transition-transform"
                 >
                   Book Now

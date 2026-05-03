@@ -170,7 +170,7 @@ function TiltCard({ pkg, i }: { pkg: typeof summerPackages[0] & { popular?: bool
 
           {/* CTA */}
           <motion.a
-            href="#contact"
+            href="#enquiry-form"
             className="block w-full text-center bg-primary text-white py-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-secondary transition-colors duration-300"
             whileHover={{ letterSpacing: "0.26em" }}
             transition={{ duration: 0.2 }}
