@@ -14,21 +14,33 @@ function buildWhatsAppURL(fields: {
   pkg: string;
   message: string;
 }) {
-  const lines: string[] = [
-    "🙏 *New Tour Enquiry — True Valley Travels*",
-    "",
-    `👤 *Name:* ${fields.firstName} ${fields.lastName}`.trim(),
-    fields.email   ? `📧 *Email:* ${fields.email}`        : "",
-    fields.phone   ? `📞 *Phone:* ${fields.phone}`        : "",
-    fields.date    ? `📅 *Travel Date:* ${fields.date}`   : "",
-    `👥 *Travellers:* ${fields.travellers}`,
-    `🏔️ *Package:* ${fields.pkg}`,
-    fields.message ? `\n💬 *Message:*\n${fields.message}` : "",
-    "",
-    "_Sent via True Valley Travels website_",
-  ].filter((l) => l !== undefined);
+  const name = `${fields.firstName} ${fields.lastName}`.trim();
 
-  const text = lines.join("\n");
+  const parts: string[] = [
+    "Hello True Valley Travels!",
+    "",
+    "I want to check availability for:",
+    "",
+    `Package: ${fields.pkg}`,
+    fields.date ? `Travel Date: ${fields.date}` : "",
+    `Travelers: ${fields.travellers}`,
+  ];
+
+  if (fields.message) {
+    parts.push("", `Additional Details: ${fields.message}`);
+  }
+
+  parts.push(
+    "",
+    "My Details:",
+    `Name: ${name}`,
+    fields.email ? `Email: ${fields.email}` : "",
+    fields.phone ? `Phone: ${fields.phone}` : "",
+    "",
+    "Sent via True Valley Travels website."
+  );
+
+  const text = parts.filter((l) => l !== undefined && !(l === "" && parts[parts.indexOf(l) - 1] === "")).join("\n");
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
