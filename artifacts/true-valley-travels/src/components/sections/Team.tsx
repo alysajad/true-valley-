@@ -70,24 +70,7 @@ export default function Team() {
                     p.appendChild(d);
                   }}
                 />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-primary/80 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {[
-                    "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z",
-                    "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
-                  ].map((d, si) => (
-                    <motion.a
-                      key={si}
-                      href="#"
-                      className="w-9 h-9 bg-white/20 hover:bg-secondary flex items-center justify-center transition-colors"
-                      whileHover={{ scale: 1.15 }}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d={d} />
-                      </svg>
-                    </motion.a>
-                  ))}
-                </div>
+
               </div>
 
               {/* Text */}
