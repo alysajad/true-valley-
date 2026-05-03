@@ -123,7 +123,7 @@ export default function Destinations() {
   const clickedDest = clickedIndex !== null ? destinations[clickedIndex] : null;
 
   return (
-    <section id="destinations" className="py-14 md:py-24 bg-muted/30 overflow-hidden">
+    <section id="destinations" className="py-14 md:py-24 bg-muted/30 overflow-hidden season-transition">
       <div className="container mx-auto px-4 md:px-6">
 
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">

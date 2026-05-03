@@ -117,9 +117,23 @@
   }
 }
 
-/* Season color transitions */
-*, *::before, *::after {
-  transition-property: background-color, border-color, color;
-  transition-duration: 0.4s;
-  transition-timing-function: ease;
+/*
+ * Season color transitions — ONLY on elements that actually change color
+ * between seasons. The old rule applied transitions to *, *::before, *::after
+ * which forced the browser to recalculate transitions on thousands of elements
+ * and caused significant scroll & interaction lag.
+ */
+.season-transition {
+  transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+/* Ticker animation — moved from inline <style> to avoid re-injection */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* GPU-accelerated parallax hints */
+.will-change-transform {
+  will-change: transform;
 }

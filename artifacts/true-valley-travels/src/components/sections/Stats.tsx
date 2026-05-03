@@ -44,7 +44,7 @@ export default function Stats() {
   return (
     <section ref={ref} className="relative overflow-hidden py-14 md:py-24">
       {/* Parallax dark mountain background */}
-      <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
+      <motion.div className="absolute inset-0 z-0 will-change-transform" style={{ y: bgY }}>
         <img
           src="https://images.unsplash.com/photo-1551524358-f34e3264bc65?w=1600&q=80&auto=format&fit=crop"
           alt=""

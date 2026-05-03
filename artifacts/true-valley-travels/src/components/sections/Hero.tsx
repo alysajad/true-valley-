@@ -87,17 +87,17 @@ function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
           /* ─── WINTER: sweep haze + snow shimmer ─── */
           <>
             {/* Blowing snow streaks */}
-            {Array.from({ length: 12 }, (_, i) => (
+            {Array.from({ length: 6 }, (_, i) => (
               <motion.line
                 key={i}
-                x1={-40 + i * 130}
-                y1={100 + i * 40}
-                x2={60 + i * 130}
-                y2={85 + i * 40}
+                x1={-40 + i * 240}
+                y1={100 + i * 80}
+                x2={60 + i * 240}
+                y2={85 + i * 80}
                 stroke="rgba(200,230,255,0.35)"
                 strokeWidth="1"
                 animate={{ x: [0, 80, 0], opacity: [0.4, 0, 0.4] }}
-                transition={{ duration: 6 + i * 0.5, repeat: Infinity, delay: i * 0.8, ease: "easeInOut" }}
+                transition={{ duration: 6 + i * 0.5, repeat: Infinity, delay: i * 1.5, ease: "easeInOut" }}
               />
             ))}
 
@@ -116,8 +116,8 @@ function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
             <rect x="0" y="0" width="1440" height="800" fill="url(#snowHaze)" />
 
             {/* Falling snowflakes */}
-            {Array.from({ length: 20 }, (_, i) => {
-              const x = (i * 79 + 30) % 1440;
+            {Array.from({ length: 10 }, (_, i) => {
+              const x = (i * 144 + 30) % 1440;
               const size = 2 + (i % 3);
               return (
                 <motion.circle
@@ -131,7 +131,7 @@ function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
                     cx: [x, x + (i % 2 === 0 ? 60 : -60)],
                     opacity: [0, 0.7, 0.7, 0],
                   }}
-                  transition={{ duration: 12 + (i % 7) * 2, repeat: Infinity, delay: i * 1.1, ease: "linear" }}
+                  transition={{ duration: 12 + (i % 7) * 2, repeat: Infinity, delay: i * 2, ease: "linear" }}
                 />
               );
             })}
@@ -147,7 +147,7 @@ function SeasonToggle() {
   const { isSummer, toggleSeason } = useSeason();
   return (
     <motion.div
-      className="absolute bottom-36 left-1/2 -translate-x-1/2 z-30 flex items-center bg-black/30 backdrop-blur-md border border-white/20 rounded-full p-1 shadow-2xl"
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center bg-black/30 backdrop-blur-md border border-white/20 rounded-full p-1 shadow-2xl"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.6 }}
@@ -309,7 +309,7 @@ export default function Hero() {
     >
       {/* Parallax BG photo */}
       <motion.div
-        className="absolute inset-0 z-0 overflow-hidden"
+        className="absolute inset-0 z-0 overflow-hidden will-change-transform"
         style={{ y: bgY }}
       >
         <AnimatePresence mode="wait">
@@ -353,7 +353,7 @@ export default function Hero() {
 
       {/* Floating particles */}
       <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
-        {[...Array(18)].map((_, i) => <Particle key={i} isSummer={isSummer} index={i} />)}
+        {[...Array(8)].map((_, i) => <Particle key={i} isSummer={isSummer} index={i} />)}
       </div>
 
       {/* Winter: scroll-triggered skier */}
@@ -363,7 +363,7 @@ export default function Hero() {
 
       {/* Hero text */}
       <motion.div
-        className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4"
+        className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 will-change-transform"
         style={{ y: textY, opacity }}
       >
         <motion.div
@@ -460,20 +460,9 @@ export default function Hero() {
             </div>
           </motion.div>
         </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div className="absolute bottom-28 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
-          <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-          <div className="w-px h-10 bg-white/25 relative overflow-hidden">
-            <motion.div className="absolute top-0 left-0 w-full bg-secondary"
-              animate={{ height: ["0%", "100%", "0%"], top: ["0%", "0%", "100%"] }}
-              transition={{ repeat: Infinity, duration: 1.6, ease: "linear" }} />
-          </div>
-        </motion.div>
       </motion.div>
 
-      {/* Season toggle on hero */}
+      {/* Season toggle on hero — positioned above the torn edge */}
       <SeasonToggle />
 
       {/* Torn edge */}

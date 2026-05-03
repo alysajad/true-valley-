@@ -28,7 +28,7 @@ export default function Testimonials() {
   return (
     <section ref={ref} className="relative overflow-hidden py-16 md:py-28">
       {/* Parallax background */}
-      <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
+      <motion.div className="absolute inset-0 z-0 will-change-transform" style={{ y: bgY }}>
         <img
           src="https://images.unsplash.com/photo-1476514525635-39a29b10b8e7?w=1600&q=80&auto=format&fit=crop"
           alt=""

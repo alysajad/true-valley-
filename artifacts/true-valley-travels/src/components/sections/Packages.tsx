@@ -188,7 +188,7 @@ export default function Packages() {
   const pkgs = isSummer ? summerPackages : winterPackages;
 
   return (
-    <section id="packages" className="py-14 md:py-24 bg-muted/20">
+    <section id="packages" className="py-14 md:py-24 bg-muted/20 season-transition">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-10 md:mb-16">
           <motion.p className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"

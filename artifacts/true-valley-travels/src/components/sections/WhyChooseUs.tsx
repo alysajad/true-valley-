@@ -12,7 +12,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section id="our-story" className="py-14 md:py-24 bg-white overflow-hidden">
+    <section id="our-story" className="py-14 md:py-24 bg-white overflow-hidden season-transition">
       <div className="container mx-auto px-4 md:px-6">
 
         <div className="text-center mb-16">
