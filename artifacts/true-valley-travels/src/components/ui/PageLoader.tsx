@@ -19,7 +19,7 @@ export default function PageLoader() {
   const [quoteVisible, setQuoteVisible] = useState(true);
 
   useEffect(() => {
-    const MIN_MS = 2800;
+    const MIN_MS = 200;
     const start = Date.now();
     let cur = 0;
 
@@ -102,7 +102,7 @@ export default function PageLoader() {
                 >
                   {/* Opening quote mark */}
                   <svg width="20" height="14" viewBox="0 0 20 14" fill="none" className="text-secondary/50 mb-1">
-                    <path d="M0 14V8.4C0 3.36 3.08 0.84 9.24 0L10.08 1.68C7.28 2.24 5.64 3.64 5.04 5.88H8.4V14H0ZM11.6 14V8.4C11.6 3.36 14.68 0.84 20.84 0L21.68 1.68C18.88 2.24 17.24 3.64 16.64 5.88H20V14H11.6Z" fill="currentColor"/>
+                    <path d="M0 14V8.4C0 3.36 3.08 0.84 9.24 0L10.08 1.68C7.28 2.24 5.64 3.64 5.04 5.88H8.4V14H0ZM11.6 14V8.4C11.6 3.36 14.68 0.84 20.84 0L21.68 1.68C18.88 2.24 17.24 3.64 16.64 5.88H20V14H11.6Z" fill="currentColor" />
                   </svg>
                   <p className="text-sm md:text-base text-muted-foreground italic leading-relaxed font-light">
                     "{q.text}"

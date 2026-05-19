@@ -13,11 +13,13 @@ import Newsletter from "@/components/sections/Newsletter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/layout/Footer";
 import PageLoader from "@/components/ui/PageLoader";
+import WhatsAppFloatButton from "@/components/ui/WhatsAppFloatButton";
 
 export default function Home() {
   return (
     <>
       <PageLoader />
+      <WhatsAppFloatButton />
       <div className="flex flex-col min-h-screen season-transition">
         <Navbar />
         <main className="flex-1">
