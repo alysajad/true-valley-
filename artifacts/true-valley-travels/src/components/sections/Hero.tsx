@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useSeason } from "@/context/SeasonContext";
 
@@ -10,7 +10,7 @@ const WINTER_BG = "/imad-clicks-pIZZtKU_aVU-unsplash.jpg";
 /* ── Animated SVG atmosphere overlay ──────────────────────
    Clouds, birds (summer) / snow-sweep (winter) on top of the photo
    to make the background feel alive                         */
-function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
+const AtmosphereOverlay = memo(function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
   return (
     <div className="absolute inset-0 z-5 pointer-events-none overflow-hidden">
       <svg
@@ -116,8 +116,8 @@ function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
             <rect x="0" y="0" width="1440" height="800" fill="url(#snowHaze)" />
 
             {/* Falling snowflakes */}
-            {Array.from({ length: 10 }, (_, i) => {
-              const x = (i * 144 + 30) % 1440;
+            {Array.from({ length: 6 }, (_, i) => {
+              const x = (i * 240 + 30) % 1440;
               const size = 2 + (i % 3);
               return (
                 <motion.circle
@@ -131,7 +131,7 @@ function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
                     cx: [x, x + (i % 2 === 0 ? 60 : -60)],
                     opacity: [0, 0.7, 0.7, 0],
                   }}
-                  transition={{ duration: 12 + (i % 7) * 2, repeat: Infinity, delay: i * 2, ease: "linear" }}
+                  transition={{ duration: 12 + (i % 7) * 2, repeat: Infinity, delay: i * 2.5, ease: "linear" }}
                 />
               );
             })}
@@ -140,7 +140,7 @@ function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
       </svg>
     </div>
   );
-}
+});
 
 /* ── Season toggle pill ─────────────────────────────────── */
 function SeasonToggle() {
@@ -196,7 +196,7 @@ function SeasonToggle() {
 }
 
 /* ── Floating particles ─────────────────────────────────── */
-function Particle({ isSummer, index }: { isSummer: boolean; index: number }) {
+const Particle = memo(function Particle({ isSummer, index }: { isSummer: boolean; index: number }) {
   const left = `${(index * 7.3 + 3) % 100}%`;
   const dur = 14 + (index % 7) * 2.2;
   const delay = (index % 9) * 1.8;
@@ -223,7 +223,7 @@ function Particle({ isSummer, index }: { isSummer: boolean; index: number }) {
       )}
     </motion.div>
   );
-}
+});
 
 /* ── Scroll-triggered skier (winter only) ───────────────── */
 function WinterSkier({ scrollY }: { scrollY: any }) {
@@ -287,6 +287,12 @@ export default function Hero() {
   const { isSummer, season } = useSeason();
   const { scrollY } = useScroll();
 
+  // Defer the 7 MB winter image — only load it once the user switches to winter.
+  const [winterLoaded, setWinterLoaded] = useState(!isSummer);
+  useEffect(() => {
+    if (!isSummer) setWinterLoaded(true);
+  }, [isSummer]);
+
   // Disable parallax on mobile — it causes the image to shift out of its
   // container and look distorted / overly enlarged on small screens.
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
@@ -316,26 +322,28 @@ export default function Hero() {
         className="absolute inset-0 z-0 overflow-hidden will-change-transform"
         style={{ y: bgY }}
       >
-        {/* Winter Image */}
-        <motion.div
-          className="absolute inset-0"
-          initial={false}
-          animate={{ opacity: isSummer ? 0 : 1 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-        >
-          <img
-            src={WINTER_BG}
-            alt="Kashmir Winter"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{
-              transform: isMobile ? "none" : "scale(1.08)",
-              objectPosition: "center 40%",
-            }}
-            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90"; }}
-          />
-        </motion.div>
+        {/* Winter Image — only mounted once user switches to winter (defers 7 MB download) */}
+        {winterLoaded && (
+          <motion.div
+            className="absolute inset-0"
+            initial={false}
+            animate={{ opacity: isSummer ? 0 : 1 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+          >
+            <img
+              src={WINTER_BG}
+              alt="Kashmir Winter"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                transform: isMobile ? "none" : "scale(1.08)",
+                objectPosition: "center 40%",
+              }}
+              onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90"; }}
+            />
+          </motion.div>
+        )}
 
-        {/* Summer Image */}
+        {/* Summer Image — LCP element; fetchPriority tells the browser to load this first */}
         <motion.div
           className="absolute inset-0"
           initial={false}
@@ -345,6 +353,7 @@ export default function Hero() {
           <img
             src={SUMMER_BG}
             alt="Kashmir Summer"
+            fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               transform: isMobile ? "none" : "scale(1.08)",
