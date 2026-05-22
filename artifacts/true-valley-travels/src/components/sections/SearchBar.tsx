@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useSeason } from "@/context/SeasonContext";
+import { useBookingPreFill } from "@/context/BookingPreFillContext";
 
 const PACKAGES = [
   { id: "budget-explorer",       label: "Budget Explorer",        nights: 4,  season: "both"   },
@@ -25,8 +26,25 @@ const inputClass =
   "w-full border border-border bg-muted/30 px-3 py-3 text-sm text-foreground focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition rounded-sm";
 const labelClass = "text-[10px] font-bold text-muted-foreground uppercase tracking-widest";
 
+// Maps SearchBar pkg id + season to the Contact form's select option value
+const PKG_TO_CONTACT: Record<string, { summer: string; winter: string }> = {
+  "budget-explorer":        { summer: "Budget Explorer (₹6,999/pax)",        winter: "Budget Explorer Winter (₹6,999/pax)" },
+  "classic-delight":        { summer: "Classic Delight (₹11,999/pax)",        winter: "Classic Delight Winter (₹11,999/pax)" },
+  "royal-summer-paradise":  { summer: "Royal Summer Paradise (₹19,999/pax)",  winter: "Royal Summer Paradise (₹19,999/pax)" },
+  "adventure-seekers":      { summer: "Adventure Seekers (₹24,999/pax)",      winter: "Adventure Seekers Winter (₹24,999/pax)" },
+  "winter-special":         { summer: "Winter Special (₹17,999/pax)",          winter: "Winter Special (₹17,999/pax)" },
+  "custom":                 { summer: "Custom / Not sure yet",                 winter: "Custom / Not sure yet" },
+};
+
+// Normalise travellers string to match Contact form options
+function normalisetravelers(t: string) {
+  if (t === "2 Adults, 0 Children") return "2 Adults";
+  return t;
+}
+
 export default function SearchBar() {
   const { isSummer } = useSeason();
+  const { setPreFill } = useBookingPreFill();
   const today = toInputDate(new Date());
 
   const [pkg, setPkg]           = useState("");
@@ -135,14 +153,27 @@ export default function SearchBar() {
 
             {/* Search button */}
             <div className="flex items-end sm:col-span-2 lg:col-span-1">
-              <motion.a
-                href="#contact"
+              <motion.button
+                type="button"
+                onClick={() => {
+                  setPreFill({
+                    pkg: pkg ? (PKG_TO_CONTACT[pkg]?.[isSummer ? "summer" : "winter"] ?? "") : "",
+                    date: startDate,
+                    travelers: normalisetravelers(travelers),
+                  });
+                  const el = document.getElementById("enquiry-form");
+                  if (el) {
+                    const offset = 80;
+                    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: "smooth" });
+                  }
+                }}
                 className="w-full bg-secondary hover:bg-primary text-white py-3 text-sm font-bold uppercase tracking-widest transition-colors rounded-sm text-center block"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 {isCustom ? "Get Custom Quote" : "Book Now"}
-              </motion.a>
+              </motion.button>
             </div>
           </div>
 

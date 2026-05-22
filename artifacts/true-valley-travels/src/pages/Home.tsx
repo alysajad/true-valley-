@@ -5,6 +5,7 @@ import SearchBar from "@/components/sections/SearchBar";
 import ActivitiesTicker from "@/components/ui/ActivitiesTicker";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFloatButton from "@/components/ui/WhatsAppFloatButton";
+import { BookingPreFillProvider } from "@/context/BookingPreFillContext";
 
 const Packages = lazy(() => import("@/components/sections/Packages"));
 const Stats = lazy(() => import("@/components/sections/Stats"));
@@ -19,7 +20,7 @@ const SectionFallback = () => <div className="min-h-50" />;
 
 export default function Home() {
   return (
-    <>
+    <BookingPreFillProvider>
       <WhatsAppFloatButton />
       <div className="flex flex-col min-h-screen season-transition">
         <Navbar />
@@ -38,6 +39,6 @@ export default function Home() {
         </main>
         <Footer />
       </div>
-    </>
+    </BookingPreFillProvider>
   );
 }

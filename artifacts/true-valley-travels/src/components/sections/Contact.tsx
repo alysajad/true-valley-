@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useBookingPreFill } from "@/context/BookingPreFillContext";
 
 // ── WhatsApp config ──────────────────────────────────────────
 const WA_NUMBER = "918899177826"; // country code + number, no +
@@ -76,6 +77,8 @@ function WhatsAppIcon({ size = 20 }: { size?: number }) {
 }
 
 export default function Contact() {
+  const { preFill } = useBookingPreFill();
+
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -86,6 +89,16 @@ export default function Contact() {
     pkg: "Budget Explorer (₹6,999/pax)",
     message: "",
   });
+
+  useEffect(() => {
+    if (!preFill) return;
+    setForm((prev) => ({
+      ...prev,
+      ...(preFill.pkg       ? { pkg: preFill.pkg }             : {}),
+      ...(preFill.date      ? { date: preFill.date }           : {}),
+      ...(preFill.travelers ? { travellers: preFill.travelers } : {}),
+    }));
+  }, [preFill]);
 
   const set = (key: keyof typeof form) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
