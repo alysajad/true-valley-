@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, memo } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useSeason } from "@/context/SeasonContext";
 
@@ -13,14 +13,19 @@ const WINTER_BG = "/imad-clicks-pIZZtKU_aVU-unsplash.jpg";
 const AtmosphereOverlay = memo(function AtmosphereOverlay({ isSummer }: { isSummer: boolean }) {
   return (
     <div className="absolute inset-0 z-5 pointer-events-none overflow-hidden">
-      <svg
-        viewBox="0 0 1440 800"
-        preserveAspectRatio="xMidYMid slice"
-        className="absolute inset-0 w-full h-full"
-        style={{ opacity: 0.55 }}
-      >
-        {isSummer ? (
-          /* ─── SUMMER: drifting clouds + birds ─── */
+      <AnimatePresence mode="sync">
+      {isSummer ? (
+        <motion.svg
+          key="summer-atm"
+          viewBox="0 0 1440 800"
+          preserveAspectRatio="xMidYMid slice"
+          className="absolute inset-0 w-full h-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.55 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.9 }}
+        >
+          {/* ─── SUMMER: drifting clouds + birds ─── */}
           <>
             {/* cloud 1 */}
             <motion.g
@@ -83,8 +88,19 @@ const AtmosphereOverlay = memo(function AtmosphereOverlay({ isSummer }: { isSumm
             </defs>
             <rect x="0" y="0" width="1440" height="800" fill="url(#hazeSum)" />
           </>
-        ) : (
-          /* ─── WINTER: sweep haze + snow shimmer ─── */
+        </motion.svg>
+      ) : (
+        <motion.svg
+          key="winter-atm"
+          viewBox="0 0 1440 800"
+          preserveAspectRatio="xMidYMid slice"
+          className="absolute inset-0 w-full h-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.55 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.9 }}
+        >
+          {/* ─── WINTER: sweep haze + snow shimmer ─── */}
           <>
             {/* Blowing snow streaks */}
             {Array.from({ length: 6 }, (_, i) => (
@@ -136,11 +152,14 @@ const AtmosphereOverlay = memo(function AtmosphereOverlay({ isSummer }: { isSumm
               );
             })}
           </>
-        )}
-      </svg>
+        </motion.svg>
+      )}
+      </AnimatePresence>
     </div>
   );
 });
+
+;
 
 /* ── Season toggle pill ─────────────────────────────────── */
 function SeasonToggle() {
@@ -287,11 +306,12 @@ export default function Hero() {
   const { isSummer, season } = useSeason();
   const { scrollY } = useScroll();
 
-  // Defer the 7 MB winter image — only load it once the user switches to winter.
-  const [winterLoaded, setWinterLoaded] = useState(!isSummer);
+  // Preload the winter image in the background as soon as the hero mounts so
+  // that the first summer→winter toggle is instant (no network stall).
   useEffect(() => {
-    if (!isSummer) setWinterLoaded(true);
-  }, [isSummer]);
+    const img = new window.Image();
+    img.src = WINTER_BG;
+  }, []);
 
   // Disable parallax on mobile — it causes the image to shift out of its
   // container and look distorted / overly enlarged on small screens.
@@ -322,30 +342,30 @@ export default function Hero() {
         className="absolute inset-0 z-0 overflow-hidden will-change-transform"
         style={{ y: bgY }}
       >
-        {/* Winter Image — only mounted once user switches to winter (defers 7 MB download) */}
-        {winterLoaded && (
-          <motion.div
-            className="absolute inset-0"
-            initial={false}
-            animate={{ opacity: isSummer ? 0 : 1 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          >
-            <img
-              src={WINTER_BG}
-              alt="Kashmir Winter"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{
-                transform: isMobile ? "none" : "scale(1.08)",
-                objectPosition: "center 40%",
-              }}
-              onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90"; }}
-            />
-          </motion.div>
-        )}
+        {/* Winter Image — always mounted; preloaded in background so first toggle is instant */}
+        <motion.div
+          className="absolute inset-0"
+          style={{ willChange: "opacity" }}
+          initial={false}
+          animate={{ opacity: isSummer ? 0 : 1 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        >
+          <img
+            src={WINTER_BG}
+            alt="Kashmir Winter"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              transform: isMobile ? "none" : "scale(1.08)",
+              objectPosition: "center 40%",
+            }}
+            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=1920&q=90"; }}
+          />
+        </motion.div>
 
         {/* Summer Image — LCP element; fetchPriority tells the browser to load this first */}
         <motion.div
           className="absolute inset-0"
+          style={{ willChange: "opacity" }}
           initial={false}
           animate={{ opacity: isSummer ? 1 : 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
@@ -363,15 +383,24 @@ export default function Hero() {
           />
         </motion.div>
 
-        {/* Overlay — season-tinted; teal scrim for Dal Lake summer, cool navy for winter */}
-        <motion.div
-          className="absolute inset-0"
-          animate={{
-            background: isSummer
-              ? "linear-gradient(to bottom, rgba(5,30,28,0.42) 0%, rgba(8,40,36,0.22) 45%, rgba(10,50,44,0.10) 100%)"
-              : "linear-gradient(to bottom, rgba(5,10,30,0.60) 0%, rgba(5,15,40,0.38) 55%, rgba(5,15,35,0.15) 100%)",
+        {/* Overlay — two static gradients cross-faded via opacity (GPU-composited, no repaint) */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(5,30,28,0.42) 0%, rgba(8,40,36,0.22) 45%, rgba(10,50,44,0.10) 100%)",
+            opacity: isSummer ? 1 : 0,
+            transition: "opacity 1.2s ease-in-out",
+            willChange: "opacity",
           }}
-          transition={{ duration: 1.2 }}
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(5,10,30,0.60) 0%, rgba(5,15,40,0.38) 55%, rgba(5,15,35,0.15) 100%)",
+            opacity: isSummer ? 0 : 1,
+            transition: "opacity 1.2s ease-in-out",
+            willChange: "opacity",
+          }}
         />
       </motion.div>
 
