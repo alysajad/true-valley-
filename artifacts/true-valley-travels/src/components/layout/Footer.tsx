@@ -154,7 +154,18 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-white/40">
-          <div>© {new Date().getFullYear()} True Valley Travels. All rights reserved. Crafted with ♥ in Kashmir.</div>
+          <div>
+            © {new Date().getFullYear()} True Valley Travels. All rights reserved. Crafted with ♥ in Kashmir by{" "}
+            <a
+              href="https://www.linkedin.com/in/sajad-hussain-malla-983854274/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-white/60 hover:text-secondary transition-colors"
+            >
+              Sajad Hussain
+            </a>
+            .
+          </div>
           <div className="flex gap-5">
             <Link href="/privacy-policy" className="hover:text-secondary transition-colors">Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="hover:text-secondary transition-colors">Terms &amp; Conditions</Link>
