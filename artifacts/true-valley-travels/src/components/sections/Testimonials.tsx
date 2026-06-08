@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useScroll, useTransform } from "framer-motion";
 
 const reviews = [
-  { text: "True Valley gave us an experience we'll cherish forever. Abuzar personally ensured our houseboat on Dal Lake was perfect. Every single detail was considered and flawless.", name: "Sarah & James Jenkins", location: "London, UK", package: "Kashmir Classic", initials: "SJ" },
-  { text: "We wanted authenticity without sacrificing comfort. Iqra Bashir designed an itinerary that delivered beyond all expectations. The floating vegetable market at dawn was incredible.", name: "Amit Sharma", location: "Mumbai, India", package: "Valley Essential", initials: "AS" },
-  { text: "The Emperor's Retreat package was worth every rupee. Abuzar and his team provided world-class service. Helicopter transfers through the valley, a private butler, and Himalayan views I'll never forget.", name: "Elena Rodriguez", location: "Dubai, UAE", package: "Emperor's Retreat", initials: "ER" },
-  { text: "Gulmarg in winter is unlike anything I've ever seen. Iqra made sure our ski instruction and gondola rides were booked perfectly. True Valley made it seamless from start to finish.", name: "Mikael Lindstrom", location: "Stockholm, Sweden", package: "Ski & Stay", initials: "ML" },
+  { text: "True Valley made our Kashmir trip absolutely effortless. Abuzar personally ensured our houseboat on Dal Lake was perfect, and the Shikara ride at sunset was magical. Every detail was taken care of.", name: "Amit Sharma", location: "Mumbai, India", package: "Kashmir Paradise Tour", initials: "AS" },
+  { text: "We booked our honeymoon with True Valley and it was beyond our dreams. Iqra planned a romantic itinerary — the candlelit dinner on the houseboat and the Gulmarg gondola made it unforgettable.", name: "Priya & Rohan Mehta", location: "Pune, India", package: "Kashmir Honeymoon Tour", initials: "PM" },
+  { text: "Pahalgam and the Betaab valley were stunning, and our driver felt more like a friend by the end. Iqra Bashir was always a call away. Genuinely the most well-organised trip our family has taken.", name: "Venkatesh Iyer", location: "Bengaluru, India", package: "Best of Kashmir Tour", initials: "VI" },
+  { text: "From the Mughal gardens to the Wazwan dinner, every moment felt authentic. Abuzar and his team know Kashmir like the back of their hand. We never once felt like tourists being rushed around.", name: "Ananya Banerjee", location: "Kolkata, India", package: "Charismatic Kashmir Tour", initials: "AB" },
+  { text: "Travelling with kids and elderly parents is never easy, but True Valley handled everything — comfortable cabs, the right hotels and a relaxed pace. Sonamarg was the highlight for the whole family.", name: "Harpreet Singh", location: "Delhi, India", package: "Kashmir Family Tour", initials: "HS" },
+  { text: "True Valley gave us an experience we'll cherish forever. The service was world-class and every single detail across the valley was considered and flawless. Worth every bit of the journey from London.", name: "Sarah & James Jenkins", location: "London, UK", package: "Grand Kashmir Tour", initials: "SJ" },
 ];
 
 export default function Testimonials() {
