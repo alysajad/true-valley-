@@ -181,7 +181,7 @@ export default function SearchBar() {
           <div className="flex flex-wrap gap-2 mt-5 pt-5 border-t border-border">
             <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mr-2 self-center">Popular:</span>
             {(isSummer
-              ? ["Dal Lake", "Mughal Gardens", "Pahalgam", "Sonamarg", "Gulmarg Golf"]
+              ? ["Dal Lake", "Mughal Gardens", "Pahalgam", "Sonamarg", "Gulmarg Golf", "Doodh Pathri"]
               : ["Gulmarg Skiing", "Gondola Ride", "Snow Trek", "Frozen Lake", "Apharwat"]
             ).map((tag) => (
               <motion.button
