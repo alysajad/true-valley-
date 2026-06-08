@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useBookingPreFill } from "@/context/BookingPreFillContext";
+import { summerPackages, winterPackages, packageOptionLabel } from "@/data/packages";
+
+const DEFAULT_PKG = packageOptionLabel(summerPackages[0]);
 
 // ── WhatsApp config ──────────────────────────────────────────
 const WA_NUMBER = "918899177826"; // country code + number, no +
@@ -86,7 +89,7 @@ export default function Contact() {
     phone: "",
     date: "",
     travellers: "2 Adults",
-    pkg: "Budget Explorer (₹6,999/pax)",
+    pkg: DEFAULT_PKG,
     message: "",
   });
 
@@ -98,6 +101,12 @@ export default function Contact() {
       ...(preFill.date      ? { date: preFill.date }           : {}),
       ...(preFill.travelers ? { travellers: preFill.travelers } : {}),
     }));
+    // Bring the form into view — covers both same-page (SearchBar) and
+    // cross-page (PackageDetail → "/") pre-fill flows.
+    const t = setTimeout(() => {
+      document.getElementById("enquiry-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 320);
+    return () => clearTimeout(t);
   }, [preFill]);
 
   const set = (key: keyof typeof form) => (
@@ -274,16 +283,14 @@ export default function Contact() {
                 <label className={labelCls}>Package of Interest</label>
                 <select value={form.pkg} onChange={set("pkg")} className={inputCls}>
                   <optgroup label="Summer Packages">
-                    <option>Budget Explorer (₹6,999/pax)</option>
-                    <option>Classic Delight (₹11,999/pax)</option>
-                    <option>Royal Summer Paradise (₹19,999/pax)</option>
-                    <option>Adventure Seekers (₹24,999/pax)</option>
+                    {summerPackages.map((p) => (
+                      <option key={p.id}>{packageOptionLabel(p)}</option>
+                    ))}
                   </optgroup>
                   <optgroup label="Winter Packages">
-                    <option>Budget Explorer Winter (₹6,999/pax)</option>
-                    <option>Winter Special (₹17,999/pax)</option>
-                    <option>Classic Delight Winter (₹11,999/pax)</option>
-                    <option>Adventure Seekers Winter (₹24,999/pax)</option>
+                    {winterPackages.map((p) => (
+                      <option key={p.id}>{packageOptionLabel(p)}</option>
+                    ))}
                   </optgroup>
                   <option>Custom / Not sure yet</option>
                 </select>

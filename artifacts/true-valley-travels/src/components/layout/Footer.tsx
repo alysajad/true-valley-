@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
+import { useHashNav } from "@/lib/useHashNav";
 
 const cols = {
   "Quick Links": [
@@ -7,12 +9,37 @@ const cols = {
     { label: "Destinations", href: "#destinations" }, { label: "About Us", href: "#our-story" },
     { label: "Contact", href: "#enquiry-form" },
   ],
-  "Destinations": [
-    { label: "Dal Lake, Srinagar", href: "#destinations" }, { label: "Gulmarg", href: "#destinations" },
-    { label: "Pahalgam", href: "#destinations" }, { label: "Sonamarg", href: "#destinations" },
-    { label: "Yusmarg", href: "#destinations" },
+  "Company": [
+    { label: "About Us", href: "#our-story" }, { label: "Contact", href: "#enquiry-form" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms & Conditions", href: "/terms-and-conditions" },
   ],
 };
+
+/** Footer link that routes client-side for paths and smooth-scrolls for #anchors. */
+function FooterLink({ label, href }: { label: string; href: string }) {
+  const hashNav = useHashNav();
+  const className =
+    "text-white/60 text-sm hover:text-secondary transition-colors flex items-center gap-2 group";
+  const inner = (
+    <>
+      <span className="w-0 h-px bg-secondary transition-all duration-300 group-hover:w-3 shrink-0" />
+      {label}
+    </>
+  );
+  if (href.startsWith("#")) {
+    return (
+      <motion.a href={href} onClick={(e) => { e.preventDefault(); hashNav(href); }} className={className} whileHover={{ x: 5 }}>
+        {inner}
+      </motion.a>
+    );
+  }
+  return (
+    <Link href={href} className={className}>
+      {inner}
+    </Link>
+  );
+}
 
 export default function Footer() {
   return (
@@ -90,10 +117,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {links.map((l) => (
                   <li key={l.label}>
-                    <motion.a href={l.href} className="text-white/60 text-sm hover:text-secondary transition-colors flex items-center gap-2 group" whileHover={{ x: 5 }}>
-                      <span className="w-0 h-px bg-secondary transition-all duration-300 group-hover:w-3 shrink-0" />
-                      {l.label}
-                    </motion.a>
+                    <FooterLink label={l.label} href={l.href} />
                   </li>
                 ))}
               </ul>
@@ -132,9 +156,8 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-white/40">
           <div>© {new Date().getFullYear()} True Valley Travels. All rights reserved. Crafted with ♥ in Kashmir.</div>
           <div className="flex gap-5">
-            {["Privacy Policy", "Terms of Service", "Sitemap"].map((t) => (
-              <a key={t} href="#" className="hover:text-secondary transition-colors">{t}</a>
-            ))}
+            <Link href="/privacy-policy" className="hover:text-secondary transition-colors">Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className="hover:text-secondary transition-colors">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>

@@ -4,7 +4,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import PackageDetail from "@/pages/PackageDetail";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
 import { SeasonProvider } from "@/context/SeasonContext";
+import { BookingPreFillProvider } from "@/context/BookingPreFillContext";
 
 const queryClient = new QueryClient();
 
@@ -12,6 +16,9 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/packages/:slug" component={PackageDetail} />
+      <Route path="/terms-and-conditions" component={Terms} />
+      <Route path="/privacy-policy" component={Privacy} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -22,9 +29,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <SeasonProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <Router />
-          </WouterRouter>
+          <BookingPreFillProvider>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <Router />
+            </WouterRouter>
+          </BookingPreFillProvider>
           <Toaster />
         </SeasonProvider>
       </TooltipProvider>

@@ -2,31 +2,22 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
+import { useHashNav } from "@/lib/useHashNav";
 
 const HEADER_H = 64; // px — matches h-16 below
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Tour List", href: "#packages" },
-  { label: "Tour Search", href: "#packages" },
+  { label: "Packages", href: "#packages" },
   { label: "Destinations", href: "#destinations" },
   { label: "About", href: "#our-story" },
   { label: "Contact", href: "#enquiry-form" },
 ];
 
-/** Shared smooth-scroll handler used by both mobile and desktop links */
-function scrollToHash(href: string) {
-  if (!href.startsWith("#")) return;
-  const target = document.querySelector(href);
-  if (target) {
-    const y = target.getBoundingClientRect().top + window.scrollY - HEADER_H;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  }
-}
-
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const hashNav = useHashNav();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 60);
@@ -44,10 +35,7 @@ export default function Navbar() {
   const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith("#")) {
       e.preventDefault();
-      setIsOpen(false);
-      // Wait for the collapse animation (280 ms) before scrolling so the
-      // layout has settled and the offset calculation is accurate.
-      setTimeout(() => scrollToHash(href), 310);
+      hashNav(href, () => setIsOpen(false));
     } else {
       setIsOpen(false);
     }
@@ -105,7 +93,7 @@ export default function Navbar() {
             ))}
             <motion.a
               href="#enquiry-form"
-              onClick={(e) => { e.preventDefault(); scrollToHash("#enquiry-form"); }}
+              onClick={(e) => { e.preventDefault(); hashNav("#enquiry-form"); }}
               className="ml-4 bg-secondary text-white text-xs font-semibold uppercase tracking-wider px-5 py-3 hover:bg-primary transition-colors cursor-pointer"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
@@ -167,10 +155,11 @@ export default function Navbar() {
 }
 
 function NavLink({ link }: { link: { label: string; href: string } }) {
+  const hashNav = useHashNav();
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (link.href.startsWith("#")) {
       e.preventDefault();
-      scrollToHash(link.href);
+      hashNav(link.href);
     }
   };
   return (
