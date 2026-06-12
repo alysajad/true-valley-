@@ -1,39 +1,20 @@
-// Vercel Edge Function — runs server-side, API key is never sent to the browser
-export const config = { runtime: "edge" };
-
 const RESEND_API = "https://api.resend.com/emails";
 
-export default async function handler(req: Request): Promise<Response> {
-  if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function handler(req: any, res: any) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: "Server misconfiguration" }), { status: 500 });
-  }
+  if (!apiKey) return res.status(500).json({ error: "Server misconfiguration" });
 
-  let body: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    date?: string;
-    pkg?: string;
-    travellers?: string;
-    message?: string;
-  };
+  const { name, email, phone, date, pkg, travellers, message } = req.body ?? {};
 
-  try {
-    body = await req.json();
-  } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
-  }
-
-  const { name, email, phone, date, pkg, travellers, message } = body;
-
-  if (!name || !phone) {
-    return new Response(JSON.stringify({ error: "Name and phone are required" }), { status: 400 });
-  }
+  if (!name || !phone) return res.status(400).json({ error: "Name and phone are required" });
 
   const html = `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
@@ -58,8 +39,6 @@ export default async function handler(req: Request): Promise<Response> {
   `;
 
   const payload = {
-    // Use your verified Resend domain as "from" once you add it.
-    // Until then, Resend allows sending from onboarding@resend.dev to your own address only.
     from: "True Valley Travels <bookings@truevalleytravels.com>",
     to: ["truevalleytours@gmail.com"],
     reply_to: email || undefined,
@@ -79,8 +58,8 @@ export default async function handler(req: Request): Promise<Response> {
   if (!resendRes.ok) {
     const err = await resendRes.text();
     console.error("Resend error:", err);
-    return new Response(JSON.stringify({ error: "Failed to send email" }), { status: 502 });
+    return res.status(502).json({ error: "Failed to send email", detail: err });
   }
 
-  return new Response(JSON.stringify({ ok: true }), { status: 200 });
+  return res.status(200).json({ ok: true });
 }
