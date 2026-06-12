@@ -1,51 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import { useBookingPreFill } from "@/context/BookingPreFillContext";
 import { summerPackages, winterPackages, packageOptionLabel } from "@/data/packages";
 
 const DEFAULT_PKG = packageOptionLabel(summerPackages[0]);
+const WA_NUMBER = "918899177826";
 
-// ── WhatsApp config ──────────────────────────────────────────
-const WA_NUMBER = "918899177826"; // country code + number, no +
-
-function buildWhatsAppURL(fields: {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  date: string;
-  travellers: string;
-  pkg: string;
-  message: string;
-}) {
-  const name = `${fields.firstName} ${fields.lastName}`.trim();
-
-  const parts: string[] = [
-    "Hello True Valley Travels!",
-    "",
-    "I want to check availability for:",
-    "",
-    `Package: ${fields.pkg}`,
-    fields.date ? `Travel Date: ${fields.date}` : "",
-    `Travelers: ${fields.travellers}`,
-  ];
-
-  if (fields.message) {
-    parts.push("", `Additional Details: ${fields.message}`);
-  }
-
-  parts.push(
-    "",
-    "My Details:",
-    `Name: ${name}`,
-    fields.email ? `Email: ${fields.email}` : "",
-    fields.phone ? `Phone: ${fields.phone}` : "",
-    "",
-    "Sent via True Valley Travels website."
-  );
-
-  const text = parts.filter((l) => l !== undefined && !(l === "" && parts[parts.indexOf(l) - 1] === "")).join("\n");
-  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+async function sendEnquiry(fields: Record<string, string>): Promise<void> {
+  const res = await fetch("/api/send-enquiry", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fields),
+  });
+  if (!res.ok) throw new Error(`Send failed: ${res.status}`);
 }
 
 // ── Info sidebar data ────────────────────────────────────────
@@ -81,6 +49,7 @@ function WhatsAppIcon({ size = 20 }: { size?: number }) {
 
 export default function Contact() {
   const { preFill } = useBookingPreFill();
+  const [, setLocation] = useLocation();
 
   const [form, setForm] = useState({
     firstName: "",
@@ -92,6 +61,7 @@ export default function Contact() {
     pkg: DEFAULT_PKG,
     message: "",
   });
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
 
   useEffect(() => {
     if (!preFill) return;
@@ -101,8 +71,6 @@ export default function Contact() {
       ...(preFill.date      ? { date: preFill.date }           : {}),
       ...(preFill.travelers ? { travellers: preFill.travelers } : {}),
     }));
-    // Bring the form into view — covers both same-page (SearchBar) and
-    // cross-page (PackageDetail → "/") pre-fill flows.
     const t = setTimeout(() => {
       document.getElementById("enquiry-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 320);
@@ -113,10 +81,23 @@ export default function Contact() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
 
-  const handleSendEnquiry = (e: React.FormEvent) => {
+  const handleSendEnquiry = async (e: React.FormEvent) => {
     e.preventDefault();
-    const url = buildWhatsAppURL(form);
-    window.open(url, "_blank", "noopener,noreferrer");
+    setStatus("sending");
+    try {
+      await sendEnquiry({
+        name: `${form.firstName} ${form.lastName}`.trim(),
+        email: form.email,
+        phone: form.phone,
+        date: form.date,
+        pkg: form.pkg,
+        travellers: form.travellers,
+        message: form.message,
+      });
+      setLocation("/thank-you");
+    } catch {
+      setStatus("error");
+    }
   };
 
   const inputCls =
@@ -308,19 +289,24 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Send via WhatsApp button */}
+              {status === "error" && (
+                <p className="text-center text-sm text-red-500">
+                  Failed to send. Please try again or call +91 88991 77826.
+                </p>
+              )}
+
               <motion.button
                 type="submit"
-                className="w-full flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white py-4 text-sm font-bold uppercase tracking-widest transition-colors shadow-md"
-                whileHover={{ scale: 1.01, boxShadow: "0 6px 24px rgba(37,211,102,0.35)" }}
+                disabled={status === "sending"}
+                className="w-full bg-secondary hover:bg-primary disabled:opacity-60 text-white py-4 text-sm font-bold uppercase tracking-widest transition-colors shadow-md"
+                whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <WhatsAppIcon size={20} />
-                Send Enquiry via WhatsApp
+                {status === "sending" ? "Sending Enquiry…" : "Send Booking Enquiry"}
               </motion.button>
 
               <p className="text-center text-[11px] text-muted-foreground">
-                Tapping the button opens WhatsApp with your details pre-filled. We typically respond within a few hours.
+                We'll reply to your email within a few hours with a custom itinerary.
               </p>
             </form>
           </motion.div>

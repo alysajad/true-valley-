@@ -19,6 +19,7 @@ export default async function handler(req: Request): Promise<Response> {
     phone?: string;
     date?: string;
     pkg?: string;
+    travellers?: string;
     message?: string;
   };
 
@@ -28,7 +29,7 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
   }
 
-  const { name, email, phone, date, pkg, message } = body;
+  const { name, email, phone, date, pkg, travellers, message } = body;
 
   if (!name || !phone) {
     return new Response(JSON.stringify({ error: "Name and phone are required" }), { status: 400 });
@@ -45,6 +46,7 @@ export default async function handler(req: Request): Promise<Response> {
           <tr><td style="padding:8px 0;color:#6b7280;">Email</td><td style="padding:8px 0;color:#111;">${email || "—"}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280;">Phone</td><td style="padding:8px 0;color:#111;">+91 ${phone}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280;">Travel Date</td><td style="padding:8px 0;color:#111;">${date || "Not specified"}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;">Travellers</td><td style="padding:8px 0;color:#111;">${travellers || "Not specified"}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280;">Package</td><td style="padding:8px 0;color:#111;">${pkg || "Not specified"}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280;vertical-align:top;">Message</td><td style="padding:8px 0;color:#111;white-space:pre-wrap;">${message || "—"}</td></tr>
         </table>

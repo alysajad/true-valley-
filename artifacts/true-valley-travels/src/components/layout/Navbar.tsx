@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useHashNav } from "@/lib/useHashNav";
+import { useEnquiryPopup } from "@/context/EnquiryPopupContext";
 
 const HEADER_H = 64; // px — matches h-16 below
 
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const hashNav = useHashNav();
+  const { openPopup } = useEnquiryPopup();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 60);
@@ -91,15 +93,15 @@ export default function Navbar() {
             {navLinks.slice(3).map((link) => (
               <NavLink key={link.label} link={link} />
             ))}
-            <motion.a
-              href="#enquiry-form"
-              onClick={(e) => { e.preventDefault(); hashNav("#enquiry-form"); }}
+            <motion.button
+              type="button"
+              onClick={() => openPopup()}
               className="ml-4 bg-secondary text-white text-xs font-semibold uppercase tracking-wider px-5 py-3 hover:bg-primary transition-colors cursor-pointer"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
               Book Now
-            </motion.a>
+            </motion.button>
           </nav>
 
           {/* Mobile hamburger toggle */}
@@ -135,13 +137,13 @@ export default function Navbar() {
                     {link.label}
                   </a>
                 ))}
-                <a
-                  href="#enquiry-form"
-                  onClick={(e) => handleMobileNavClick(e, "#enquiry-form")}
-                  className="mt-3 mb-1 bg-secondary text-white text-center py-3.5 rounded font-semibold uppercase tracking-wider text-sm active:scale-95 transition-transform"
+                <button
+                  type="button"
+                  onClick={() => { setIsOpen(false); openPopup(); }}
+                  className="mt-3 mb-1 bg-secondary text-white text-center py-3.5 rounded font-semibold uppercase tracking-wider text-sm active:scale-95 transition-transform w-full"
                 >
                   Book Now
-                </a>
+                </button>
               </div>
             </motion.div>
           )}
