@@ -3,5 +3,8 @@
   "buildCommand": "pnpm --filter @workspace/true-valley-travels run build",
   "outputDirectory": "artifacts/true-valley-travels/dist",
   "framework": "vite",
-  "installCommand": "pnpm install --frozen-lockfile"
+  "installCommand": "pnpm install --frozen-lockfile",
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
 }
