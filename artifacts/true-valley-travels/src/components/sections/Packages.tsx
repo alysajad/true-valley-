@@ -3,7 +3,8 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Check, Clock, Star, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { useSeason } from "@/context/SeasonContext";
-import { packagesBySeason, type Package } from "@/data/packages";
+import { packagesBySeason, packageOptionLabel, type Package } from "@/data/packages";
+import { useEnquiryPopup } from "@/context/EnquiryPopupContext";
 
 /* Tier → accent color map: Budget=green-teal, Premium=primary (navy), Luxury=purple, Ultra-Luxury=secondary (orange) */
 const TIER_STYLE: Record<string, { badge: string; accent: string }> = {
@@ -14,6 +15,7 @@ const TIER_STYLE: Record<string, { badge: string; accent: string }> = {
 };
 
 function TiltCard({ pkg, i }: { pkg: Package; i: number }) {
+  const { openPopup } = useEnquiryPopup();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const rx = useTransform(useSpring(my, { stiffness: 180, damping: 22 }), [-0.5, 0.5], ["6deg", "-6deg"]);
@@ -116,11 +118,24 @@ function TiltCard({ pkg, i }: { pkg: Package; i: number }) {
               ))}
             </ul>
 
-            {/* CTA — whole card links to detail page, so this is a visual button */}
-            <span className="flex w-full items-center justify-center gap-2 bg-primary text-white py-3 text-[11px] font-bold uppercase tracking-[0.2em] group-hover:bg-secondary transition-colors duration-300">
-              View Details
-              <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
-            </span>
+            {/* CTAs */}
+            <div className="flex gap-2">
+              <span className="flex flex-1 items-center justify-center gap-2 bg-primary text-white py-3 text-[11px] font-bold uppercase tracking-[0.2em] group-hover:bg-secondary transition-colors duration-300">
+                View Details
+                <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  openPopup(packageOptionLabel(pkg));
+                }}
+                className="bg-secondary hover:bg-primary text-white py-3 px-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300 whitespace-nowrap"
+              >
+                Book Now
+              </button>
+            </div>
           </div>
         </motion.div>
       </Link>

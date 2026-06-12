@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppFloatButton from "@/components/ui/WhatsAppFloatButton";
 import { getPackageBySlug, packageOptionLabel } from "@/data/packages";
 import { useBookingPreFill } from "@/context/BookingPreFillContext";
+import { useEnquiryPopup } from "@/context/EnquiryPopupContext";
 import { useHashNav } from "@/lib/useHashNav";
 
 const TIER_BADGE: Record<string, string> = {
@@ -20,6 +21,7 @@ export default function PackageDetail() {
   const [, params] = useRoute("/packages/:slug");
   const [, setLocation] = useLocation();
   const { setPreFill } = useBookingPreFill();
+  const { openPopup } = useEnquiryPopup();
   const hashNav = useHashNav();
   const pkg = params?.slug ? getPackageBySlug(params.slug) : undefined;
 
@@ -29,8 +31,7 @@ export default function PackageDetail() {
 
   const handleEnquire = () => {
     if (!pkg) return;
-    setPreFill({ pkg: packageOptionLabel(pkg), date: "", travelers: "" });
-    setLocation("/");
+    openPopup(packageOptionLabel(pkg));
   };
 
   if (!pkg) {
