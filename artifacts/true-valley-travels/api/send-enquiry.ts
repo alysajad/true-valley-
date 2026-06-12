@@ -60,7 +60,7 @@ export default async function handler(req: Request): Promise<Response> {
   const payload = {
     // Use your verified Resend domain as "from" once you add it.
     // Until then, Resend allows sending from onboarding@resend.dev to your own address only.
-    from: "True Valley Travels <onboarding@resend.dev>",
+    from: "True Valley Travels <bookings@truevalleytravels.com>",
     to: ["truevalleytours@gmail.com"],
     reply_to: email || undefined,
     subject: `New Enquiry from ${name} — True Valley Travels`,
