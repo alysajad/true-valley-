@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useSeason } from "@/context/SeasonContext";
 import { useBookingPreFill } from "@/context/BookingPreFillContext";
+import { useEnquiryPopup } from "@/context/EnquiryPopupContext";
 
 const PACKAGES = [
   { id: "budget-explorer",       label: "Budget Explorer",        nights: 4,  season: "both"   },
@@ -45,6 +46,7 @@ function normalisetravelers(t: string) {
 export default function SearchBar() {
   const { isSummer } = useSeason();
   const { setPreFill } = useBookingPreFill();
+  const { openPopup } = useEnquiryPopup();
   const today = toInputDate(new Date());
 
   const [pkg, setPkg]           = useState("");
@@ -156,17 +158,10 @@ export default function SearchBar() {
               <motion.button
                 type="button"
                 onClick={() => {
-                  setPreFill({
-                    pkg: pkg ? (PKG_TO_CONTACT[pkg]?.[isSummer ? "summer" : "winter"] ?? "") : "",
-                    date: startDate,
-                    travelers: normalisetravelers(travelers),
-                  });
-                  const el = document.getElementById("enquiry-form");
-                  if (el) {
-                    const offset = 80;
-                    const top = el.getBoundingClientRect().top + window.scrollY - offset;
-                    window.scrollTo({ top, behavior: "smooth" });
-                  }
+                  const pkgLabel = pkg
+                    ? (PKG_TO_CONTACT[pkg]?.[isSummer ? "summer" : "winter"] ?? "")
+                    : "";
+                  openPopup(pkgLabel);
                 }}
                 className="w-full bg-secondary hover:bg-primary text-white py-3 text-sm font-bold uppercase tracking-widest transition-colors rounded-sm text-center block"
                 whileHover={{ scale: 1.02 }}
