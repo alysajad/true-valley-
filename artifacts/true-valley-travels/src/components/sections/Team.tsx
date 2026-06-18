@@ -29,20 +29,20 @@ const team = [
 
 export default function Team() {
   return (
-    <section className="py-14 md:py-24 bg-white">
+    <section className="py-14 md:py-24 bg-muted/30">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           <motion.p
             className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3"
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
           >
-            Meet Your Hosts
+            Meet the Experts
           </motion.p>
           <motion.h2
             className="font-serif text-3xl md:text-5xl font-bold text-foreground uppercase tracking-wide"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}
           >
-            The Faces of True Valley
+            The People Behind the Experience
           </motion.h2>
           <motion.div
             className="w-12 h-0.5 bg-secondary mx-auto mt-5"

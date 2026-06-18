@@ -10,6 +10,7 @@ const Packages = lazy(() => import("@/components/sections/Packages"));
 const Stats = lazy(() => import("@/components/sections/Stats"));
 const Destinations = lazy(() => import("@/components/sections/Destinations"));
 const WhyChooseUs = lazy(() => import("@/components/sections/WhyChooseUs"));
+const TourismRegistration = lazy(() => import("@/components/sections/TourismRegistration"));
 const Team = lazy(() => import("@/components/sections/Team"));
 const Testimonials = lazy(() => import("@/components/sections/Testimonials"));
 const Newsletter = lazy(() => import("@/components/sections/Newsletter"));
@@ -31,6 +32,7 @@ export default function Home() {
           <Suspense fallback={<SectionFallback />}><Stats /></Suspense>
           <Suspense fallback={<SectionFallback />}><Destinations /></Suspense>
           <Suspense fallback={<SectionFallback />}><WhyChooseUs /></Suspense>
+          <Suspense fallback={<SectionFallback />}><TourismRegistration /></Suspense>
           <Suspense fallback={<SectionFallback />}><Team /></Suspense>
           <Suspense fallback={<SectionFallback />}><Testimonials /></Suspense>
           <Suspense fallback={<SectionFallback />}><Newsletter /></Suspense>
