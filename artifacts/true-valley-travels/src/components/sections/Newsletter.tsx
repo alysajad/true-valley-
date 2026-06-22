@@ -39,12 +39,16 @@ export default function Newsletter() {
               <p className="text-secondary text-xs font-bold uppercase tracking-[0.35em]">Stay Connected</p>
             </div>
             <h2 className="font-serif text-2xl md:text-4xl font-bold text-white uppercase tracking-wide leading-tight">
-              {isSummer ? "Discover Kashmir\nThis Summer" : "Experience Kashmir\nin Snow"}
+              {isSummer ? (
+                <>Discover Kashmir<br className="hidden sm:block" /> This Summer</>
+              ) : (
+                <>Experience Kashmir<br className="hidden sm:block" /> in Snow</>
+              )}
             </h2>
             <p className="text-white/60 mt-4 text-sm leading-relaxed">
               Exclusive seasonal offers, curated travel tips, and early access to limited packages — straight to your inbox.
             </p>
-            <div className="flex items-center gap-6 mt-6">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-6">
               {["No spam ever", "Unsubscribe anytime"].map((t) => (
                 <div key={t} className="flex items-center gap-1.5 text-white/40 text-xs">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -71,7 +75,7 @@ export default function Newsletter() {
             />
             <motion.button
               type="submit"
-              className="bg-secondary text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-secondary/85 transition-colors whitespace-nowrap shrink-0"
+              className="bg-secondary text-white px-6 sm:px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-secondary/85 transition-colors shrink-0 w-full sm:w-auto"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
             >

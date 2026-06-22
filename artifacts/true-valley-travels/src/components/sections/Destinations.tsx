@@ -353,7 +353,7 @@ export default function Destinations() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.45 }}
-            className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 bg-white rounded-2xl shadow-xl p-5 sm:p-8 md:p-10 border border-border"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 bg-white rounded-2xl shadow-xl p-5 sm:p-8 md:p-10 border border-border min-w-0"
           >
             <div className="lg:col-span-2 space-y-5">
               <div className="flex items-center justify-between">
@@ -366,7 +366,7 @@ export default function Destinations() {
                   Close
                 </button>
               </div>
-              <h4 className="text-3xl font-serif font-bold text-foreground">{clickedDest.name}</h4>
+              <h4 className="text-2xl sm:text-3xl font-serif font-bold text-foreground break-words">{clickedDest.name}</h4>
               <p className="text-muted-foreground leading-relaxed">{clickedDest.desc}</p>
               <div className="pt-2">
                 <h5 className="font-bold text-foreground text-xs uppercase tracking-widest mb-3">Nearby Attractions</h5>

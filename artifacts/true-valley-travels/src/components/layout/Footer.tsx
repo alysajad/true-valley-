@@ -153,8 +153,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-white/40">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40 text-center md:text-left">
+          <div className="max-w-full break-words">
             © {new Date().getFullYear()} True Valley Travels. All rights reserved. Crafted with ♥ in Kashmir by{" "}
             <a
               href="https://www.linkedin.com/in/sajad-hussain-malla-983854274/"

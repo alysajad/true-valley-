@@ -76,7 +76,7 @@ export default function SearchBar() {
     <section className="bg-white relative z-10 py-0">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
-          className="bg-white border border-border rounded-sm shadow-2xl px-6 md:px-8 py-8"
+          className="bg-white border border-border rounded-sm shadow-2xl px-4 sm:px-6 md:px-8 py-6 sm:py-8 min-w-0"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}

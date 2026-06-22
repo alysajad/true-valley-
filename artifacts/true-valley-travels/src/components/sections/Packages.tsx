@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { useSeason } from "@/context/SeasonContext";
 import { packagesBySeason, packageOptionLabel, type Package } from "@/data/packages";
 import { useEnquiryPopup } from "@/context/EnquiryPopupContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 /* Tier → accent color map: Budget=green-teal, Premium=primary (navy), Luxury=purple, Ultra-Luxury=secondary (orange) */
 const TIER_STYLE: Record<string, { badge: string; accent: string }> = {
@@ -16,6 +17,7 @@ const TIER_STYLE: Record<string, { badge: string; accent: string }> = {
 
 function TiltCard({ pkg, i }: { pkg: Package; i: number }) {
   const { openPopup } = useEnquiryPopup();
+  const isMobile = useIsMobile();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const rx = useTransform(useSpring(my, { stiffness: 180, damping: 22 }), [-0.5, 0.5], ["6deg", "-6deg"]);
@@ -33,15 +35,19 @@ function TiltCard({ pkg, i }: { pkg: Package; i: number }) {
     >
       <Link href={`/packages/${pkg.slug}`} className="block h-full">
         <motion.div
-          className={`h-full bg-white group cursor-pointer flex flex-col border-t-4 ${tier.accent} shadow-sm`}
-          style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
-          onMouseMove={(e) => {
+          className={`h-full bg-white group cursor-pointer flex flex-col border-t-4 ${tier.accent} shadow-sm min-w-0`}
+          style={{
+            rotateX: isMobile ? 0 : rx,
+            rotateY: isMobile ? 0 : ry,
+            transformStyle: isMobile ? undefined : "preserve-3d",
+          }}
+          onMouseMove={isMobile ? undefined : (e) => {
             const r = e.currentTarget.getBoundingClientRect();
             mx.set((e.clientX - r.left) / r.width - 0.5);
             my.set((e.clientY - r.top) / r.height - 0.5);
           }}
-          onMouseLeave={() => { mx.set(0); my.set(0); }}
-          whileHover={{ boxShadow: "0 28px 64px rgba(25,53,85,0.16)", y: -8 }}
+          onMouseLeave={isMobile ? undefined : () => { mx.set(0); my.set(0); }}
+          whileHover={isMobile ? undefined : { boxShadow: "0 28px 64px rgba(25,53,85,0.16)", y: -8 }}
           transition={{ duration: 0.3 }}
         >
           {/* Image */}
@@ -119,10 +125,10 @@ function TiltCard({ pkg, i }: { pkg: Package; i: number }) {
             </ul>
 
             {/* CTAs */}
-            <div className="flex gap-2">
-              <span className="flex flex-1 items-center justify-center gap-2 bg-primary text-white py-3 text-[11px] font-bold uppercase tracking-[0.2em] group-hover:bg-secondary transition-colors duration-300">
+            <div className="flex flex-col sm:flex-row gap-2 min-w-0">
+              <span className="flex flex-1 items-center justify-center gap-2 bg-primary text-white py-3 text-[11px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] group-hover:bg-secondary transition-colors duration-300 text-center min-w-0">
                 View Details
-                <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1 shrink-0" />
               </span>
               <button
                 type="button"
@@ -131,7 +137,7 @@ function TiltCard({ pkg, i }: { pkg: Package; i: number }) {
                   e.stopPropagation();
                   openPopup(packageOptionLabel(pkg));
                 }}
-                className="bg-secondary hover:bg-primary text-white py-3 px-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300 whitespace-nowrap"
+                className="bg-secondary hover:bg-primary text-white py-3 px-3 text-[11px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.15em] transition-colors duration-300 text-center shrink-0"
               >
                 Book Now
               </button>

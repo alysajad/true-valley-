@@ -98,7 +98,7 @@ export default function Stats() {
           </motion.div>
           <motion.a
             href="#packages"
-            className="shrink-0 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-8 py-3.5 text-xs font-bold uppercase tracking-widest transition-colors whitespace-nowrap"
+            className="w-full sm:w-auto text-center border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-6 sm:px-8 py-3.5 text-xs font-bold uppercase tracking-widest transition-colors"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

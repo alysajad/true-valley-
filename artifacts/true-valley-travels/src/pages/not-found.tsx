@@ -1,21 +1,27 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { Link } from "wouter";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-        </CardContent>
-      </Card>
+    <div className="flex flex-col min-h-screen min-w-0 w-full overflow-x-clip">
+      <Navbar />
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20 min-w-0">
+        <p className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3">404</p>
+        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-primary uppercase tracking-wide mb-3">
+          Page Not Found
+        </h1>
+        <p className="text-muted-foreground mb-8 max-w-md text-sm leading-relaxed">
+          The page you're looking for doesn't exist or may have moved. Head back to explore our Kashmir packages.
+        </p>
+        <Link
+          href="/"
+          className="bg-primary text-white px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-secondary transition-colors"
+        >
+          Back to Home
+        </Link>
+      </main>
+      <Footer />
     </div>
   );
 }

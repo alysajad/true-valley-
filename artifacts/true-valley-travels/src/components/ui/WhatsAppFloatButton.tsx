@@ -28,7 +28,8 @@ export default function WhatsAppFloatButton() {
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="fixed bottom-6 right-5 z-40 flex items-center justify-end gap-3"
+          className="fixed bottom-5 right-4 sm:bottom-6 sm:right-5 z-40 flex items-center justify-end gap-3 max-w-[calc(100%-1rem)]"
+          style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0, opacity: 0 }}

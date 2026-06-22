@@ -22,9 +22,9 @@ export default function Home() {
   return (
     <>
       <WhatsAppFloatButton />
-      <div className="flex flex-col min-h-screen season-transition">
+      <div className="flex flex-col min-h-screen min-w-0 w-full overflow-x-clip season-transition">
         <Navbar />
-        <main className="flex-1">
+        <main className="flex-1 min-w-0 w-full overflow-x-clip">
           <Hero />
           <SearchBar />
           <ActivitiesTicker />

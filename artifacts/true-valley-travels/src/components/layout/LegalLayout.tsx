@@ -22,7 +22,7 @@ export default function LegalLayout({
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen min-w-0 w-full overflow-x-clip">
       <WhatsAppFloatButton />
       <Navbar />
 
@@ -36,7 +36,7 @@ export default function LegalLayout({
               <span className="text-white/85">{title}</span>
             </nav>
             <p className="text-secondary text-xs font-bold uppercase tracking-[0.35em] mb-3">{eyebrow}</p>
-            <h1 className="font-serif text-3xl md:text-5xl font-bold uppercase tracking-wide">{title}</h1>
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl font-bold uppercase tracking-wide break-words">{title}</h1>
             <div className="w-12 h-0.5 bg-secondary mt-5" />
             {updated && <p className="text-white/50 text-xs mt-4">Last updated: {updated}</p>}
           </div>

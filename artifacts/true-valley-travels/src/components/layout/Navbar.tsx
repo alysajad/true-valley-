@@ -53,32 +53,32 @@ export default function Navbar() {
         style={{ height: HEADER_H }}
       >
         {/* Full-bleed inner — no horizontal container padding on mobile */}
-        <div className="h-full flex items-center justify-between px-4 md:px-6 lg:container lg:mx-auto">
+        <div className="h-full flex items-center justify-between gap-2 px-4 md:px-6 lg:container lg:mx-auto min-w-0">
 
           {/* Left nav links — desktop only */}
-          <nav className="hidden lg:flex items-center gap-0">
+          <nav className="hidden lg:flex items-center gap-0 shrink-0">
             {navLinks.slice(0, 3).map((link) => (
               <NavLink key={link.label} link={link} />
             ))}
           </nav>
 
           {/* Centered logo + brand name */}
-          <Link href="/">
+          <Link href="/" className="min-w-0 shrink lg:shrink-0">
             <motion.div
-              className="flex items-center gap-2.5 cursor-pointer select-none"
+              className="flex items-center gap-2 sm:gap-2.5 cursor-pointer select-none min-w-0"
               whileHover={{ scale: 1.02 }}
             >
               <img
                 src="/logo.jpeg"
                 alt="True Valley Travels"
-                className="h-[44px] w-auto object-contain shrink-0"
+                className="h-9 sm:h-[44px] w-auto object-contain shrink-0"
                 style={{ mixBlendMode: "multiply" }}
               />
-              <div className="flex flex-col leading-none">
-                <span className="font-serif text-base font-bold text-primary tracking-wide uppercase leading-none">
+              <div className="flex flex-col leading-none min-w-0 hidden sm:flex">
+                <span className="font-serif text-sm sm:text-base font-bold text-primary tracking-wide uppercase leading-none truncate">
                   True Valley
                 </span>
-                <span className="font-serif text-base font-bold text-primary tracking-wide uppercase leading-none">
+                <span className="font-serif text-sm sm:text-base font-bold text-primary tracking-wide uppercase leading-none truncate">
                   Travels
                 </span>
                 <span className="text-[8px] tracking-[0.28em] text-secondary font-bold uppercase mt-0.5">
@@ -89,7 +89,7 @@ export default function Navbar() {
           </Link>
 
           {/* Right nav links + Book Now — desktop only */}
-          <nav className="hidden lg:flex items-center gap-0">
+          <nav className="hidden lg:flex items-center gap-0 shrink-0">
             {navLinks.slice(3).map((link) => (
               <NavLink key={link.label} link={link} />
             ))}
@@ -106,7 +106,7 @@ export default function Navbar() {
 
           {/* Mobile hamburger toggle */}
           <button
-            className="lg:hidden p-2 -mr-1 text-primary rounded focus:outline-none"
+            className="lg:hidden p-2 -mr-1 text-primary rounded focus:outline-none shrink-0"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             onClick={() => setIsOpen((o) => !o)}
           >

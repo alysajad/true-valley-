@@ -36,9 +36,9 @@ export default function PackageDetail() {
 
   if (!pkg) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen min-w-0 w-full overflow-x-clip">
         <Navbar />
-        <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-24">
+        <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-24 min-w-0">
           <h1 className="font-serif text-3xl font-bold text-primary uppercase tracking-wide mb-3">Package Not Found</h1>
           <p className="text-muted-foreground mb-8 max-w-md">
             We couldn't find that tour. Browse our full range of Kashmir packages instead.
@@ -53,13 +53,13 @@ export default function PackageDetail() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen min-w-0 w-full overflow-x-clip">
       <WhatsAppFloatButton />
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 min-w-0 w-full overflow-x-clip">
         {/* ── Hero ── */}
-        <section className="relative h-[42vh] min-h-[320px] w-full overflow-hidden">
+        <section className="relative h-[38vh] sm:h-[42vh] min-h-[280px] sm:min-h-[320px] w-full overflow-hidden">
           <img
             src={pkg.image}
             alt={pkg.title}
@@ -70,18 +70,18 @@ export default function PackageDetail() {
           <div className="absolute inset-0 flex items-end">
             <div className="container mx-auto px-4 md:px-6 pb-8 md:pb-10">
               {/* Breadcrumb */}
-              <nav className="flex items-center gap-1.5 text-[11px] text-white/70 uppercase tracking-widest mb-4">
-                <Link href="/" className="hover:text-secondary transition-colors">Home</Link>
-                <ChevronRight size={12} />
-                <button onClick={() => hashNav("#packages")} className="hover:text-secondary transition-colors uppercase tracking-widest">Packages</button>
-                <ChevronRight size={12} />
-                <span className="text-white/90">{pkg.title}</span>
+              <nav className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[10px] sm:text-[11px] text-white/70 uppercase tracking-widest mb-4 max-w-full">
+                <Link href="/" className="hover:text-secondary transition-colors shrink-0">Home</Link>
+                <ChevronRight size={12} className="shrink-0" />
+                <button onClick={() => hashNav("#packages")} className="hover:text-secondary transition-colors uppercase tracking-widest shrink-0">Packages</button>
+                <ChevronRight size={12} className="shrink-0" />
+                <span className="text-white/90 truncate min-w-0">{pkg.title}</span>
               </nav>
 
               <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 text-white mb-3 ${TIER_BADGE[pkg.tier] ?? "bg-primary"}`}>
                 {pkg.tier}
               </span>
-              <h1 className="font-serif text-3xl md:text-5xl font-bold text-white uppercase tracking-wide leading-tight max-w-3xl">
+              <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl font-bold text-white uppercase tracking-wide leading-tight max-w-3xl break-words">
                 {pkg.title}
               </h1>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-4 text-white/90 text-sm">

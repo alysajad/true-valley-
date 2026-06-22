@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, memo } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useSeason } from "@/context/SeasonContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Summer: Dal Lake with shikara boat — user-supplied hero image
 const SUMMER_BG = "/hero_summer_dal.jpg";
@@ -166,7 +167,7 @@ function SeasonToggle() {
   const { isSummer, toggleSeason } = useSeason();
   return (
     <motion.div
-      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center bg-black/30 backdrop-blur-md border border-white/20 rounded-full p-1 shadow-2xl"
+      className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center bg-black/30 backdrop-blur-md border border-white/20 rounded-full p-1 shadow-2xl max-w-[calc(100%-2rem)]"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.6 }}
@@ -177,7 +178,7 @@ function SeasonToggle() {
           <motion.button
             key={s}
             onClick={() => { if (!active) toggleSeason(); }}
-            className={`relative flex items-center gap-2 px-6 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-widest transition-colors duration-300 ${active ? "text-primary" : "text-white/55 hover:text-white/80"}`}
+            className={`relative flex items-center gap-1.5 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-widest transition-colors duration-300 ${active ? "text-primary" : "text-white/55 hover:text-white/80"}`}
           >
             {active && (
               <motion.div
@@ -305,6 +306,7 @@ export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const { isSummer, season } = useSeason();
   const { scrollY } = useScroll();
+  const isMobile = useIsMobile();
 
   // Preload the winter image in the background as soon as the hero mounts so
   // that the first summer→winter toggle is instant (no network stall).
@@ -315,7 +317,6 @@ export default function Hero() {
 
   // Disable parallax on mobile — it causes the image to shift out of its
   // container and look distorted / overly enlarged on small screens.
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const bgY    = useTransform(scrollY, [0, 700], isMobile ? [0, 0] : [0, 180]);
   const textY  = useTransform(scrollY, [0, 500], isMobile ? [0, 0] : [0, -80]);
   const opacity = useTransform(scrollY, [0, 450], [1, 0]);
@@ -330,7 +331,7 @@ export default function Hero() {
       className="relative overflow-hidden"
       style={{
         height: "100dvh",
-        minHeight: 600,
+        minHeight: "min(600px, 100dvh)",
         // Fallback gradient if image slow — teal-green for summer (Dal Lake palette)
         background: isSummer
           ? "linear-gradient(160deg, #0a2828 0%, #0d3b35 40%, #1a5a50 100%)"
@@ -433,14 +434,14 @@ export default function Hero() {
             className="mb-7 flex flex-col items-center gap-2"
           >
             {/* Brand badge */}
-            <div className="flex items-center gap-3 bg-black/35 backdrop-blur-sm border border-white/20 rounded-full px-5 py-2 shadow-lg">
+            <div className="flex items-center gap-2 sm:gap-3 bg-black/35 backdrop-blur-sm border border-white/20 rounded-full px-3 sm:px-5 py-2 shadow-lg max-w-[calc(100vw-2rem)]">
               <img
                 src="/logo.jpeg"
                 alt="True Valley Travels"
-                className="h-8 w-8 object-contain rounded-full"
+                className="h-7 w-7 sm:h-8 sm:w-8 object-contain rounded-full shrink-0"
                 style={{ mixBlendMode: "screen" }}
               />
-              <span className="font-serif text-white font-bold tracking-[0.18em] uppercase text-sm"
+              <span className="font-serif text-white font-bold tracking-[0.12em] sm:tracking-[0.18em] uppercase text-xs sm:text-sm truncate"
                 style={{ textShadow: "0 1px 8px rgba(0,0,0,0.8)" }}>
                 True Valley Travels
               </span>
@@ -502,14 +503,14 @@ export default function Hero() {
                 {content.sub}
               </motion.p>
             </AnimatePresence>
-            <div className="flex gap-6 flex-wrap justify-center">
+            <div className="flex gap-3 sm:gap-6 flex-wrap justify-center w-full max-w-md sm:max-w-none mx-auto">
               <motion.a href="#packages"
-                className="bg-secondary hover:bg-secondary/90 text-white px-8 py-3.5 text-sm font-semibold uppercase tracking-wider border border-black/50 transition-colors"
+                className="bg-secondary hover:bg-secondary/90 text-white px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold uppercase tracking-wider border border-black/50 transition-colors text-center flex-1 sm:flex-none min-w-[140px]"
                 whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
                 {isSummer ? "View Summer Tours" : "View Winter Tours"}
               </motion.a>
               <motion.a href="#destinations"
-                className="border-2 border-black/60 text-white px-8 py-3.5 text-sm font-semibold uppercase tracking-wider hover:bg-white/15 transition-colors"
+                className="border-2 border-black/60 text-white px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold uppercase tracking-wider hover:bg-white/15 transition-colors text-center flex-1 sm:flex-none min-w-[140px]"
                 whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
                 Destinations
               </motion.a>

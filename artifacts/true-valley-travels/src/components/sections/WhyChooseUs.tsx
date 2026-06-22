@@ -76,15 +76,15 @@ export default function WhyChooseUs() {
             initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center min-w-0">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 min-w-0">
             {features.map((f, i) => (
               <FeatureCard key={f.title} feature={f} index={i} />
             ))}
           </div>
 
-          <motion.div className="relative pb-10 pr-2 sm:pb-12 lg:pb-8 lg:pr-6"
+          <motion.div className="relative pb-16 sm:pb-12 lg:pb-8 pr-0 sm:pr-2 lg:pr-6 min-w-0 overflow-hidden sm:overflow-visible"
             initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.8 }}>
 
@@ -114,16 +114,16 @@ export default function WhyChooseUs() {
             </motion.div>
 
             <motion.div
-              className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-secondary text-white p-5 sm:p-7 max-w-[190px] sm:max-w-[210px]"
+              className="absolute left-3 bottom-3 sm:-bottom-6 sm:-left-6 bg-secondary text-white p-4 sm:p-7 max-w-[min(100%,190px)] sm:max-w-[210px]"
               initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }} transition={{ delay: 0.45, duration: 0.6, type: "spring" }}
               whileHover={{ scale: 1.04, rotate: -1 }}>
-              <div className="text-4xl font-serif font-bold mb-1">15+</div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-white/85">Years crafting perfect Himalayan escapes</div>
+              <div className="text-3xl sm:text-4xl font-serif font-bold mb-1">15+</div>
+              <div className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/85 leading-snug">Years crafting perfect Himalayan escapes</div>
             </motion.div>
 
             <motion.div
-              className="absolute top-4 right-0 sm:-right-4 bg-white p-3 sm:p-4 shadow-xl border border-border"
+              className="absolute top-3 right-3 sm:top-4 sm:right-0 sm:-right-4 bg-white p-3 sm:p-4 shadow-xl border border-border"
               initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: 0.6, type: "spring" }}
               whileHover={{ scale: 1.06, rotate: 3 }}>

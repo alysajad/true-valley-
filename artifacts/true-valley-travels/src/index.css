@@ -107,9 +107,23 @@
   * { @apply border-border; }
 
   /* Prevent any element from causing horizontal scroll / side-gaps on mobile */
-  html, body {
-    overflow-x: hidden;
+  html, body, #root {
+    overflow-x: clip;
     max-width: 100%;
+    min-width: 0;
+  }
+
+  #root {
+    width: 100%;
+    isolation: isolate;
+  }
+
+  img, video, canvas, svg {
+    max-width: 100%;
+  }
+
+  img, video {
+    height: auto;
   }
 
   html {
